@@ -5,7 +5,7 @@ import java.util.List;
 public class Client {
     private String nome;
     private List<Rent> rents = new ArrayList<>();
-	private RentCalculator rentCalculator = new RentCalculator();
+    private RentCalculator rentCalculator = new RentCalculator();
 
     public Client(String nome) {
         this.nome = nome;
