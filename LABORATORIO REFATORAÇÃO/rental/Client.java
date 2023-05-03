@@ -5,6 +5,7 @@ import java.util.List;
 public class Client {
     private String nome;
     private List<Rent> rents = new ArrayList<>();
+	private RentCalculator rentCalculator = new RentCalculator();
 
     public Client(String nome) {
         this.nome = nome;
@@ -26,7 +27,7 @@ public class Client {
         Iterator<Rent> iterator = rents.iterator();
         while (iterator.hasNext()) {
             Rent rent = iterator.next();
-            double valorCorrente = calculaValorCorrente(rent);
+            double valorCorrente = rentCalculator.calculaValorCorrente(rent);
 
             // trata de pontos de alugador frequente
             pontosDeAlugadorFrequente++;
@@ -44,27 +45,5 @@ public class Client {
         resultado.append("Valor total devido: ").append(valorTotal).append(fimDeLinha);
         resultado.append("Você acumulou ").append(pontosDeAlugadorFrequente).append(" pontos de alugador frequente");
         return resultado.toString();
-    }
-
-    private double calculaValorCorrente(Rent rent) {
-        double valorCorrente = 0.0;
-        switch (rent.getTape().getCodigoDePreco()) {
-            case Tape.NORMAL:
-                valorCorrente += 2;
-                if (rent.getDiasAlugada() > 2) {
-                    valorCorrente += (rent.getDiasAlugada() - 2) * 1.5;
-                }
-                break;
-            case Tape.LANCAMENTO:
-                valorCorrente += rent.getDiasAlugada() * 3;
-                break;
-            case Tape.INFANTIL:
-                valorCorrente += 1.5;
-                if (rent.getDiasAlugada() > 3) {
-                    valorCorrente += (rent.getDiasAlugada() - 3) * 1.5;
-                }
-                break;
-        }
-        return valorCorrente;
     }
 }
