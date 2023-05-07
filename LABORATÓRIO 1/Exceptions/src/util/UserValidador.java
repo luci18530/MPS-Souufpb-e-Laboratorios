@@ -10,7 +10,9 @@ public class UserValidador {
 		else if(name.length() == 0)
 			throw new LoginInvalidException("Login vazio!\n");
 		else if(name.matches(".*\\d.*"))
-			 throw new LoginInvalidException("Login nao pode conter numeros!\n");;
+			 throw new LoginInvalidException("Login nao pode conter numeros!\n");
+		else if (name.matches(".*[^A-Za-z0-9].*"))
+			throw new LoginInvalidException("Login nao pode conter simbolos!\n");;
 	}
 	
 	public static void validatePassword(String pass) throws PasswordInvalidException   {
