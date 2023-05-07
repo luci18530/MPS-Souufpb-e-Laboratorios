@@ -2,6 +2,7 @@ package view;
 
 
 import infra.InfraException;
+import util.EmailInvalidException;
 import util.LoginInvalidException;
 import util.PasswordInvalidException;
 
@@ -36,6 +37,7 @@ public class MainScreenDesktop {
 		}
 		int choice = Integer.parseInt(option);
 		boolean checkedLogin = false;
+		boolean checkedemail = false;
 		boolean checkedPassword = false;
 		switch (choice) {
 	
@@ -43,10 +45,15 @@ public class MainScreenDesktop {
 	
 			while (true) {
 				String name = "";
+				String email = "";
 				String pass = "";
 
 				if (!checkedLogin) {
 					name = JOptionPane.showInputDialog("Nome do usuario:");
+				}
+
+				if (!checkedemail) {
+					email = JOptionPane.showInputDialog("Email do usuario:");
 				}
 			
 				if (!checkedPassword) {
@@ -55,7 +62,7 @@ public class MainScreenDesktop {
 				
 			
 				try {
-					String[] args = {name, pass};
+					String[] args = {name, email, pass};
 					this.userManager.addUser(args);
 					JOptionPane.showMessageDialog(null, "Usuario adicionado com sucesso!");
 					break;
@@ -63,7 +70,15 @@ public class MainScreenDesktop {
 					JOptionPane.showMessageDialog(null, e.getMessage());
 					checkedLogin = false;
 					checkedPassword = false;
-				} catch (PasswordInvalidException e) {
+				} 
+				
+				catch (EmailInvalidException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage());
+					checkedLogin = false;
+					checkedPassword = false;
+				}	
+				
+				catch (PasswordInvalidException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage());
 					checkedLogin = false;
 					checkedPassword = false;
@@ -83,7 +98,7 @@ public class MainScreenDesktop {
 					users = this.userManager.getAllClients().values().iterator();
 					while (users.hasNext()) {
 						User user = users.next();
-						usuarios = usuarios + "[ Login: " + user.getLogin() + " || Senha: " + user.getSenha() + " ]" + "\n";
+						usuarios = usuarios + "[ Login: " + user.getLogin() + " | Email: " + user.getEmail() + " | Senha: " + user.getSenha() + " ]" + "\n";
 					}
 					JOptionPane.showMessageDialog(null, usuarios);
 				} catch (InfraException e) {

@@ -2,6 +2,7 @@ package business.control;
 
 import infra.InfraException;
 import infra.UserFile;
+import util.EmailInvalidException;
 import util.LoginInvalidException;
 import util.PasswordInvalidException;
 import util.UserValidador;
@@ -25,12 +26,13 @@ public class UserManager {
 
 	}
 	
-	public void addUser(String [] args) throws LoginInvalidException, PasswordInvalidException {
+	public void addUser(String [] args) throws LoginInvalidException, EmailInvalidException, PasswordInvalidException  {
 		
 		UserValidador.validateName(args[0]);
-		UserValidador.validatePassword(args[1]);
+		UserValidador.validateEmail(args[1]);
+		UserValidador.validatePassword(args[2]);
 		
-		users.put(args[0], new User(args[0],args[1]));
+		users.put(args[0], new User(args[0], args[1], args[2]));
 		userFile.saveUsers(users);
 		
 	}

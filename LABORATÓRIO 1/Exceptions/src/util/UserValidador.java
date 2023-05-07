@@ -5,14 +5,35 @@ public class UserValidador {
 
 	public static void validateName(String name) throws LoginInvalidException   {
 		
-		if(name.length() > 20) 
-			throw new LoginInvalidException("Login com mais de 20 caracteres!\n");
+		if(name.length() > 50) 
+			throw new LoginInvalidException("Login com mais de 50 caracteres!\n");
 		else if(name.length() == 0)
 			throw new LoginInvalidException("Login vazio!\n");
 		else if(name.matches(".*\\d.*"))
 			 throw new LoginInvalidException("Login nao pode conter numeros!\n");
 		else if (name.matches(".*[^A-Za-z0-9].*"))
 			throw new LoginInvalidException("Login nao pode conter simbolos!\n");;
+	}
+
+
+	public static void validateEmail(String email) throws EmailInvalidException {
+		if (email == null || email.isBlank()) {
+			throw new EmailInvalidException("Email vazio!");
+		}
+	
+		if (email.length() > 50) {
+			throw new EmailInvalidException("Email com mais de 50 caracteres!");
+		}
+	
+		String[] emailParts = email.split("@");
+		if (emailParts.length != 2 || emailParts[0].isBlank() || emailParts[1].isBlank()) {
+			throw new EmailInvalidException("Email inválido!");
+		}
+	
+		String domain = emailParts[1];
+		if (!domain.matches("[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
+			throw new EmailInvalidException("Domínio de email inválido!");
+		}
 	}
 	
 	public static void validatePassword(String pass) throws PasswordInvalidException   {

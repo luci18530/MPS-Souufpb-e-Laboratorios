@@ -12,12 +12,15 @@ public class User implements Serializable {
 	private static final long serialVersionUID = -3409171233621036055L;
 	
 	
-	private String login, senha;
+	private String login;
+    private String email;
+    private String senha;
     
-    public User(String login, String senha) {
-		super();
-		this.login = login;
-		this.senha = senha;
+    public User(String login, String email, String senha) {
+        super();
+        this.login = login;
+        this.email = email;
+        this.senha = senha;
 	}
 
     public String getLogin() {
@@ -28,7 +31,14 @@ public class User implements Serializable {
         this.login = login;
     }
 
-  
+    public String getEmail() {
+        return email;
+    }
+
+    public String setEmail(String email) {
+        return this.email = email;
+    }
+
     public String getSenha() {
         return senha;
     }
@@ -36,8 +46,7 @@ public class User implements Serializable {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-  
-    
+     
     public String toString(){
         return login +"\n"+senha;
     }
