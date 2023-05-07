@@ -34,6 +34,15 @@ public class UserManager {
 		userFile.saveUsers(users);
 		
 	}
+
+	public void removeUser(String name) throws InfraException {
+		if (!users.containsKey(name)) {
+			throw new IllegalArgumentException("Usuario nao encontrado!");
+		}
+	
+		users.remove(name);
+		userFile.saveUsers(users);
+	}
 	
 	public Map<String, User> getAllClients() throws InfraException {
 			try {
