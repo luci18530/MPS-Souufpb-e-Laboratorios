@@ -1,5 +1,6 @@
 package view;
 
+
 import infra.InfraException;
 import util.LoginInvalidException;
 import util.PasswordInvalidException;
@@ -31,67 +32,85 @@ public class MainScreenDesktop {
 		try {
 			userManager = new UserManager();
 		} catch (InfraException e) {
-			String option2 = JOptionPane.showInputDialog(e.getMessage());		
-
+			String option2 = JOptionPane.showInputDialog(e.getMessage());
 		}
 		int choice = Integer.parseInt(option);
 		boolean checkedLogin = false;
 		boolean checkedPassword = false;
 		switch (choice) {
-		
-		case 1:
-			
+	
+			case 1:
+	
 			while (true) {
 				String name = "";
 				String pass = "";
 
 				if (!checkedLogin) {
 					name = JOptionPane.showInputDialog("Nome do usuario:");
-					
 				}
+			
 				if (!checkedPassword) {
 					pass = JOptionPane.showInputDialog("Senha do usuario:");
-					
 				}
-
+				
+			
 				try {
-					String [] args = {name, pass};
+					String[] args = {name, pass};
 					this.userManager.addUser(args);
 					JOptionPane.showMessageDialog(null, "Usuario adicionado com sucesso!");
 					break;
 				} catch (LoginInvalidException e) {
-					JOptionPane.showMessageDialog(null, e.getMessage() );
+					JOptionPane.showMessageDialog(null, e.getMessage());
 					checkedLogin = false;
-					checkedPassword = true;
+					checkedPassword = false;
 				} catch (PasswordInvalidException e) {
-					JOptionPane.showMessageDialog(null, e.getMessage() );
-					checkedLogin = true;
+					JOptionPane.showMessageDialog(null, e.getMessage());
+					checkedLogin = false;
+					checkedPassword = false;
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Erro desconhecido: " + e.getMessage());
+					checkedLogin = false;
 					checkedPassword = false;
 				}
-				
 			}
-			showMenu();
-			break;
-		
-		case 2:
-			String usuarios = "";
-			Iterator<User> users;
-			try {
-				users = this.userManager.getAllClients().values().iterator();
-				while (users.hasNext()) {
-					User user = users.next();
-					usuarios = usuarios + "[ Login: " + user.getLogin() + " || Senha: " + user.getSenha() + " ]" + "\n";
+				showMenu();
+				break;
+	
+			case 2:
+				String usuarios = "";
+				Iterator<User> users;
+				try {
+					users = this.userManager.getAllClients().values().iterator();
+					while (users.hasNext()) {
+						User user = users.next();
+						usuarios = usuarios + "[ Login: " + user.getLogin() + " || Senha: " + user.getSenha() + " ]" + "\n";
+					}
+					JOptionPane.showMessageDialog(null, usuarios);
+				} catch (InfraException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
-				JOptionPane.showMessageDialog(null, usuarios );
-			} catch (InfraException e) {
-				JOptionPane.showMessageDialog(null, e.getMessage() );
-			}
+	
+				showMenu();
+				break;
+				case 3:
+				while (true) {
+					String name = JOptionPane.showInputDialog("Digite o nome do usuario a ser removido (ou 0 para voltar ao menu):");
+					if (name.equals("0")) {
+						break;
+					}
 			
-			
-			showMenu();
-			break;
-		case 3:
-			break;
+					try {
+						this.userManager.removeUser(name);
+						JOptionPane.showMessageDialog(null, "Usuario removido com sucesso!");
+						break;
+					} catch (InfraException e) {
+						JOptionPane.showMessageDialog(null, e.getMessage());
+					} catch (IllegalArgumentException e) {
+						JOptionPane.showMessageDialog(null, e.getMessage());
+					}
+				}
+				showMenu();
+				break;
 	
 		}
 	}
