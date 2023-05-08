@@ -50,14 +50,27 @@ public class MainScreenDesktop {
 
 				if (!checkedLogin) {
 					name = JOptionPane.showInputDialog("Nome do usuario:");
+					// cancel button
+					if (name == null) {
+						break;
+					}
+					 
 				}
 
 				if (!checkedemail) {
 					email = JOptionPane.showInputDialog("Email do usuario:");
+					// cancel button
+					if (email == null) {
+						break;
+					}
 				}
 			
 				if (!checkedPassword) {
 					pass = JOptionPane.showInputDialog("Senha do usuario:");
+					// cancel button
+					if (pass == null) {
+						break;
+					}
 				}
 				
 			
