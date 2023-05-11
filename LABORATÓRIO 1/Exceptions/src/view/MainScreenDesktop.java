@@ -73,16 +73,16 @@ public class MainScreenDesktop {
                 String[] campos = line.split(csvDelimiter);
                 
                 // faça o processamento necessário com os campos lidos
-				String nome = campos[0];
-                String email = campos[1];
-				String linguagens = campos[2];
-				String humanas = campos[3];
-				String exatas = campos[4];
-				String biologicas = campos[5];
-				String tecnologicas = campos[6];
+				//String nome = campos[0];
+                String email = campos[0];
+				String linguagens = campos[1];
+				String humanas = campos[2];
+				String exatas = campos[3];
+				String biologicas = campos[4];
+				String tecnologicas = campos[5];
                 
                 // imprime os dados lidos do arquivo CSV na tela
-                System.out.println("Nome: " + nome);
+                //System.out.println("Nome: " + nome);
                 System.out.println("E-mail: " + email);
 				System.out.println("Resultados do teste");
 				System.out.println("Linguagens: " + linguagens);
