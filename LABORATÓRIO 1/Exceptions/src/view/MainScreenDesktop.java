@@ -2,6 +2,9 @@ package view;
 
 import infra.InfraException;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
 import business.control.UserManager;
@@ -19,7 +22,6 @@ public class MainScreenDesktop {
 		String option = JOptionPane.showInputDialog("Bem vindo ao sistema de SASF!\nEscolha a opcao desejada:\n1-Listar Usuarios\n2-Sair","Sua opcao");		
 		
 		MainScreenDesktop main = new MainScreenDesktop();
-		
 		main.readUserInput(option);
 	}
 	
@@ -57,4 +59,43 @@ public class MainScreenDesktop {
 	
 		}
 	}
+
+	public static void imprimirDadosCSV(String caminhoArquivo) {
+        
+        String line = "";
+        String csvDelimiter = ",";
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivo))) {
+            
+            while ((line = br.readLine()) != null) {
+                
+                // separa os campos do CSV utilizando o delimitador
+                String[] campos = line.split(csvDelimiter);
+                
+                // faça o processamento necessário com os campos lidos
+				String nome = campos[0];
+                String email = campos[1];
+				String linguagens = campos[2];
+				String humanas = campos[3];
+				String exatas = campos[4];
+				String biologicas = campos[5];
+				String tecnologicas = campos[6];
+                
+                // imprime os dados lidos do arquivo CSV na tela
+                System.out.println("Nome: " + nome);
+                System.out.println("E-mail: " + email);
+				System.out.println("Resultados do teste");
+				System.out.println("Linguagens: " + linguagens);
+				System.out.println("Humanas: " + humanas);
+				System.out.println("Exatas: " + exatas);
+				System.out.println("Biologicas: " + biologicas);
+				System.out.println("Tecnologicas: " + tecnologicas);
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
