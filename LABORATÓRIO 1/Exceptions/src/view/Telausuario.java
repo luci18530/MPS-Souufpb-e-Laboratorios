@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import business.control.UserManager;
 import business.model.User;
 import testes.Testes;
+import cursos.Cursos;
 
 public class Telausuario {
     UserManager userManager;
@@ -41,6 +42,7 @@ public class Telausuario {
         switch (choice) {
             case 1:
                 // Implementar visualização dos cursos da UFPB
+                Cursos.entraremcursos();
                 break;
             case 2:
                 // Conecta com o teste vocacional
