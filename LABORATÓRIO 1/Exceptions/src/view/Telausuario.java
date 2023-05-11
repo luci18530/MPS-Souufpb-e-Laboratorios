@@ -48,9 +48,12 @@ public class Telausuario {
                 break;
             case 3:
                 // Implementar a saída
+                System.exit(0);
                 break;
             default:
                 // Implementar opção inválida
+                JOptionPane.showMessageDialog(null, "Opção inválida!");
+                showMenuUsuario2(email);
                 break;
         }
     }
