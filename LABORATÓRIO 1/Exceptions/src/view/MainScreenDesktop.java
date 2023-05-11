@@ -1,6 +1,5 @@
 package view;
 
-
 import infra.InfraException;
 import util.EmailInvalidException;
 import util.LoginInvalidException;
@@ -22,7 +21,7 @@ public class MainScreenDesktop {
 	}
 	
 	public static void showMenu() {
-		String option = JOptionPane.showInputDialog("Bem vindo ao sistema de SASF!\nEscolha a opcao desejada:\n1-Cadastrar Usuario\n2-Listar Usuarios\n3-Excluir Usuario\n4-Sair","Sua opcao");		
+		String option = JOptionPane.showInputDialog("Bem vindo ao sistema de SASF!\nEscolha a opcao desejada:\n1-Listar Usuarios\n2-Sair","Sua opcao");		
 		
 		MainScreenDesktop main = new MainScreenDesktop();
 		
@@ -42,69 +41,6 @@ public class MainScreenDesktop {
 		switch (choice) {
 	
 			case 1:
-	
-			while (true) {
-				String name = "";
-				String email = "";
-				String pass = "";
-
-				if (!checkedLogin) {
-					name = JOptionPane.showInputDialog("Nome do usuario:");
-					// cancel button
-					if (name == null) {
-						break;
-					}
-					 
-				}
-
-				if (!checkedemail) {
-					email = JOptionPane.showInputDialog("Email do usuario:");
-					// cancel button
-					if (email == null) {
-						break;
-					}
-				}
-			
-				if (!checkedPassword) {
-					pass = JOptionPane.showInputDialog("Senha do usuario:");
-					// cancel button
-					if (pass == null) {
-						break;
-					}
-				}
-				
-			
-				try {
-					String[] args = {name, email, pass};
-					this.userManager.addUser(args);
-					JOptionPane.showMessageDialog(null, "Usuario adicionado com sucesso!");
-					break;
-				} catch (LoginInvalidException e) {
-					JOptionPane.showMessageDialog(null, e.getMessage());
-					checkedLogin = false;
-					checkedPassword = false;
-				} 
-				
-				catch (EmailInvalidException e) {
-					JOptionPane.showMessageDialog(null, e.getMessage());
-					checkedLogin = false;
-					checkedPassword = false;
-				}	
-				
-				catch (PasswordInvalidException e) {
-					JOptionPane.showMessageDialog(null, e.getMessage());
-					checkedLogin = false;
-					checkedPassword = false;
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Erro desconhecido: " + e.getMessage());
-					checkedLogin = false;
-					checkedPassword = false;
-				}
-			}
-				showMenu();
-				break;
-	
-			case 2:
 				String usuarios = "";
 				Iterator<User> users;
 				try {
@@ -120,24 +56,10 @@ public class MainScreenDesktop {
 	
 				showMenu();
 				break;
-				case 3:
-				while (true) {
-					String name = JOptionPane.showInputDialog("Digite o nome do usuario a ser removido (ou 0 para voltar ao menu):");
-					if (name.equals("0")) {
-						break;
-					}
-			
-					try {
-						this.userManager.removeUser(name);
-						JOptionPane.showMessageDialog(null, "Usuario removido com sucesso!");
-						break;
-					} catch (InfraException e) {
-						JOptionPane.showMessageDialog(null, e.getMessage());
-					} catch (IllegalArgumentException e) {
-						JOptionPane.showMessageDialog(null, e.getMessage());
-					}
-				}
-				showMenu();
+
+			case 2:
+			// exit
+				System.exit(0);
 				break;
 	
 		}
