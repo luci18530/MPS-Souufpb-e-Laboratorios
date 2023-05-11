@@ -21,7 +21,8 @@ public class Cursos {
         "GEOGRAFIA", // 15
         "MATÉMATICA", // 16
         "NUTRIÇÃO", // 17
-        "QUIMICA" // 18
+        "QUIMICA", // 18
+        "-SAIR-"
     };
 
     public static void entraremcursos(){
@@ -97,6 +98,10 @@ public class Cursos {
             Centro = "Saúde";
         }
 
+        else if (index == 18){
+            System.exit(0);
+        }
+
 
         String centroEnsino = "Centro de " + Centro;
         String descricao = "O curso de " + nomeCurso + " é um programa de estudos muito interessante na UFPB...";  // Adicione a descrição real aqui
@@ -107,6 +112,8 @@ public class Cursos {
                 + "Descrição: " + descricao;
 
         JOptionPane.showMessageDialog(null, detalhesCurso);
+        entraremcursos(); // Cannot invoke entraremcursos() on the array type String[] 
+        // quero voltar para a tela de cursos iniciais 
     }
 
     public static void main(String[] args) {
