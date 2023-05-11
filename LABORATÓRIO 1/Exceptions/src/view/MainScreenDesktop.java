@@ -1,14 +1,9 @@
 package view;
 
 import infra.InfraException;
-import util.EmailInvalidException;
-import util.LoginInvalidException;
-import util.PasswordInvalidException;
 
 import java.util.Iterator;
-
 import javax.swing.JOptionPane;
-
 import business.control.UserManager;
 import business.model.User;
 
@@ -35,9 +30,7 @@ public class MainScreenDesktop {
 			String option2 = JOptionPane.showInputDialog(e.getMessage());
 		}
 		int choice = Integer.parseInt(option);
-		boolean checkedLogin = false;
-		boolean checkedemail = false;
-		boolean checkedPassword = false;
+
 		switch (choice) {
 	
 			case 1:

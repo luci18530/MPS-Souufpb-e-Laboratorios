@@ -12,6 +12,8 @@ public class Testes {
     double exatas = 0;
     double biologicas = 0;
     double tecnologicas = 0;
+    // array of results in value order
+    String[] results = {"", "", "", "", ""};
 
     public static void questionario() {
         Testes testes = new Testes();
@@ -25,6 +27,11 @@ public class Testes {
         testes.question("8 - De 1 a 5 qual seu interesse em matemática?", "exatas");
         testes.question("9 - De 1 a 5 qual seu interesse em artes?", "linguagens");
         testes.question("10 - De 1 a 5 qual seu interesse em química?", "biologicas");
+        // set results
+        testes.setResults();
+        testes.showResults();
+        // save handler to database
+        testes.saveHandler();
     }
 
     private void question(String message, String area) {
@@ -91,6 +98,26 @@ public class Testes {
 
     public double getTecnologicas() {
         return tecnologicas;
+    }
+
+    // set results
+    public void setResults() {
+        // set results
+        this.results[0] = "Linguagens: " + this.linguagens;
+        this.results[1] = "Humanas: " + this.humanas;
+        this.results[2] = "Exatas: " + this.exatas;
+        this.results[3] = "Biologicas: " + this.biologicas;
+        this.results[4] = "Tecnologicas: " + this.tecnologicas;
+    }
+
+    // show results (in joptionpane)
+    public void showResults() {
+        JOptionPane.showMessageDialog(null, "Resultados: \n" + "Linguagens:" + this.linguagens + "\nHumanas:" + this.humanas + "\nExatas:" + this.exatas + "\nBiologicas:" + this.biologicas + "\nTecnologicas:" + this.tecnologicas);
+    }
+
+    // save handler
+    public void saveHandler() {
+        // todo
     }
 
     public static String[] fiveoptions() {
