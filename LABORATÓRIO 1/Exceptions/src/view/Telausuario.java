@@ -8,6 +8,7 @@ import java.util.Iterator;
 import javax.swing.JOptionPane;
 import business.control.UserManager;
 import business.model.User;
+import testes.Testes;
 
 public class Telausuario {
     UserManager userManager;
@@ -25,18 +26,39 @@ public class Telausuario {
     }
 
     // second menu
-    public static void showMenuUsuario2() {
+    public static void showMenuUsuario2(String email) {
         String option = JOptionPane.showInputDialog("Escolha a opcao desejada:\n1-Ver os Cursos da UFPB\n2-Fazer teste vocacional\n3-Sair","Sua opcao");
 
         Telausuario secondmain = new Telausuario();
 
-        secondmain.secondreadUserInput(option);
+        secondmain.secondreadUserInput(option, email);
     }
 
     // using joptionpane to take user input and if the login email and password are in the database, progress to the second menu
 
-    private void secondreadUserInput(String option) {
+    private void secondreadUserInput(String option, String email) {
         // to do
+        // case 1 - ver os cursos da ufpb
+        // case 2 - fazer teste vocacional
+        // case 3 - sair
+        // default - opcao invalida
+        int choice = Integer.parseInt(option);
+        switch (choice) {
+            case 1:
+            // to do
+            break;
+            case 2:
+            // connect with the testes.java
+            Testes.questionario(email);
+
+            break;
+            case 3:
+            // to do
+            break;
+            default:
+            // to do
+            break;
+        }
     }
 
     public void readUserInput(String option) {
@@ -137,7 +159,7 @@ public class Telausuario {
 
                     if (loggedIn) {
                         JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
-                        showMenuUsuario2();
+                        showMenuUsuario2(email);
                     } else {
                         JOptionPane.showMessageDialog(null, "Email ou senha incorretos. Por favor, tente novamente.");
                     }
