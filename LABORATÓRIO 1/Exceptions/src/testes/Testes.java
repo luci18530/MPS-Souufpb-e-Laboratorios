@@ -16,7 +16,7 @@ public class Testes {
     double biologicas = 0;
     double tecnologicas = 0;
     // array of results of interger
-    double[] results = new double[5];
+    String[] results = new String[5];
     
 
     public static void questionario(String emailUser) {
@@ -108,11 +108,11 @@ public class Testes {
     // set results
     public void setResults() {
         // set results
-        this.results[0] = this.linguagens;
-        this.results[1] = this.humanas;
-        this.results[2] = this.exatas;
-        this.results[3] = this.biologicas;
-        this.results[4] = this.tecnologicas;
+        this.results[0] = " " + this.linguagens;
+        this.results[1] = " " + this.humanas;
+        this.results[2] = " " + this.exatas;
+        this.results[3] = " " + this.biologicas;
+        this.results[4] = " " + this.tecnologicas;
     }
 
     // show results (in joptionpane)
