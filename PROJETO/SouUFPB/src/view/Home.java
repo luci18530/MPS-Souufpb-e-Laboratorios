@@ -4,7 +4,7 @@ public class Home {
     private static Home instance = null;
 
     private Home(){
-        TelaUsuario.showMenuUsuario();
+        TelaUsuario.showMenuLogin();
     }
 
     public static Home getInstance(){
