@@ -12,7 +12,8 @@ import business.model.User;
 
 public class MainScreenDesktop {
 	
-	UserManager userManager;
+	private UserManager userManager;
+	private MainScreenDesktop instance = null;
 	
 	public static void main (String[] args) {
 		showMenu();
@@ -97,5 +98,11 @@ public class MainScreenDesktop {
         }
     }
 
+	public MainScreenDesktop getInstance(){
+		if(this.instance == null){
+			this.instance = new MainScreenDesktop();
+		}
+		return instance;
+	}
 
 }

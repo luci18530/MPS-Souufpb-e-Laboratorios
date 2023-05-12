@@ -11,8 +11,9 @@ import business.model.User;
 import testes.Testes;
 import cursos.Cursos;
 
-public class Telausuario {
-    UserManager userManager;
+public class TelaUsuario {
+    private UserManager userManager;
+    private static TelaUsuario instance = null;
 
     public static void main (String[] args) {
         showMenuUsuario();
@@ -22,7 +23,7 @@ public class Telausuario {
         // Mostra o menu inicial para o usuário
         String option = JOptionPane.showInputDialog("Olá usuário, bem vindo ao SouUFPB\nEscolha a opcao desejada:\n1-Se cadastrar\n2-Logar\n3-Sair","Sua opcao");     
 
-        Telausuario main = new Telausuario();
+        TelaUsuario main = new TelaUsuario();
 
         main.readUserInput(option);
     }
@@ -31,7 +32,7 @@ public class Telausuario {
         // Mostra o segundo menu para o usuário
         String option = JOptionPane.showInputDialog("Escolha a opcao desejada:\n1-Ver os Cursos da UFPB\n2-Fazer teste vocacional\n3-Sair","Sua opcao");
 
-        Telausuario secondmain = new Telausuario();
+        TelaUsuario secondmain = new TelaUsuario();
 
         secondmain.secondreadUserInput(option, email);
     }
@@ -168,4 +169,14 @@ public class Telausuario {
         }
         return false;
     }
+
+    public static TelaUsuario getInstance(){
+
+        if(instance == null){
+            instance = new TelaUsuario();
+        }
+        
+        return instance;
+    }
+
 }
