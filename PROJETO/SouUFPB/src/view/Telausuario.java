@@ -15,28 +15,28 @@ public class Telausuario {
     UserManager userManager;
 
     public static void main (String[] args) {
-        showMenuUsuario();
+        showMenuLogin();
     }
 
-    public static void showMenuUsuario() {
+    public static void showMenuLogin() {
         // Mostra o menu inicial para o usuário
         String option = JOptionPane.showInputDialog("Olá usuário, bem vindo ao SouUFPB\nEscolha a opcao desejada:\n1-Se cadastrar\n2-Logar\n3-Sair","Sua opcao");     
 
         Telausuario main = new Telausuario();
 
-        main.readUserInput(option);
+        main.readUserInputLogin(option);
     }
 
-    public static void showMenuUsuario2(String email) {
+    public static void showMenuApp(String email) {
         // Mostra o segundo menu para o usuário
         String option = JOptionPane.showInputDialog("Escolha a opcao desejada:\n1-Ver os Cursos da UFPB\n2-Fazer teste vocacional\n3-Sair","Sua opcao");
 
         Telausuario secondmain = new Telausuario();
 
-        secondmain.secondreadUserInput(option, email);
+        secondmain.readUserInputApp(option, email);
     }
 
-    private void secondreadUserInput(String option, String email) {
+    private void readUserInputApp(String option, String email) {
         // Lê a opção do usuário no segundo menu
         int choice = Integer.parseInt(option);
         switch (choice) {
@@ -55,12 +55,12 @@ public class Telausuario {
             default:
                 // Implementar opção inválida
                 JOptionPane.showMessageDialog(null, "Opção inválida!");
-                showMenuUsuario2(email);
+                showMenuApp(email);
                 break;
         }
     }
 
-    public void readUserInput(String option) {
+    public void readUserInputLogin(String option) {
         try {
             userManager = new UserManager();
         } catch (InfraException e) {
@@ -72,7 +72,7 @@ public class Telausuario {
             case 1:
                 // Realiza cadastro de usuário
                 registerUser();
-                showMenuUsuario();
+                showMenuLogin();
                 break;
 
             case 2: 
@@ -87,7 +87,7 @@ public class Telausuario {
 
             default:
                 JOptionPane.showMessageDialog(null, "Opção inválida!");
-                showMenuUsuario();
+                showMenuLogin();
                 break;
         }
     }
@@ -131,13 +131,13 @@ public class Telausuario {
         while (!loggedIn) {
             String email = JOptionPane.showInputDialog("Email do usuario:");
             if (email == null) {
-                showMenuUsuario();
+                showMenuLogin();
                 return;
             }
 
             String password = JOptionPane.showInputDialog("Senha do usuario:");
             if (password == null) {
-                showMenuUsuario();
+                showMenuLogin();
                 return;
             }
 
@@ -145,7 +145,7 @@ public class Telausuario {
 
             if (loggedIn) {
                 JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
-                showMenuUsuario2(email);
+                showMenuApp(email);
             } else {
                 JOptionPane.showMessageDialog(null, "Email ou senha incorretos. Por favor, tente novamente.");
             }
