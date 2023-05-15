@@ -61,7 +61,7 @@ public class MainScreenDesktop {
 		}
 	}
 
-	public static void imprimirDadosCSV(String caminhoArquivo) {
+	public static void printCsvData(String caminhoArquivo) {
         
         String line = "";
         String csvDelimiter = ",";
