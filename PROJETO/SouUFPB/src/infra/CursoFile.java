@@ -19,25 +19,31 @@ import java.util.logging.Logger;
 import business.model.Curso;
 
 public class CursoFile {
-
+    // Criação de um Logger estático para a classe
     private static Logger logger = Logger.getLogger(CursoFile.class.getName());
     
     public CursoFile(){
 
         try {
             
+            // Criando manipuladores para o Logger: um para o console e outro para um arquivo
             Handler hdConsole = new ConsoleHandler();
             Handler hdArquivo = new FileHandler("relatorioCursos.txt");
 
+            // Definindo o nível dos manipuladores para todos os níveis (Level.ALL)
             hdConsole.setLevel(Level.ALL);
             hdArquivo.setLevel(Level.ALL);
 
+            // Adicionando os manipuladores ao Logger
             logger.addHandler(hdConsole);
             logger.addHandler(hdArquivo);
 
+            // Desativando o uso de manipuladores do Logger pai
             logger.setUseParentHandlers(false);
 
+
         } catch (IOException ex) {
+            // Registra a exceção no logger se houver um erro de IO na criação do manipulador do arquivo
             logger.severe("ocorreu um erro no arquivo durante a execução do programa");
         }
     }
@@ -46,13 +52,17 @@ public class CursoFile {
 
         File file = new File("Cursos.txt");
         try {
+            // Criação do ObjectOutputStream para escrever os objetos no arquivo
             ObjectOutputStream saida = new ObjectOutputStream(new FileOutputStream(file));
+            // Escrevendo os cursos no arquivo
             saida.writeObject(cursos);
+            // Fechando o ObjectOutputStream
             saida.close();
         } catch (FileNotFoundException ex) {
+            // Exibe a pilha de erros se o arquivo não for encontrado
             ex.printStackTrace();
-        }
-        catch(IOException ex){
+        } catch(IOException ex){
+            // Exibe a pilha de erros se ocorrer um erro de IO
             ex.printStackTrace();
         }
     }
@@ -68,11 +78,16 @@ public class CursoFile {
             salvarCursos(cursos);
         }
         try {
+            // Criação do FileInputStream para ler o arquivo
             entrada = new FileInputStream(file);
+
+            // Criação do ObjectInputStream para ler os objetos do arquivo
             objetoEntrada = new ObjectInputStream(entrada);
 
+            // Leitura dos cursos do arquivo
             cursos = (Map<String,Curso>) objetoEntrada.readObject();
 
+            // Retorna os cursos lidos
             return cursos;
 
         } catch(NullPointerException ex){
@@ -88,7 +103,7 @@ public class CursoFile {
         finally{
 
             try{
-
+                // Tentativa de fechar o ObjectInputStream e FileInputStream   
                 objetoEntrada.close();
                 entrada.close();
 
@@ -102,6 +117,7 @@ public class CursoFile {
         }
     }
 
+    // Método para retornar o Logger
     public Logger getLogger(){
         return logger;
     }
