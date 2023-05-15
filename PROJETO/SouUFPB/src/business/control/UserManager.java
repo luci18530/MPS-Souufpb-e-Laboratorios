@@ -6,9 +6,9 @@ import util.EmailInvalidException;
 import util.LoginInvalidException;
 import util.PasswordInvalidException;
 import util.UserValidador;
-
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import business.model.User;
 
@@ -16,7 +16,7 @@ import business.model.User;
 public class UserManager {
 	
 	private Map<String, User> users;
-	UserFile userFile;
+	private UserFile userFile;
 	
 	public UserManager() throws InfraException {		
 		
@@ -47,13 +47,16 @@ public class UserManager {
 	}
 	
 	public Map<String, User> getAllClients() throws InfraException {
-			try {
+
+		Logger logger = userFile.getLogger();
+
+		try {
 			Map<String, User> mylist = userFile.loadUsers();
 			return mylist;
 
-			} catch (NullPointerException ex){
-	            UserFile.logger.severe(ex.getMessage());
-	            throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
+		} catch (NullPointerException ex){
+	        logger.severe(ex.getMessage());
+	        throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
 	           
 	        }
 	}

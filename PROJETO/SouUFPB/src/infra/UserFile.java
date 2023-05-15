@@ -21,7 +21,7 @@ import business.model.User;
 
 public class UserFile {
 	
-	public static Logger logger = Logger.getLogger(UserFile.class.getName());
+	private static Logger logger = Logger.getLogger(UserFile.class.getName());
 
 	public UserFile() {
 		
@@ -56,8 +56,8 @@ public class UserFile {
         }
     }   
     public Map<String, User> loadUsers() throws InfraException{
-    		Map<String, User> users = new HashMap<String,User>();
-    		File file = new File("user.bin");
+    	Map<String, User> users = new HashMap<String,User>();
+    	File file = new File("user.bin");
         ObjectInputStream objInput = null;
         InputStream in = null;
         if(!file.exists()){
@@ -68,7 +68,7 @@ public class UserFile {
             //Recupera a lista
             objInput = new ObjectInputStream(in);
             users = ( Map<String, User>) objInput.readObject();
-
+            in.close();
           
 
             return users;
@@ -100,5 +100,9 @@ public class UserFile {
 			} 
   			
         }
+    }
+
+    public Logger getLogger(){
+        return logger;
     }
 }
