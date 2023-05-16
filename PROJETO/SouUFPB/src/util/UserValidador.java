@@ -16,7 +16,7 @@ public class UserValidador {
 	}
 
 
-	public static void validateEmail(String email) throws EmailInvalidException {
+	public static boolean validateEmail(String email) throws EmailInvalidException {
 		if (email == null || email.isBlank()) {
 			throw new EmailInvalidException("Email vazio!");
 		}
@@ -34,9 +34,11 @@ public class UserValidador {
 		if (!domain.matches("[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
 			throw new EmailInvalidException("Domínio de email inválido!");
 		}
+
+		return true;
 	}
 	
-	public static void validatePassword(String pass) throws PasswordInvalidException   {
+	public static boolean validatePassword(String pass) throws PasswordInvalidException   {
 		
 		 if(pass.length() > 12) 
 			 throw new PasswordInvalidException("Senha nao pode possuir mais de 12 caracteres!\n");
@@ -46,6 +48,8 @@ public class UserValidador {
 			 throw new PasswordInvalidException("Senha deve possuir caracteres e numeros!\n");
 		 else if (countNumbers(pass) < 2)
 			throw new PasswordInvalidException("Senha deve ter pelo menos 2 numeros!\n");
+		
+		return true;
 	}
 	
 	 private static int countNumbers(String s){
