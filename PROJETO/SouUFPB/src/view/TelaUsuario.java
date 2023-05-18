@@ -4,7 +4,7 @@ import infra.InfraException;
 import util.EmailInvalidException;
 import util.LoginInvalidException;
 import util.PasswordInvalidException;
-import java.util.Iterator;
+import util.LoginValidator;
 import javax.swing.JOptionPane;
 import business.control.UserManager;
 import business.model.User;
@@ -14,12 +14,13 @@ import cursos.Cursos;
 public class TelaUsuario {
     private UserManager userManager;
     private static TelaUsuario instance = null;
+    private LoginValidator loginValidator;
 
-    public static void main (String[] args) {
+    public static void main (String[] args) throws LoginInvalidException {
         showMenuLogin();
     }
 
-    public static void showMenuLogin() {
+    public static void showMenuLogin() throws LoginInvalidException {
         // Mostra o menu inicial para o usuário
         String option = JOptionPane.showInputDialog("Olá usuário, bem vindo ao SouUFPB\nEscolha a opcao desejada:\n1-Se cadastrar\n2-Logar\n3-Sair","Sua opcao");     
 
@@ -61,7 +62,7 @@ public class TelaUsuario {
         }
     }
 
-    public void readUserInputLogin(String option) {
+    public void readUserInputLogin(String option) throws LoginInvalidException {
         try {
             userManager = new UserManager();
         } catch (InfraException e) {
@@ -125,7 +126,7 @@ public class TelaUsuario {
         }
     }
 
-    private void loginUser() {
+    private void loginUser() throws LoginInvalidException{
         // Implementa o login do usuário
         boolean loggedIn = false;
 
@@ -142,7 +143,7 @@ public class TelaUsuario {
                 return;
             }
 
-            loggedIn = checkUserLogin(email, password);
+            loggedIn = loginValidator.checkUserLogin(email,password);
 
             if (loggedIn) {
                 JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
@@ -151,23 +152,6 @@ public class TelaUsuario {
                 JOptionPane.showMessageDialog(null, "Email ou senha incorretos. Por favor, tente novamente.");
             }
         }
-    }
-
-    private boolean checkUserLogin(String email, String password) {
-        // Verifica se o login do usuário é válido
-        try {
-            Iterator<User> users = userManager.getAllClients().values().iterator();
-            while (users.hasNext()) {
-                User user = users.next();
-                // Usando equalsIgnoreCase para comparação de email, uma vez que os emails não são sensíveis a maiúsculas e minúsculas
-                if (user.getEmail().equalsIgnoreCase(email) && user.getSenha().equals(password)) {
-                    return true;
-                }
-            }
-        } catch (InfraException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao verificar login: " + e.getMessage());
-        }
-        return false;
     }
 
     public static TelaUsuario getInstance(){

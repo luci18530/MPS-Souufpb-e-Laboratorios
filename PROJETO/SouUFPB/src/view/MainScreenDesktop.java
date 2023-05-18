@@ -13,9 +13,14 @@ import business.model.User;
 public class MainScreenDesktop {
 	
 	private UserManager userManager;
-	private MainScreenDesktop instance = null;
+	private static MainScreenDesktop instance = null;
+
+	private MainScreenDesktop(){
+
+	}
 	
 	public static void main (String[] args) {
+		getInstance();
 		showMenu();
 	}
 	
@@ -98,11 +103,10 @@ public class MainScreenDesktop {
         }
     }
 
-	public MainScreenDesktop getInstance(){
-		if(this.instance == null){
-			this.instance = new MainScreenDesktop();
+	public static synchronized MainScreenDesktop getInstance(){
+		if(instance == null){
+			instance = new MainScreenDesktop();
 		}
 		return instance;
 	}
-
 }
