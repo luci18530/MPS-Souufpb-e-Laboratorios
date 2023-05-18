@@ -20,14 +20,15 @@ public class MainScreenDesktop {
 	}
 	
 	public static void main (String[] args) {
-		getInstance();
 		showMenu();
 	}
 	
 	public static void showMenu() {
+
+		MainScreenDesktop main = getInstance();
+
 		String option = JOptionPane.showInputDialog("Bem vindo ao sistema de SASF!\nEscolha a opcao desejada:\n1-Listar Usuarios\n2-Sair","Sua opcao");		
 		
-		MainScreenDesktop main = new MainScreenDesktop();
 		main.readUserInput(option);
 	}
 	

@@ -7,7 +7,6 @@ import util.PasswordInvalidException;
 import util.LoginValidator;
 import javax.swing.JOptionPane;
 import business.control.UserManager;
-import business.model.User;
 import testes.Testes;
 import cursos.Cursos;
 
@@ -16,15 +15,20 @@ public class TelaUsuario {
     private static TelaUsuario instance = null;
     private LoginValidator loginValidator;
 
+    private TelaUsuario(){
+
+    }
+
     public static void main (String[] args) throws LoginInvalidException {
         showMenuLogin();
     }
 
     public static void showMenuLogin() throws LoginInvalidException {
         // Mostra o menu inicial para o usuário
-        String option = JOptionPane.showInputDialog("Olá usuário, bem vindo ao SouUFPB\nEscolha a opcao desejada:\n1-Se cadastrar\n2-Logar\n3-Sair","Sua opcao");     
 
-        TelaUsuario main = new TelaUsuario();
+        TelaUsuario main = getInstance();
+
+        String option = JOptionPane.showInputDialog("Olá usuário, bem vindo ao SouUFPB\nEscolha a opcao desejada:\n1-Se cadastrar\n2-Logar\n3-Sair","Sua opcao");     
 
         main.readUserInputLogin(option);
     }
