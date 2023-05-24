@@ -10,5 +10,8 @@ Grupo:
 
 A fazer:
 
- - Documento de Requisitos
+ - Factory Method ou Abstract Factory
+ - Adapter
+ - Template Method
+ - Diagrama de Classe
  
