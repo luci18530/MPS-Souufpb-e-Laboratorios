@@ -9,6 +9,10 @@ import infra.InfraException;
 public class LoginValidator {
 
     private UserManager userManager;
+
+    public LoginValidator() throws InfraException{
+        this.userManager = new UserManager();
+    }
     
     public boolean checkUserLogin(String email, String password) throws LoginInvalidException {
         // Verifica se o login do usuário é válido

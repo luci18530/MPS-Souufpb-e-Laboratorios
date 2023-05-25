@@ -15,15 +15,16 @@ public class TelaUsuario {
     private static TelaUsuario instance = null;
     private LoginValidator loginValidator;
 
-    private TelaUsuario(){
-
+    private TelaUsuario() throws InfraException{
+        this.loginValidator = new LoginValidator();
     }
+    
 
-    public static void main (String[] args) throws LoginInvalidException {
+    public static void main (String[] args) throws LoginInvalidException, InfraException {
         showMenuLogin();
     }
 
-    public static void showMenuLogin() throws LoginInvalidException {
+    public static void showMenuLogin() throws LoginInvalidException, InfraException {
         // Mostra o menu inicial para o usuário
 
         TelaUsuario main = getInstance();
@@ -33,7 +34,7 @@ public class TelaUsuario {
         main.readUserInputLogin(option);
     }
 
-    public static void showMenuApp(String email) {
+    public static void showMenuApp(String email) throws InfraException {
         // Mostra o segundo menu para o usuário
         String option = JOptionPane.showInputDialog("Escolha a opcao desejada:\n1-Ver os Cursos da UFPB\n2-Fazer teste vocacional\n3-Sair","Sua opcao");
 
@@ -42,7 +43,7 @@ public class TelaUsuario {
         secondmain.readUserInputApp(option, email);
     }
 
-    private void readUserInputApp(String option, String email) {
+    private void readUserInputApp(String option, String email) throws InfraException {
         // Lê a opção do usuário no segundo menu
         int choice = Integer.parseInt(option);
         switch (choice) {
@@ -66,7 +67,7 @@ public class TelaUsuario {
         }
     }
 
-    public void readUserInputLogin(String option) throws LoginInvalidException {
+    public void readUserInputLogin(String option) throws LoginInvalidException, InfraException {
         try {
             userManager = new UserManager();
         } catch (InfraException e) {
@@ -130,7 +131,7 @@ public class TelaUsuario {
         }
     }
 
-    private void loginUser() throws LoginInvalidException{
+    private void loginUser() throws LoginInvalidException, InfraException{
         // Implementa o login do usuário
         boolean loggedIn = false;
 
@@ -158,7 +159,7 @@ public class TelaUsuario {
         }
     }
 
-    public static TelaUsuario getInstance(){
+    public static TelaUsuario getInstance() throws InfraException{
 
         if(instance == null){
             instance = new TelaUsuario();
