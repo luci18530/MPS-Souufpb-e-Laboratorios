@@ -36,7 +36,7 @@ public class TelaUsuario {
 
     public static void showMenuApp(String email) throws InfraException {
         // Mostra o segundo menu para o usuário
-        String option = JOptionPane.showInputDialog("Escolha a opcao desejada:\n1-Ver os Cursos da UFPB\n2-Fazer teste vocacional\n3-Sair","Sua opcao");
+        String option = JOptionPane.showInputDialog("Escolha a opcao desejada:\n1-Ver os Cursos da UFPB\n2-Fazer teste vocacional\n3-Acesso Admin\n4-Sair","Sua opcao");
 
         TelaUsuario secondmain = new TelaUsuario();
 
@@ -56,6 +56,15 @@ public class TelaUsuario {
                 Testes.questionario(email);
                 break;
             case 3:
+                // Acesso à seção Admin
+                if (isAdmin(email)) {
+                    showAdminMenu(email);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Você não tem permissão para acessar a seção Admin.");
+                    showMenuApp(email);
+                }
+                break;
+            case 4:
                 // Implementar a saída
                 System.exit(0);
                 break;
@@ -65,6 +74,50 @@ public class TelaUsuario {
                 showMenuApp(email);
                 break;
         }
+    }
+
+    private void showAdminMenu(String email) throws InfraException {
+        String option = JOptionPane.showInputDialog("Seção Admin\nEscolha a opcao desejada:\n1-Adicionar curso\n2-Visualizar cursos\n3-Remover curso\n4-Adicionar questão\n5-Visualizar questões\n6-Remover questão\n7-Voltar","Sua opcao");
+        int choice = Integer.parseInt(option);
+        switch (choice) {
+            case 1:
+                // Implementar adição de curso
+                // adicionarCurso();
+                break;
+            case 2:
+                // Implementar visualização dos cursos
+                // visualizarCursos();
+                break;
+            case 3:
+                // Implementar remoção de curso
+                // removerCurso();
+                break;
+            case 4:
+                // Implementar adição de questão
+                // adicionarQuestao();
+                break;
+            case 5:
+                // Implementar visualização das questões
+                // visualizarQuestoes();
+                break;
+            case 6:
+                // Implementar remoção de questão
+                // removerQuestao();
+                break;
+            case 7:
+                // Voltar ao menu principal
+                showMenuApp(email);
+                break;
+            default:
+                // Implementar opção inválida
+                JOptionPane.showMessageDialog(null, "Opção inválida!");
+                showAdminMenu(email);
+                break;
+        }
+    }
+
+    private boolean isAdmin(String email) {
+        return email.equals("admin@admin.com");
     }
 
     public void readUserInputLogin(String option) throws LoginInvalidException, InfraException {
@@ -154,6 +207,15 @@ public class TelaUsuario {
                 JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
                 showMenuApp(email);
             } else {
+                // if admin 
+                //     showAdminMenu(email);
+                // else
+
+                if (isAdmin(email)) {
+                    showAdminMenu(email);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Email ou senha incorretos. Por favor, tente novamente.");
+                }
                 JOptionPane.showMessageDialog(null, "Email ou senha incorretos. Por favor, tente novamente.");
             }
         }
