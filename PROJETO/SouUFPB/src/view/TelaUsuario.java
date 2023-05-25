@@ -6,6 +6,8 @@ import util.LoginInvalidException;
 import util.PasswordInvalidException;
 import util.LoginValidator;
 import javax.swing.JOptionPane;
+import business.control.CursoManager;
+import business.control.QuestionarioManager;
 import business.control.UserManager;
 import testes.Testes;
 import cursos.Cursos;
@@ -14,6 +16,8 @@ public class TelaUsuario {
     private UserManager userManager;
     private static TelaUsuario instance = null;
     private LoginValidator loginValidator;
+    private CursoManager cursoManager;
+    private QuestionarioManager questionarioManager;
 
     private TelaUsuario() throws InfraException{
         this.loginValidator = new LoginValidator();
@@ -36,7 +40,7 @@ public class TelaUsuario {
 
     public static void showMenuApp(String email) throws InfraException {
         // Mostra o segundo menu para o usuário
-        String option = JOptionPane.showInputDialog("Escolha a opcao desejada:\n1-Ver os Cursos da UFPB\n2-Fazer teste vocacional\n3-Acesso Admin\n4-Sair","Sua opcao");
+        String option = JOptionPane.showInputDialog("Escolha a opcao desejada:\n1-Ver os Cursos da UFPB\n2-Fazer teste vocacional\n3-Sair","Sua opcao");
 
         TelaUsuario secondmain = new TelaUsuario();
 
@@ -56,15 +60,6 @@ public class TelaUsuario {
                 Testes.questionario(email);
                 break;
             case 3:
-                // Acesso à seção Admin
-                if (isAdmin(email)) {
-                    showAdminMenu(email);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Você não tem permissão para acessar a seção Admin.");
-                    showMenuApp(email);
-                }
-                break;
-            case 4:
                 // Implementar a saída
                 System.exit(0);
                 break;
@@ -76,49 +71,77 @@ public class TelaUsuario {
         }
     }
 
-    private void showAdminMenu(String email) throws InfraException {
-        String option = JOptionPane.showInputDialog("Seção Admin\nEscolha a opcao desejada:\n1-Adicionar curso\n2-Visualizar cursos\n3-Remover curso\n4-Adicionar questão\n5-Visualizar questões\n6-Remover questão\n7-Voltar","Sua opcao");
+    private void showAdminMenu() throws InfraException {
+        try {
+            cursoManager = new CursoManager();
+            questionarioManager = new QuestionarioManager();
+        } catch (InfraException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
+        String option = JOptionPane.showInputDialog("Seção admin. Escolha a opção desejada:\n"
+                + "1- Adicionar Curso\n"
+                + "2- Visualizar Cursos\n"
+                + "3- Remover Curso\n"
+                + "4- Adicionar Pergunta\n"
+                + "5- Visualizar Perguntas\n"
+                + "6- Remover Pergunta\n"
+                + "7- Sair");
+
         int choice = Integer.parseInt(option);
         switch (choice) {
             case 1:
-                // Implementar adição de curso
-                // adicionarCurso();
+                adicionarCurso();
                 break;
             case 2:
-                // Implementar visualização dos cursos
-                // visualizarCursos();
+                visualizarCursos();
                 break;
             case 3:
-                // Implementar remoção de curso
-                // removerCurso();
+                removerCurso();
                 break;
             case 4:
-                // Implementar adição de questão
-                // adicionarQuestao();
+                adicionarPergunta();
                 break;
             case 5:
-                // Implementar visualização das questões
-                // visualizarQuestoes();
+                visualizarPerguntas();
                 break;
             case 6:
-                // Implementar remoção de questão
-                // removerQuestao();
+                removerPergunta();
                 break;
             case 7:
-                // Voltar ao menu principal
-                showMenuApp(email);
+                System.exit(0);
                 break;
             default:
-                // Implementar opção inválida
                 JOptionPane.showMessageDialog(null, "Opção inválida!");
-                showAdminMenu(email);
+                showAdminMenu();
                 break;
         }
     }
 
-    private boolean isAdmin(String email) {
-        return email.equals("admin@admin.com");
+    private void adicionarCurso() {
+        // Implementação para adicionar um curso
     }
+
+    private void visualizarCursos() {
+         // Implementação para visualizar os cursos
+    }
+
+    private void removerCurso() {
+        // Implementação para remover um curso
+    }
+
+    private void adicionarPergunta() {
+        // Implementação para adicionar uma pergunta
+    }
+
+    private void visualizarPerguntas() {
+       // Implementação para visualizar as perguntas
+    }
+
+    private void removerPergunta() {
+        // Implementação para remover uma pergunta
+    }
+    // (…)
 
     public void readUserInputLogin(String option) throws LoginInvalidException, InfraException {
         try {
@@ -187,7 +210,7 @@ public class TelaUsuario {
     private void loginUser() throws LoginInvalidException, InfraException{
         // Implementa o login do usuário
         boolean loggedIn = false;
-
+        
         while (!loggedIn) {
             String email = JOptionPane.showInputDialog("Email do usuario:");
             if (email == null) {
@@ -204,18 +227,15 @@ public class TelaUsuario {
             loggedIn = loginValidator.checkUserLogin(email,password);
 
             if (loggedIn) {
-                JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
-                showMenuApp(email);
-            } else {
-                // if admin 
-                //     showAdminMenu(email);
-                // else
-
-                if (isAdmin(email)) {
-                    showAdminMenu(email);
+                if (email.equals("admin@admin.com") && password.equals("admin012")) {
+                    JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
+                    showAdminMenu();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Email ou senha incorretos. Por favor, tente novamente.");
+                    JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
+                    showMenuApp(email);
                 }
+
+            } else {
                 JOptionPane.showMessageDialog(null, "Email ou senha incorretos. Por favor, tente novamente.");
             }
         }

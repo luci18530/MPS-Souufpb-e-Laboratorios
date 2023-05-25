@@ -35,7 +35,7 @@ public class QuestionarioFile {
 
     public void salvarQuestionarios(Map<String, Questionario> questionarios){
 
-        File file = new File("Questionarios.txt");
+        File file = new File("Questionarios.bin");
         try {
             ObjectOutputStream saida = new ObjectOutputStream(new FileOutputStream(file));
             saida.writeObject(questionarios);
@@ -50,7 +50,7 @@ public class QuestionarioFile {
         public Map<String,Questionario> carregarQuestionarios() throws InfraException {
             
             Map<String, Questionario> questionarios = new HashMap<String,Questionario>();
-            File file = new File("questionario.bin");
+            File file = new File("Questionarios.bin");
             ObjectInputStream objetoEntrada = null;
             InputStream entrada = null;
     
@@ -74,9 +74,12 @@ public class QuestionarioFile {
                 throw new InfraException("Erro na formatação do arquivo. Contate o administrador ou tente mais tarde.");
             }
             finally{
-                try{
-                    objetoEntrada.close();
-                    entrada.close();
+                try {
+                    // Feche o ObjectInputStream e FileInputStream apenas se eles não forem nulos
+                    if (objetoEntrada != null && entrada != null) {
+                        objetoEntrada.close();
+                        entrada.close();
+                    }
                 } catch(IOException ex){
                     logger.config(ex.getMessage());
                     throw new InfraException("Erro de entrada. Contate o administrador ou tente novamente mais tarde");

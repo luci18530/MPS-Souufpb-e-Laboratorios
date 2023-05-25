@@ -50,7 +50,7 @@ public class CursoFile {
 
     public void salvarCursos(Map<String, Curso> cursos){
 
-        File file = new File("Cursos.txt");
+        File file = new File("Cursos.bin");
         try {
             // Criação do ObjectOutputStream para escrever os objetos no arquivo
             ObjectOutputStream saida = new ObjectOutputStream(new FileOutputStream(file));
@@ -70,7 +70,7 @@ public class CursoFile {
     public Map<String,Curso> carregarCursos() throws InfraException {
         
         Map<String, Curso> cursos = new HashMap<String,Curso>();
-        File file = new File("curso.bin");
+        File file = new File("Cursos.bin");
         ObjectInputStream objetoEntrada = null;
         InputStream entrada = null;
 
@@ -100,14 +100,15 @@ public class CursoFile {
             logger.config(ex.getMessage());
             throw new InfraException("Erro na formatação do arquivo. Contate o administrador ou tente mais tarde.");
         }
-        finally{
-
-            try{
-                // Tentativa de fechar o ObjectInputStream e FileInputStream   
-                objetoEntrada.close();
-                entrada.close();
-
-            } catch(IOException ex){
+        finally {
+            try {
+                if (objetoEntrada != null) {
+                    objetoEntrada.close();
+                }
+                if (entrada != null) {
+                    entrada.close();
+                }
+            } catch (IOException ex) {
                 logger.config(ex.getMessage());
                 throw new InfraException("Erro de entrada. Contate o administrador ou tente novamente mais tarde");
             } catch(Exception ex){
@@ -115,6 +116,7 @@ public class CursoFile {
                 throw new InfraException("Erro Crítico do Sistema. Contate o administrador imediatamente.");
             }
         }
+        
     }
 
     // Método para retornar o Logger
