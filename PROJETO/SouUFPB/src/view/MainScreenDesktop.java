@@ -34,7 +34,7 @@ public class MainScreenDesktop {
 	
 	public void readUserInput(String option) {
 		try {
-			userManager = new UserManager();
+			userManager = new UserManager(null);
 		} catch (InfraException e) {
 			String option2 = JOptionPane.showInputDialog(e.getMessage());
 		}

@@ -73,8 +73,8 @@ public class TelaUsuario {
 
     private void showAdminMenu() throws InfraException {
         try {
-            cursoManager = new CursoManager();
-            questionarioManager = new QuestionarioManager();
+            cursoManager = new CursoManager(null);
+            questionarioManager = new QuestionarioManager(null);
         } catch (InfraException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -145,7 +145,7 @@ public class TelaUsuario {
 
     public void readUserInputLogin(String option) throws LoginInvalidException, InfraException {
         try {
-            userManager = new UserManager();
+            userManager = new UserManager(null);
         } catch (InfraException e) {
             String option2 = JOptionPane.showInputDialog(e.getMessage());
         }

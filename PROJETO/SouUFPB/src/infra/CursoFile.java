@@ -17,8 +17,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import business.model.Curso;
+import business.model.Questionario;
+import business.model.User;
+import factory.CustomFile;
 
-public class CursoFile {
+public class CursoFile implements CustomFile{
     // Criação de um Logger estático para a classe
     private static Logger logger = Logger.getLogger(CursoFile.class.getName());
     
@@ -122,5 +125,29 @@ public class CursoFile {
     // Método para retornar o Logger
     public Logger getLogger(){
         return logger;
+    }
+
+    @Override
+    public Map<String, User> loadUsers() throws InfraException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'loadUsers'");
+    }
+
+    @Override
+    public void saveUsers(Map<String, User> users) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'saveUsers'");
+    }
+
+    @Override
+    public Map<String, Questionario> carregarQuestionarios() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'carregarQuestionarios'");
+    }
+
+    @Override
+    public void salvarQuestionarios(Map<String, Questionario> questionarios) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'salvarQuestionarios'");
     }
 }

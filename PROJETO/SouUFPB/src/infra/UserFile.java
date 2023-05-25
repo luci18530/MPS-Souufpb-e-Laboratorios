@@ -15,11 +15,13 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import business.model.Curso;
+import business.model.Questionario;
 import business.model.User;
+import factory.CustomFile;
 
 
-public class UserFile {
+public class UserFile implements CustomFile {
 	
 	private static Logger logger = Logger.getLogger(UserFile.class.getName());
 
@@ -104,5 +106,25 @@ public class UserFile {
 
     public Logger getLogger(){
         return logger;
+    }
+    @Override
+    public Map<String, Curso> carregarCursos() throws InfraException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'carregarCursos'");
+    }
+    @Override
+    public void salvarCursos(Map<String, Curso> cursos) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'salvarCursos'");
+    }
+    @Override
+    public Map<String, Questionario> carregarQuestionarios() throws InfraException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'carregarQuestionarios'");
+    }
+    @Override
+    public void salvarQuestionarios(Map<String, Questionario> questionarios) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'salvarQuestionarios'");
     }
 }

@@ -11,7 +11,7 @@ public class LoginValidator {
     private UserManager userManager;
 
     public LoginValidator() throws InfraException{
-        this.userManager = new UserManager();
+        this.userManager = new UserManager(null);
     }
     
     public boolean checkUserLogin(String email, String password) throws LoginInvalidException {

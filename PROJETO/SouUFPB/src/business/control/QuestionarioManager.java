@@ -3,15 +3,18 @@ package business.control;
 import infra.InfraException;
 import infra.QuestionarioFile;
 import business.model.Questionario;
+import factory.CustomFile;
+import factory.FileFactory;
+
 import java.util.Map;
 import java.util.logging.Logger;
 
 public class QuestionarioManager {
     private Map<String, Questionario> questionarios;
-    private QuestionarioFile questionarioFile;
+    private CustomFile questionarioFile;
 
-    public QuestionarioManager() throws InfraException{
-        questionarioFile = new QuestionarioFile();
+    public QuestionarioManager(FileFactory factory) throws InfraException{
+        questionarioFile = factory.create();
         questionarios = questionarioFile.carregarQuestionarios();
     }
 

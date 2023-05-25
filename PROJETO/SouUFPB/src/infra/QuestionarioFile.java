@@ -9,11 +9,14 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import business.model.Curso;
 import business.model.Questionario;
+import business.model.User;
+import factory.CustomFile;
 
-public class QuestionarioFile {
+public class QuestionarioFile implements CustomFile {
     private static Logger logger = Logger.getLogger(QuestionarioFile.class.getName());
-    
+    private File File;
     public QuestionarioFile(){
 
         try {
@@ -92,6 +95,30 @@ public class QuestionarioFile {
     
         public Logger getLogger(){
             return logger;
+        }
+
+        @Override
+        public Map<String, User> loadUsers() {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'loadUsers'");
+        }
+
+        @Override
+        public void saveUsers(Map<String, User> users) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'saveUsers'");
+        }
+
+        @Override
+        public Map<String, Curso> carregarCursos() throws InfraException {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'carregarCursos'");
+        }
+
+        @Override
+        public void salvarCursos(Map<String, Curso> cursos) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'salvarCursos'");
         }
     }
     

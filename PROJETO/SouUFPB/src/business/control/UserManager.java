@@ -1,29 +1,26 @@
 package business.control;
 
 import infra.InfraException;
-import infra.UserFile;
 import util.EmailInvalidException;
 import util.LoginInvalidException;
 import util.PasswordInvalidException;
 import util.UserValidador;
 import java.util.Map;
 import java.util.logging.Logger;
-
 import business.model.User;
+import factory.CustomFile;
+import factory.FileFactory;
 
 
 public class UserManager {
 	
 	private Map<String, User> users;
-	private UserFile userFile;
+    private CustomFile userFile;
 	
-	public UserManager() throws InfraException {		
-		
-		userFile = new UserFile();
-		users = userFile.loadUsers();
-		 
-
-	}
+	public UserManager(FileFactory factory) throws InfraException {
+        userFile = factory.create();
+        users = userFile.loadUsers();
+    }
 	
 	public void addUser(String [] args) throws LoginInvalidException, EmailInvalidException, PasswordInvalidException  {
 		
