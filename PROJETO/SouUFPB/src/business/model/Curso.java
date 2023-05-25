@@ -1,12 +1,14 @@
 package business.model;
-
+import infra.Timestamp;
 
 // Definindo a classe Curso
 public class Curso {
     // Definindo os atributos privados da classe
+    private Timestamp time;
     private String nome;
     private String cidade;
     private String centro;
+    private String timestamp;
 
     // Construtor da classe Curso
     public Curso(String nome, String cidade, String centro){
@@ -14,6 +16,7 @@ public class Curso {
         this.nome = nome;
         this.cidade = cidade;
         this.centro = centro;
+        this.timestamp = time.getTime();
     }
 
     // Métodos getter e setter para cada um dos atributos
@@ -39,6 +42,14 @@ public class Curso {
 
     public String getCentro() {
         return centro;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
     // Sobrescrevendo o método toString para retornar uma representação do objeto em String

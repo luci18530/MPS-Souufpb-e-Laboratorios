@@ -3,7 +3,7 @@
 package business.model;
 
 import java.io.Serializable;
-
+import infra.Timestamp;
 
 public class User implements Serializable {
     /**
@@ -15,12 +15,16 @@ public class User implements Serializable {
 	private String login;
     private String email;
     private String senha;
+    private String timestamp;
+    private Timestamp time;
     
     public User(String login, String email, String senha) {
         super();
         this.login = login;
         this.email = email;
         this.senha = senha;
+        this.timestamp = time.getTime();
+
 	}
 
     public String getLogin() {
@@ -48,9 +52,15 @@ public class User implements Serializable {
     }
      
     public String toString(){
-        return login +"\n"+senha;
+        return login +"\n"+ senha;
     }
 
-	
+	public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = time.getTime();
+    }
     
 }

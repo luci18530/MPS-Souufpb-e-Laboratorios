@@ -7,7 +7,6 @@ import util.LoginInvalidException;
 import util.PasswordInvalidException;
 import util.UserValidador;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import business.model.User;
@@ -58,8 +57,6 @@ public class UserManager {
 	        logger.severe(ex.getMessage());
 	        throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
 	           
-	        }
+	    }
 	}
-	
-
 }
