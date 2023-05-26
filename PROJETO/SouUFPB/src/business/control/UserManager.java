@@ -22,7 +22,6 @@ public class UserManager {
 		userFile = new UserFile();
 		users = userFile.loadUsers();
 		 
-
 	}
 	
 	public void addUser(String [] args) throws LoginInvalidException, EmailInvalidException, PasswordInvalidException  {

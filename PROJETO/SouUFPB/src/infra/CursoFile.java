@@ -50,7 +50,7 @@ public class CursoFile {
 
     public void salvarCursos(Map<String, Curso> cursos){
 
-        File file = new File("Cursos.bin");
+        File file = new File("MPS-Souufpb-e-Laboratorios/PROJETO/SouUFPB/Cursos.bin");
         try {
             // Criação do ObjectOutputStream para escrever os objetos no arquivo
             ObjectOutputStream saida = new ObjectOutputStream(new FileOutputStream(file));
@@ -70,7 +70,7 @@ public class CursoFile {
     public Map<String,Curso> carregarCursos() throws InfraException {
         
         Map<String, Curso> cursos = new HashMap<String,Curso>();
-        File file = new File("Cursos.bin");
+        File file = new File("MPS-Souufpb-e-Laboratorios/PROJETO/SouUFPB/Cursos.bin");
         ObjectInputStream objetoEntrada = null;
         InputStream entrada = null;
 

@@ -2,8 +2,9 @@ package infra;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.io.Serializable;
 
-public class TimestampAdapter implements Timestamp {
+public class TimestampAdapter implements Timestamp, Serializable {
 
     private LocalDateTime localDateTime;
 

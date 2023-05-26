@@ -44,7 +44,7 @@ public class UserFile {
         }
 	}
     public void saveUsers(Map<String,User> users){
-        File file = new File("user.bin");
+        File file = new File("MPS-Souufpb-e-Laboratorios/PROJETO/SouUFPB/user.bin");
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
             out.writeObject(users);
@@ -57,9 +57,10 @@ public class UserFile {
     }   
     public Map<String, User> loadUsers() throws InfraException{
     	Map<String, User> users = new HashMap<String,User>();
-    	File file = new File("user.bin");
+    	File file = new File("MPS-Souufpb-e-Laboratorios/PROJETO/SouUFPB/user.bin");
         ObjectInputStream objInput = null;
         InputStream in = null;
+
         if(!file.exists()){
         		saveUsers(users);
         }

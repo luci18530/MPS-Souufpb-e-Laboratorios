@@ -1,10 +1,11 @@
 package business.model;
 import infra.Timestamp;
+import infra.TimestampAdapter;
 
 // Definindo a classe Curso
 public class Curso {
     // Definindo os atributos privados da classe
-    private Timestamp time;
+    private transient Timestamp time;
     private String nome;
     private String cidade;
     private String centro;
@@ -16,7 +17,9 @@ public class Curso {
         this.nome = nome;
         this.cidade = cidade;
         this.centro = centro;
+        this.time = new TimestampAdapter();
         this.timestamp = time.getTime();
+        
     }
 
     // Métodos getter e setter para cada um dos atributos

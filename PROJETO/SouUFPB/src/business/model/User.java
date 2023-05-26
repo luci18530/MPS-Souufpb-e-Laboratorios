@@ -4,6 +4,7 @@ package business.model;
 
 import java.io.Serializable;
 import infra.Timestamp;
+import infra.TimestampAdapter;
 
 public class User implements Serializable {
     /**
@@ -12,19 +13,19 @@ public class User implements Serializable {
 	private static final long serialVersionUID = -3409171233621036055L;
 	
 	
+    private Timestamp time;
 	private String login;
     private String email;
     private String senha;
     private String timestamp;
-    private Timestamp time;
-    
+
     public User(String login, String email, String senha) {
         super();
         this.login = login;
         this.email = email;
         this.senha = senha;
+        this.time = new TimestampAdapter();
         this.timestamp = time.getTime();
-
 	}
 
     public String getLogin() {
