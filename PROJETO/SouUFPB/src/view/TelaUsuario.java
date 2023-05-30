@@ -1,14 +1,9 @@
 package view;
 
 import infra.InfraException;
-import util.EmailInvalidException;
-import util.LoginInvalidException;
-import util.PasswordInvalidException;
-import util.LoginValidator;
+import util.*;
 import javax.swing.JOptionPane;
-import business.control.CursoManager;
-import business.control.QuestionarioManager;
-import business.control.UserManager;
+import business.control.*;
 import testes.Testes;
 import cursos.Cursos;
 
@@ -18,6 +13,11 @@ public class TelaUsuario {
     private LoginValidator loginValidator;
     private CursoManager cursoManager;
     private QuestionarioManager questionarioManager;
+
+    private static final String MENU_LOGIN_OPTIONS = "Olá usuário, bem vindo ao SouUFPB\nEscolha a opcao desejada:\n1-Se cadastrar\n2-Logar\n3-Sair";
+    private static final String MENU_APP_OPTIONS = "Escolha a opcao desejada:\n1-Ver os Cursos da UFPB\n2-Fazer teste vocacional\n3-Sair";
+    private static final String ADMIN_EMAIL = "admin@admin.com";
+    private static final String ADMIN_PASSWORD = "admin012";
 
     private TelaUsuario() throws InfraException{
         this.loginValidator = new LoginValidator();
@@ -29,22 +29,14 @@ public class TelaUsuario {
     }
 
     public static void showMenuLogin() throws LoginInvalidException, InfraException {
-        // Mostra o menu inicial para o usuário
-
         TelaUsuario main = getInstance();
-
-        String option = JOptionPane.showInputDialog("Olá usuário, bem vindo ao SouUFPB\nEscolha a opcao desejada:\n1-Se cadastrar\n2-Logar\n3-Sair","Sua opcao");     
-
+        String option = getUserInput(MENU_LOGIN_OPTIONS);
         main.readUserInputLogin(option);
     }
 
     public static void showMenuApp(String email) throws InfraException {
-        // Mostra o segundo menu para o usuário
-        String option = JOptionPane.showInputDialog("Escolha a opcao desejada:\n1-Ver os Cursos da UFPB\n2-Fazer teste vocacional\n3-Sair","Sua opcao");
-
-        TelaUsuario secondmain = new TelaUsuario();
-
-        secondmain.readUserInputApp(option, email);
+        String option = getUserInput(MENU_APP_OPTIONS);
+        TelaUsuario.getInstance().readUserInputApp(option, email);
     }
 
     private void readUserInputApp(String option, String email) throws InfraException {
@@ -208,37 +200,35 @@ public class TelaUsuario {
     }
 
     private void loginUser() throws LoginInvalidException, InfraException{
-        // Implementa o login do usuário
-        boolean loggedIn = false;
-        
-        while (!loggedIn) {
-            String email = JOptionPane.showInputDialog("Email do usuario:");
-            if (email == null) {
-                showMenuLogin();
-                return;
-            }
+        while (true) {
+            String email = getUserInput("Email do usuario:");
+            String password = getUserInput("Senha do usuario:");
 
-            String password = JOptionPane.showInputDialog("Senha do usuario:");
-            if (password == null) {
-                showMenuLogin();
-                return;
-            }
-
-            loggedIn = loginValidator.checkUserLogin(email,password);
-
-            if (loggedIn) {
-                if (email.equals("admin@admin.com") && password.equals("admin012")) {
-                    JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
-                    showAdminMenu();
+            if (loginValidator.checkUserLogin(email,password)) {
+                showMessage("Login bem-sucedido!");
+                if (isAdmin(email, password)) {
+                    //AdminMenu.show();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
                     showMenuApp(email);
                 }
-
+                break;
             } else {
-                JOptionPane.showMessageDialog(null, "Email ou senha incorretos. Por favor, tente novamente.");
+                showMessage("Email ou senha incorretos. Por favor, tente novamente.");
             }
         }
+    }
+
+
+    private boolean isAdmin(String email, String password) {
+        return ADMIN_EMAIL.equals(email) && ADMIN_PASSWORD.equals(password);
+    }
+
+    private static void showMessage(String message) {
+        JOptionPane.showMessageDialog(null, message);
+    }
+
+    private static String getUserInput(String message) {
+        return JOptionPane.showInputDialog(null, message, "Sua opcao");
     }
 
     public static TelaUsuario getInstance() throws InfraException{
