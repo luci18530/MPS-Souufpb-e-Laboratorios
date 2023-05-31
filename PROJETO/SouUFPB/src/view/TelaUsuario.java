@@ -6,6 +6,8 @@ import javax.swing.JOptionPane;
 import business.control.*;
 import testes.Testes;
 import cursos.Cursos;
+import factory.UserFactory;
+import factory.UserFactoryImpl;
 
 public class TelaUsuario {
     private UserManager userManager;
@@ -66,7 +68,8 @@ public class TelaUsuario {
 
     public void readUserInputLogin(String option) throws LoginInvalidException, InfraException {
         try {
-            userManager = new UserManager();
+            UserFactory userFactory = new UserFactoryImpl();
+            userManager = new UserManager(userFactory);
         } catch (InfraException e) {
             String option2 = JOptionPane.showInputDialog(e.getMessage());
         }

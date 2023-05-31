@@ -9,6 +9,8 @@ import java.util.Iterator;
 import javax.swing.JOptionPane;
 import business.control.UserManager;
 import business.model.User;
+import factory.UserFactory;
+import factory.UserFactoryImpl;
 
 public class MainScreenDesktop {
 	
@@ -34,7 +36,8 @@ public class MainScreenDesktop {
 	
 	public void readUserInput(String option) {
 		try {
-			userManager = new UserManager();
+			UserFactory userFactory = new UserFactoryImpl();
+			userManager = new UserManager(userFactory);
 		} catch (InfraException e) {
 			String option2 = JOptionPane.showInputDialog(e.getMessage());
 		}

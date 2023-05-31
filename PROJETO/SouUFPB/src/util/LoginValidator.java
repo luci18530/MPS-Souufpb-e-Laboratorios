@@ -2,6 +2,8 @@ package util;
 
 import java.util.Iterator;
 import business.model.User;
+import factory.UserFactory;
+import factory.UserFactoryImpl;
 import business.control.UserManager;
 import infra.InfraException;
 
@@ -11,7 +13,8 @@ public class LoginValidator {
     private UserManager userManager;
 
     public LoginValidator() throws InfraException{
-        this.userManager = new UserManager();
+        UserFactory userFactory = new UserFactoryImpl();
+        userManager = new UserManager(userFactory);
     }
     
     public boolean checkUserLogin(String email, String password) throws LoginInvalidException {

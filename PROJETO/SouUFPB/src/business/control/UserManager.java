@@ -10,29 +10,29 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import business.model.User;
+import factory.UserFactory;
 
 
 public class UserManager {
 	
 	private Map<String, User> users;
 	private UserFile userFile;
-	
-	public UserManager() throws InfraException {		
-		
+    private UserFactory userFactory;
+
+	public UserManager(UserFactory userFactory) throws InfraException {
+        this.userFactory = userFactory;
 		userFile = new UserFile();
 		users = userFile.loadUsers();
-		 
 	}
-	
+
 	public void addUser(String [] args) throws LoginInvalidException, EmailInvalidException, PasswordInvalidException  {
-		
 		UserValidador.validateName(args[0]);
 		UserValidador.validateEmail(args[1]);
 		UserValidador.validatePassword(args[2]);
 		
-		users.put(args[0], new User(args[0], args[1], args[2]));
+		User user = userFactory.createUser(args[0], args[1], args[2]);
+		users.put(args[0], user);
 		userFile.saveUsers(users);
-		
 	}
 
 	public void removeUser(String name) throws InfraException {
