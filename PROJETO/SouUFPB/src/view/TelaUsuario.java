@@ -63,77 +63,6 @@ public class TelaUsuario {
         }
     }
 
-    private void showAdminMenu() throws InfraException {
-        try {
-            cursoManager = new CursoManager();
-            questionarioManager = new QuestionarioManager();
-        } catch (InfraException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-
-        String option = JOptionPane.showInputDialog("Seção admin. Escolha a opção desejada:\n"
-                + "1- Adicionar Curso\n"
-                + "2- Visualizar Cursos\n"
-                + "3- Remover Curso\n"
-                + "4- Adicionar Pergunta\n"
-                + "5- Visualizar Perguntas\n"
-                + "6- Remover Pergunta\n"
-                + "7- Sair");
-
-        int choice = Integer.parseInt(option);
-        switch (choice) {
-            case 1:
-                adicionarCurso();
-                break;
-            case 2:
-                visualizarCursos();
-                break;
-            case 3:
-                removerCurso();
-                break;
-            case 4:
-                adicionarPergunta();
-                break;
-            case 5:
-                visualizarPerguntas();
-                break;
-            case 6:
-                removerPergunta();
-                break;
-            case 7:
-                System.exit(0);
-                break;
-            default:
-                JOptionPane.showMessageDialog(null, "Opção inválida!");
-                showAdminMenu();
-                break;
-        }
-    }
-
-    private void adicionarCurso() {
-        // Implementação para adicionar um curso
-    }
-
-    private void visualizarCursos() {
-         // Implementação para visualizar os cursos
-    }
-
-    private void removerCurso() {
-        // Implementação para remover um curso
-    }
-
-    private void adicionarPergunta() {
-        // Implementação para adicionar uma pergunta
-    }
-
-    private void visualizarPerguntas() {
-       // Implementação para visualizar as perguntas
-    }
-
-    private void removerPergunta() {
-        // Implementação para remover uma pergunta
-    }
-    // (…)
 
     public void readUserInputLogin(String option) throws LoginInvalidException, InfraException {
         try {
@@ -228,7 +157,7 @@ public class TelaUsuario {
     }
 
     private static String getUserInput(String message) {
-        return JOptionPane.showInputDialog(null, message, "Sua opcao");
+        return JOptionPane.showInputDialog(null, message, "Digite aqui");
     }
 
     public static TelaUsuario getInstance() throws InfraException{
