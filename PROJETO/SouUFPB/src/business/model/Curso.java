@@ -1,9 +1,10 @@
 package business.model;
+import java.io.Serializable;
 import infra.Timestamp;
 import infra.TimestampAdapter;
 
 // Definindo a classe Curso
-public class Curso {
+public class Curso implements Serializable {
     // Definindo os atributos privados da classe
     private transient Timestamp time;
     private String nome;

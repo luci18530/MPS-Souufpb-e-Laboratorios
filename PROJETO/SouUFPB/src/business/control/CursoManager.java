@@ -4,6 +4,8 @@ package business.control;
 import infra.InfraException;
 import infra.CursoFile;
 import business.model.Curso;
+import factory.CursoFactory;
+
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -12,10 +14,12 @@ public class CursoManager {
     // Inicializando um Map para armazenar os cursos e uma instância da classe CursoFile
     private Map<String, Curso> cursos;
     private CursoFile cursoFile;
+    private CursoFactory cursoFactory;
 
     // Construtor da classe que lança uma exceção do tipo InfraException
-    public CursoManager() throws InfraException{
+    public CursoManager(CursoFactory cursoFactory) throws InfraException{
         // Instanciando um novo CursoFile e carregando os cursos do arquivo
+        this.cursoFactory = cursoFactory;
         cursoFile = new CursoFile();
         cursos = cursoFile.carregarCursos();
     }
@@ -23,7 +27,8 @@ public class CursoManager {
     // Método para adicionar um curso
     public void adicionarCurso(String[] args){
         // Adicionando um novo Curso no Map 'cursos' e salvando no arquivo
-        cursos.put(args[0], new Curso(args[0], args[1], args[2]));
+        Curso curso = cursoFactory.createCurso(args[0], args[1], args[2]);
+        cursos.put(args[0], curso);
         cursoFile.salvarCursos(cursos);
     }
 

@@ -35,7 +35,7 @@ public class QuestionarioFile {
 
     public void salvarQuestionarios(Map<String, Questionario> questionarios){
 
-        File file = new File("PROJETO/SouUFPB/src/database/Questionarios.bin");
+        File file = new File("SouUFPB/src/database/questionarios.bin");
         try {
             ObjectOutputStream saida = new ObjectOutputStream(new FileOutputStream(file));
             saida.writeObject(questionarios);
@@ -50,7 +50,7 @@ public class QuestionarioFile {
         public Map<String,Questionario> carregarQuestionarios() throws InfraException {
             
             Map<String, Questionario> questionarios = new HashMap<String,Questionario>();
-            File file = new File("PROJETO/SouUFPB/src/database/Questionarios.bin");
+            File file = new File("SouUFPB/src/database/questionarios.bin");
             ObjectInputStream objetoEntrada = null;
             InputStream entrada = null;
     

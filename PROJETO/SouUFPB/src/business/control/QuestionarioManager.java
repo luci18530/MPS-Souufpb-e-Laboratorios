@@ -3,20 +3,28 @@ package business.control;
 import infra.InfraException;
 import infra.QuestionarioFile;
 import business.model.Questionario;
+import factory.QuestionarioFactory;
+
 import java.util.Map;
 import java.util.logging.Logger;
 
 public class QuestionarioManager {
     private Map<String, Questionario> questionarios;
     private QuestionarioFile questionarioFile;
+    private QuestionarioFactory questionarioFactory;
 
-    public QuestionarioManager() throws InfraException{
+    public QuestionarioManager(QuestionarioFactory questionarioFactory) throws InfraException{
+        this.questionarioFactory = questionarioFactory;
         questionarioFile = new QuestionarioFile();
         questionarios = questionarioFile.carregarQuestionarios();
     }
 
     public void adicionarQuestionario(String pergunta, String area){
-        questionarios.put(pergunta, new Questionario(pergunta, area));
+        if(questionarios.containsKey(pergunta)){
+            throw new IllegalArgumentException("Pergunta já cadastrada. Tente novamente.");
+        }
+        Questionario questionario = questionarioFactory.createQuestionario(pergunta, area);
+        questionarios.put(pergunta, questionario);
         questionarioFile.salvarQuestionarios(questionarios);
     }
 

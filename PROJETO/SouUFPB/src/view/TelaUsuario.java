@@ -139,7 +139,7 @@ public class TelaUsuario {
             if (loginValidator.checkUserLogin(email,password)) {
                 showMessage("Login bem-sucedido!");
                 if (isAdmin(email, password)) {
-                    //AdminMenu.show();
+                    AdminMenu.show();
                 } else {
                     showMenuApp(email);
                 }
