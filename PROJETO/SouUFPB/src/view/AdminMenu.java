@@ -79,16 +79,16 @@ public class AdminMenu {
     private static void visualizarCursos() {
         try {
             Map<String, Curso> cursos = cursoManager.getCursos();
-            StringBuilder sb = new StringBuilder();
+            String listaDeCursos = "";
             for (Curso curso : cursos.values()) {
-                sb.append(curso.toString());
-                sb.append("\n---\n");
+                listaDeCursos = listaDeCursos + "[ Nome: " + curso.getNome() + " | Cidade: " + curso.getCidade() + " | Centro: " + curso.getCentro() + " ]" + "\n";
             }
-            JOptionPane.showMessageDialog(null, sb.toString());
+            JOptionPane.showMessageDialog(null, listaDeCursos);
         } catch (InfraException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
+    
     
     private static void removerCurso() {
         String nome = JOptionPane.showInputDialog("Digite o nome do curso que deseja remover:");

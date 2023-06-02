@@ -2,10 +2,18 @@ package view;
 
 import infra.InfraException;
 import util.*;
+
+import java.util.Map;
+
 import javax.swing.JOptionPane;
 import business.control.*;
+import business.model.Curso;
 import testes.Testes;
 import cursos.Cursos;
+import factory.CursoFactory;
+import factory.CursoFactoryImpl;
+import factory.QuestionarioFactory;
+import factory.QuestionarioFactoryImpl;
 import factory.UserFactory;
 import factory.UserFactoryImpl;
 
@@ -13,8 +21,9 @@ public class TelaUsuario {
     private UserManager userManager;
     private static TelaUsuario instance = null;
     private LoginValidator loginValidator;
-    private CursoManager cursoManager;
-    private QuestionarioManager questionarioManager;
+    private static CursoManager cursoManager;
+    private static QuestionarioManager questionarioManager;
+    
 
     private static final String MENU_LOGIN_OPTIONS = "Olá usuário, bem vindo ao SouUFPB\nEscolha a opcao desejada:\n1-Se cadastrar\n2-Logar\n3-Sair";
     private static final String MENU_APP_OPTIONS = "Escolha a opcao desejada:\n1-Ver os Cursos da UFPB\n2-Fazer teste vocacional\n3-Sair";
@@ -47,7 +56,7 @@ public class TelaUsuario {
         switch (choice) {
             case 1:
                 // Implementar visualização dos cursos da UFPB
-                Cursos.entraremcursos();
+                visualizarCursos();
                 break;
             case 2:
                 // Conecta com o teste vocacional
@@ -70,6 +79,10 @@ public class TelaUsuario {
         try {
             UserFactory userFactory = new UserFactoryImpl();
             userManager = new UserManager(userFactory);
+            CursoFactory cursoFactory = new CursoFactoryImpl();
+            cursoManager = new CursoManager(cursoFactory);
+            QuestionarioFactory questionarioFactory = new QuestionarioFactoryImpl();
+            questionarioManager = new QuestionarioManager(questionarioFactory);
         } catch (InfraException e) {
             String option2 = JOptionPane.showInputDialog(e.getMessage());
         }
@@ -170,6 +183,20 @@ public class TelaUsuario {
         }
         
         return instance;
+    }
+
+
+    private static void visualizarCursos() {
+        try {
+            Map<String, Curso> cursos = cursoManager.getCursos();
+            String listaDeCursos = "";
+            for (Curso curso : cursos.values()) {
+                listaDeCursos = listaDeCursos + "[ Nome: " + curso.getNome() + " | Cidade: " + curso.getCidade() + " | Centro: " + curso.getCentro() + " ]" + "\n";
+            }
+            JOptionPane.showMessageDialog(null, listaDeCursos);
+        } catch (InfraException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
 
 }
