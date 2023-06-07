@@ -147,11 +147,16 @@ public class TelaUsuario {
         while (true) {
             String email = getUserInput("Email do usuario:");
             String password = getUserInput("Senha do usuario:");
-
+    
             if (loginValidator.checkUserLogin(email,password)) {
                 showMessage("Login bem-sucedido!");
                 if (isAdmin(email, password)) {
-                    AdminMenu.show();
+                    try {
+                        AdminMenu adminMenu = new AdminMenu();
+                        adminMenu.showMenu();
+                    } catch (InfraException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
                 } else {
                     showMenuApp(email);
                 }
@@ -161,7 +166,7 @@ public class TelaUsuario {
             }
         }
     }
-
+    
 
     private boolean isAdmin(String email, String password) {
         return ADMIN_EMAIL.equals(email) && ADMIN_PASSWORD.equals(password);
@@ -190,7 +195,7 @@ public class TelaUsuario {
             Map<String, Curso> cursos = cursoManager.getCursos();
             String listaDeCursos = "";
             for (Curso curso : cursos.values()) {
-                listaDeCursos = listaDeCursos + "[ Nome: " + curso.getNome() + " | Cidade: " + curso.getCidade() + " | Centro: " + curso.getCentro() + " | Área: " + curso.getArea() + " ]" + "\n";
+                listaDeCursos = listaDeCursos + "[ Nome: " + curso.getNome() + " | Cidade: " + curso.getCidade() + " | Centro: " + curso.getCentro() + " ]" + "\n";
             }
             JOptionPane.showMessageDialog(null, listaDeCursos);
         } catch (InfraException e) {

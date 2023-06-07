@@ -1,8 +1,7 @@
 package view;
 
-import java.util.Map;
-
 import javax.swing.JOptionPane;
+
 import business.control.CursoManager;
 import business.control.QuestionarioManager;
 import business.model.Curso;
@@ -13,21 +12,25 @@ import factory.QuestionarioFactory;
 import factory.QuestionarioFactoryImpl;
 import infra.InfraException;
 
+import java.util.Map;
+
 public class AdminMenu {
-    private static CursoManager cursoManager;
-    private static QuestionarioManager questionarioManager;
-    public static void show() throws InfraException{
+    
+    private CursoManager cursoManager;
+    private QuestionarioManager questionarioManager;
+
+    public AdminMenu() throws InfraException {
         try {
             CursoFactory cursoFactory = new CursoFactoryImpl();
-            cursoManager = new CursoManager(cursoFactory);
+            this.cursoManager = new CursoManager(cursoFactory);
             QuestionarioFactory questionarioFactory = new QuestionarioFactoryImpl();
-            questionarioManager = new QuestionarioManager(questionarioFactory);
-
+            this.questionarioManager = new QuestionarioManager(questionarioFactory);
         } catch (InfraException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
         }
+    }
 
+    public void showMenu() throws InfraException {
         String option = JOptionPane.showInputDialog("Seção admin. Escolha a opção desejada:\n"
                 + "1- Adicionar Curso\n"
                 + "2- Visualizar Cursos\n"
@@ -40,62 +43,60 @@ public class AdminMenu {
         int choice = Integer.parseInt(option);
         switch (choice) {
             case 1:
-                adicionarCurso();
+                addCurso();
                 break;
             case 2:
-                visualizarCursos();
+                showCursos();
                 break;
             case 3:
-                removerCurso();
+                removeCurso();
                 break;
             case 4:
-                adicionarPergunta();
+                addQuestionario();
                 break;
             case 5:
-                visualizarPerguntas();
+                showQuestionarios();
                 break;
             case 6:
-                removerPergunta();
+                removeQuestionario();
                 break;
             case 7:
                 System.exit(0);
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "Opção inválida!");
-                show();
+                showMenu();
                 break;
         }
     }
 
-    private static void adicionarCurso() throws InfraException {
+    private void addCurso() throws InfraException {
         String nome = JOptionPane.showInputDialog("Digite o nome do curso:");
         String cidade = JOptionPane.showInputDialog("Digite a cidade do curso:");
         String centro = JOptionPane.showInputDialog("Digite o centro do curso:");
         String area = JOptionPane.showInputDialog("Digite a área do curso:");
-    
+
         String[] cursoArgs = {nome, cidade, centro, area};
         cursoManager.adicionarCurso(cursoArgs);
         JOptionPane.showMessageDialog(null, "Curso adicionado com sucesso!");
-        show();
+        showMenu();
     }
-    
-    private static void visualizarCursos() throws InfraException {
+
+    private void showCursos() throws InfraException {
         try {
             Map<String, Curso> cursos = cursoManager.getCursos();
-            String listaDeCursos = "";
+            StringBuilder listaDeCursos = new StringBuilder();
             for (Curso curso : cursos.values()) {
-                listaDeCursos = listaDeCursos + "[ Nome: " + curso.getNome() + " | Cidade: " + curso.getCidade() + " | Centro: " + curso.getCentro() + "| Área: " + curso.getArea() + " ]" + "\n";
+                listaDeCursos.append("[ Nome: ").append(curso.getNome()).append(" | Cidade: ").append(curso.getCidade()).append(" | Centro: ").append(curso.getCentro()).append("| Área: ").append(curso.getArea()).append(" ]\n");
             }
             JOptionPane.showMessageDialog(null, listaDeCursos);
-            
         } catch (InfraException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        show();
+        showMenu();
     }
-    
-    
-    private static void removerCurso() throws InfraException {
+
+    private void removeCurso() throws InfraException {
         String nome = JOptionPane.showInputDialog("Digite o nome do curso que deseja remover:");
         try {
             cursoManager.removerCurso(nome);
@@ -103,10 +104,10 @@ public class AdminMenu {
         } catch (IllegalArgumentException | InfraException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        show();
+        showMenu();
     }
-    
-    private static void adicionarPergunta() throws InfraException {
+
+    private void addQuestionario() throws InfraException {
         String pergunta = JOptionPane.showInputDialog("Digite a pergunta:");
         String area = JOptionPane.showInputDialog("Digite a área da pergunta:");
         try {
@@ -115,24 +116,24 @@ public class AdminMenu {
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        show();
+        showMenu();
     }
-    
-    private static void visualizarPerguntas() throws InfraException {
+
+    private void showQuestionarios() throws InfraException {
         try {
             Map<String, Questionario> questionarios = questionarioManager.getQuestionarios();
-            String listaDePerguntas = "";
+            StringBuilder listaDePerguntas = new StringBuilder();
             for (Questionario questionario : questionarios.values()) {
-                listaDePerguntas = listaDePerguntas + "[ Pergunta: " + questionario.getPergunta() + " | Área: " + questionario.getArea() + " ]" + "\n";
+                listaDePerguntas.append("[ Pergunta: ").append(questionario.getPergunta()).append(" | Área: ").append(questionario.getArea()).append(" ]\n");
             }
             JOptionPane.showMessageDialog(null, listaDePerguntas);
         } catch (InfraException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        show();
+        showMenu();
     }
-    
-    private static void removerPergunta() throws InfraException {
+
+    private void removeQuestionario() throws InfraException {
         String pergunta = JOptionPane.showInputDialog("Digite a pergunta que deseja remover:");
         try {
             questionarioManager.removerQuestionario(pergunta);
@@ -140,9 +141,6 @@ public class AdminMenu {
         } catch (IllegalArgumentException | InfraException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        show();
+        showMenu();
     }
-    
-    }
-    
-
+}
