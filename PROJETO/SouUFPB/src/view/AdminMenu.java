@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import business.control.CursoManager;
 import business.control.QuestionarioManager;
 import business.model.Curso;
+import business.model.Questionario;
 import factory.CursoFactory;
 import factory.CursoFactoryImpl;
 import factory.QuestionarioFactory;
@@ -74,9 +75,10 @@ public class AdminMenu {
         String[] cursoArgs = {nome, cidade, centro};
         cursoManager.adicionarCurso(cursoArgs);
         JOptionPane.showMessageDialog(null, "Curso adicionado com sucesso!");
+        show();
     }
     
-    private static void visualizarCursos() {
+    private static void visualizarCursos() throws InfraException {
         try {
             Map<String, Curso> cursos = cursoManager.getCursos();
             String listaDeCursos = "";
@@ -84,13 +86,15 @@ public class AdminMenu {
                 listaDeCursos = listaDeCursos + "[ Nome: " + curso.getNome() + " | Cidade: " + curso.getCidade() + " | Centro: " + curso.getCentro() + " ]" + "\n";
             }
             JOptionPane.showMessageDialog(null, listaDeCursos);
+            
         } catch (InfraException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+        show();
     }
     
     
-    private static void removerCurso() {
+    private static void removerCurso() throws InfraException {
         String nome = JOptionPane.showInputDialog("Digite o nome do curso que deseja remover:");
         try {
             cursoManager.removerCurso(nome);
@@ -98,19 +102,46 @@ public class AdminMenu {
         } catch (IllegalArgumentException | InfraException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+        show();
     }
     
-    private static void adicionarPergunta() {
-        // Implementação para adicionar uma pergunta
+    private static void adicionarPergunta() throws InfraException {
+        String pergunta = JOptionPane.showInputDialog("Digite a pergunta:");
+        String area = JOptionPane.showInputDialog("Digite a área da pergunta:");
+        try {
+            questionarioManager.adicionarQuestionario(pergunta, area);
+            JOptionPane.showMessageDialog(null, "Pergunta adicionada com sucesso!");
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        show();
     }
-
-    private static void visualizarPerguntas() {
-       // Implementação para visualizar as perguntas
+    
+    private static void visualizarPerguntas() throws InfraException {
+        try {
+            Map<String, Questionario> questionarios = questionarioManager.getQuestionarios();
+            String listaDePerguntas = "";
+            for (Questionario questionario : questionarios.values()) {
+                listaDePerguntas = listaDePerguntas + "[ Pergunta: " + questionario.getPergunta() + " | Área: " + questionario.getArea() + " ]" + "\n";
+            }
+            JOptionPane.showMessageDialog(null, listaDePerguntas);
+        } catch (InfraException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        show();
     }
-
-    private static void removerPergunta() {
-        // Implementação para remover uma pergunta
+    
+    private static void removerPergunta() throws InfraException {
+        String pergunta = JOptionPane.showInputDialog("Digite a pergunta que deseja remover:");
+        try {
+            questionarioManager.removerQuestionario(pergunta);
+            JOptionPane.showMessageDialog(null, "Pergunta removida com sucesso!");
+        } catch (IllegalArgumentException | InfraException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        show();
     }
+    
     }
     
 

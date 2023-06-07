@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 import business.control.*;
 import business.model.Curso;
 import testes.Testes;
-import cursos.Cursos;
 import factory.CursoFactory;
 import factory.CursoFactoryImpl;
 import factory.QuestionarioFactory;

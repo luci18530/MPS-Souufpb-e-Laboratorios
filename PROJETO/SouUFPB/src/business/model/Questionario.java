@@ -1,7 +1,8 @@
 package business.model;
+import java.io.Serializable;
 
 // Classe Questionario
-public class Questionario {
+public class Questionario implements Serializable {
     private String pergunta;
     private String area;
 
