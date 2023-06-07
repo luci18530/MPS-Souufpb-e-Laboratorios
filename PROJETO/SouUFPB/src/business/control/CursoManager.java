@@ -27,7 +27,7 @@ public class CursoManager {
     // Método para adicionar um curso
     public void adicionarCurso(String[] args){
         // Adicionando um novo Curso no Map 'cursos' e salvando no arquivo
-        Curso curso = cursoFactory.createCurso(args[0], args[1], args[2]);
+        Curso curso = cursoFactory.createCurso(args[0], args[1], args[2], args[3]);
         cursos.put(args[0], curso);
         cursoFile.salvarCursos(cursos);
     }

@@ -190,7 +190,7 @@ public class TelaUsuario {
             Map<String, Curso> cursos = cursoManager.getCursos();
             String listaDeCursos = "";
             for (Curso curso : cursos.values()) {
-                listaDeCursos = listaDeCursos + "[ Nome: " + curso.getNome() + " | Cidade: " + curso.getCidade() + " | Centro: " + curso.getCentro() + " ]" + "\n";
+                listaDeCursos = listaDeCursos + "[ Nome: " + curso.getNome() + " | Cidade: " + curso.getCidade() + " | Centro: " + curso.getCentro() + " | Área: " + curso.getArea() + " ]" + "\n";
             }
             JOptionPane.showMessageDialog(null, listaDeCursos);
         } catch (InfraException e) {

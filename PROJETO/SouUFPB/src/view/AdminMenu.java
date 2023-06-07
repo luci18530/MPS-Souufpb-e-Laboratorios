@@ -71,8 +71,9 @@ public class AdminMenu {
         String nome = JOptionPane.showInputDialog("Digite o nome do curso:");
         String cidade = JOptionPane.showInputDialog("Digite a cidade do curso:");
         String centro = JOptionPane.showInputDialog("Digite o centro do curso:");
+        String area = JOptionPane.showInputDialog("Digite a área do curso:");
     
-        String[] cursoArgs = {nome, cidade, centro};
+        String[] cursoArgs = {nome, cidade, centro, area};
         cursoManager.adicionarCurso(cursoArgs);
         JOptionPane.showMessageDialog(null, "Curso adicionado com sucesso!");
         show();
@@ -83,7 +84,7 @@ public class AdminMenu {
             Map<String, Curso> cursos = cursoManager.getCursos();
             String listaDeCursos = "";
             for (Curso curso : cursos.values()) {
-                listaDeCursos = listaDeCursos + "[ Nome: " + curso.getNome() + " | Cidade: " + curso.getCidade() + " | Centro: " + curso.getCentro() + " ]" + "\n";
+                listaDeCursos = listaDeCursos + "[ Nome: " + curso.getNome() + " | Cidade: " + curso.getCidade() + " | Centro: " + curso.getCentro() + "| Área: " + curso.getArea() + " ]" + "\n";
             }
             JOptionPane.showMessageDialog(null, listaDeCursos);
             
