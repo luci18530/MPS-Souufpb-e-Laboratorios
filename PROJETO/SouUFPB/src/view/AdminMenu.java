@@ -6,10 +6,9 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import business.control.CursoManager;
 import business.control.QuestionarioManager;
-import business.model.Curso;
 import business.model.Questionario;
 import infra.InfraException;
-import java.util.Map;
+
 
 public class AdminMenu {
     private static CursoManager cursoManager;
@@ -40,14 +39,16 @@ public class AdminMenu {
         int choice = Integer.parseInt(option);
         switch (choice) {
             case 1:
-                addCurso();
+                cursoManager.addCurso();
+                showMenu();
                 break;
             case 2:
                 cursoManager.showCursos();
                 showMenu();
                 break;
             case 3:
-                removeCurso();
+                cursoManager.removeCurso();
+                showMenu();
                 break;
             case 4:
                 addQuestionario();
@@ -67,29 +68,8 @@ public class AdminMenu {
                 break;
         }
     }
-    private void addCurso() throws InfraException {
-        String nome = JOptionPane.showInputDialog("Digite o nome do curso:");
-        String cidade = JOptionPane.showInputDialog("Digite a cidade do curso:");
-        String centro = JOptionPane.showInputDialog("Digite o centro do curso:");
-        String area = JOptionPane.showInputDialog("Digite a área do curso:");
-
-        String[] cursoArgs = {nome, cidade, centro, area};
-        cursoManager.adicionarCurso(cursoArgs);
-        JOptionPane.showMessageDialog(null, "Curso adicionado com sucesso!");
-        showMenu();
-    }
 
 
-    private void removeCurso() throws InfraException {
-        String nome = JOptionPane.showInputDialog("Digite o nome do curso que deseja remover:");
-        try {
-            cursoManager.removerCurso(nome);
-            JOptionPane.showMessageDialog(null, "Curso removido com sucesso!");
-        } catch (IllegalArgumentException | InfraException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        showMenu();
-    }
 
     private void addQuestionario() throws InfraException {
         String pergunta = JOptionPane.showInputDialog("Digite a pergunta:");

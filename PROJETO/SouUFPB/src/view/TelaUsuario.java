@@ -186,7 +186,6 @@ public class TelaUsuario {
     }
 
 
-
     public void doVocationalTest(String email) throws InfraException {
         // Recupera o questionário e o resultado do usuário
         Map<String, Questionario> questionarios = questionarioManager.getQuestionarios();

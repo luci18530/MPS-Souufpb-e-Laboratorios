@@ -114,14 +114,34 @@ public class CursoManager {
             Map<String, Curso> cursos = getCursos();
             StringBuilder listaDeCursos = new StringBuilder();
             for (Curso curso : cursos.values()) {
-                listaDeCursos.append("[ Nome: ").append(curso.getNome()).append(" | Cidade: ").append(curso.getCidade()).append(" | Centro: ").append(curso.getCentro()).append("| Área: ").append(curso.getArea()).append(" ]\n");
+                listaDeCursos.append("[ Nome: ").append(curso.getNome()).append(" | Cidade: ").append(curso.getCidade()).append(" | Centro: ").append(curso.getCentro()).append(" | Área: ").append(curso.getArea()).append(" ]\n");
             }
             JOptionPane.showMessageDialog(null, listaDeCursos);
         } catch (InfraException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        } 
+    }
 
+    public void addCurso() throws InfraException {
+        String nome = JOptionPane.showInputDialog("Digite o nome do curso:");
+        String cidade = JOptionPane.showInputDialog("Digite a cidade do curso:");
+        String centro = JOptionPane.showInputDialog("Digite o centro do curso:");
+        String area = JOptionPane.showInputDialog("Digite a área do curso:");
+
+        String[] cursoArgs = {nome, cidade, centro, area};
+        adicionarCurso(cursoArgs);
+        JOptionPane.showMessageDialog(null, "Curso adicionado com sucesso!");
         
+    }
+
+    public void removeCurso() throws InfraException {
+        String nome = JOptionPane.showInputDialog("Digite o nome do curso que deseja remover:");
+        try {
+            removerCurso(nome);
+            JOptionPane.showMessageDialog(null, "Curso removido com sucesso!");
+        } catch (IllegalArgumentException | InfraException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
         
     }
 }
