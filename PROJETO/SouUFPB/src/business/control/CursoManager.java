@@ -11,11 +11,13 @@ import factory.CursoFactory;
 import factory.CursoFactoryImpl;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.logging.Handler;
 
 // Definindo a classe CursoManager
@@ -63,7 +65,7 @@ public class CursoManager {
     // Método para adicionar um curso
     public void adicionarCurso(String[] args) throws InfraException{
         // Adicionando um novo Curso no Map 'cursos' e salvando no arquivo
-        Curso curso = cursoFactory.createCurso(args[0], args[1], args[2]);
+        Curso curso = cursoFactory.createCurso(args[0], args[1], args[2], args[3]);
         cursos.put(args[0], curso);
         saveCommandInvoker.invoke(cursos);
     }
@@ -93,5 +95,14 @@ public class CursoManager {
             logger.severe(ex.getMessage());
             throw new InfraException("Erro na exibição. Contate o admnistrador ou tente mais tarde.");
         }
+
+
+        }
+
+    public List<Curso> getCursosPorArea(String area) throws InfraException {
+        return this.getCursos().values().stream()
+            .filter(curso -> curso.getArea().equals(area))
+            .collect(Collectors.toList());    
+
     }
 }

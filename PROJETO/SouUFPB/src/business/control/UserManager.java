@@ -17,7 +17,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import business.model.Resultado;
 import business.model.User;
 import factory.UserFactory;
 import factory.UserFactoryImpl;
@@ -29,6 +29,7 @@ public class UserManager {
 	private Map<String, User> users = new HashMap<String,User>();
 	private SaveUser saveFile;
 	private LoadUsers loadFile;
+	private Map<String, Resultado> resultados;
 	private SaveCommandInvoker<User> saveCommandInvoker = new SaveCommandInvoker<>();
 	private LoadCommandInvoker<User> loadCommandInvoker = new LoadCommandInvoker<>();
     private UserFactory userFactory = new UserFactoryImpl();
@@ -58,6 +59,7 @@ public class UserManager {
 		loadCommandInvoker.setCommand(loadFile);
 		saveCommandInvoker.setCommand(saveFile);
 		users = this.loadCommandInvoker.invoke();
+		resultados = new HashMap<>();
 	}
 
 	public void addUser(String [] args) throws LoginInvalidException, EmailInvalidException, PasswordInvalidException, InfraException  {
@@ -88,8 +90,19 @@ public class UserManager {
 
 		} catch (NullPointerException ex){
 	        logger.severe(ex.getMessage());
-	        throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
+	        throw new InfraException("[USER ALL CLIENTS]Erro de persistencia, contacte o admin ou tente mais tarde");
 	           
 	    }
 	}
+
+    public Resultado getUserResult(String email) {
+        return resultados.get(email);
+    }
+
+    public void setUserResult(String email, Resultado resultado) {
+        resultados.put(email, resultado);
+    }	
+
+
+
 }

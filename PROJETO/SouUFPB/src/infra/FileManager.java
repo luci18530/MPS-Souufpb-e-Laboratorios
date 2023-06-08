@@ -79,14 +79,14 @@ public class FileManager<T> {
         
         } catch (NullPointerException ex){
             logger.config(ex.getMessage());
-            throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
+            throw new InfraException("[LOAD NULLPOINTEREXCEPTION] Erro de persistencia, contacte o admin ou tente mais tarde");
            
         } catch (IOException ex){
             logger.config(ex.getMessage());
-            throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
+            throw new InfraException("[LOAD IOEXCEPTION] Erro de persistencia, contacte o admin ou tente mais tarde");
          } catch (ClassNotFoundException ex) {
             logger.config(ex.getMessage());
-            throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");      
+            throw new InfraException("[LOAD CLASSNOTFOUND] Erro de persistencia, contacte o admin ou tente mais tarde");      
         }
         finally {
         	try {
@@ -95,11 +95,11 @@ public class FileManager<T> {
 			
         		} catch (IOException e) {
 				logger.severe(e.getMessage());
-	            throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
+	            throw new InfraException("[IOEXCEPTION CLOSE]Erro de persistencia, contacte o admin ou tente mais tarde");
 	            
 			} catch (Exception e) {
 				logger.severe(e.getMessage());
-	            throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
+	            throw new InfraException("[EXCEPTION CLOSE] Erro de persistencia, contacte o admin ou tente mais tarde");
 	            
 			} 
   			
