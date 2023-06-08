@@ -1,5 +1,6 @@
 package view;
 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
@@ -14,7 +15,7 @@ public class AdminMenu {
     private static CursoManager cursoManager;
     private static QuestionarioManager questionarioManager;
     
-    public AdminMenu() throws InfraException{
+    public AdminMenu() throws InfraException, IOException{
         try {
             cursoManager = new CursoManager();
             questionarioManager = new QuestionarioManager();

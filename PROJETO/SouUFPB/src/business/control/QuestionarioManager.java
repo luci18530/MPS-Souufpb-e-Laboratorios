@@ -27,7 +27,7 @@ public class QuestionarioManager {
     private Map<String, Questionario> questionarios;
     private QuestionarioFactory questionarioFactory = new QuestionarioFactoryImpl(); 
 
-    public QuestionarioManager() throws InfraException{
+    public QuestionarioManager() throws InfraException, IOException{
         
         try {
             

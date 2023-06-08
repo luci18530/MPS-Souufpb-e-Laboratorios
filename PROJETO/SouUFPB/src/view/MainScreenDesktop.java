@@ -19,11 +19,11 @@ public class MainScreenDesktop {
 
 	}
 	
-	public static void main (String[] args) {
+	public static void main (String[] args) throws IOException {
 		showMenu();
 	}
 	
-	public static void showMenu() {
+	public static void showMenu() throws IOException {
 
 		MainScreenDesktop main = getInstance();
 
@@ -32,7 +32,7 @@ public class MainScreenDesktop {
 		main.readUserInput(option);
 	}
 	
-	public void readUserInput(String option) {
+	public void readUserInput(String option) throws IOException {
 		try {
 
 			userManager = new UserManager();

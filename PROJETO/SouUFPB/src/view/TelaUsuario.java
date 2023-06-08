@@ -3,6 +3,7 @@ package view;
 import infra.InfraException;
 import util.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
@@ -23,27 +24,27 @@ public class TelaUsuario {
     private static final String ADMIN_EMAIL = "admin@admin.com";
     private static final String ADMIN_PASSWORD = "admin012";
 
-    private TelaUsuario() throws InfraException{
+    private TelaUsuario() throws InfraException, IOException{
         this.loginValidator = new LoginValidator();
     }
     
 
-    public static void main (String[] args) throws LoginInvalidException, InfraException {
+    public static void main (String[] args) throws LoginInvalidException, InfraException, IOException {
         showMenuLogin();
     }
 
-    public static void showMenuLogin() throws LoginInvalidException, InfraException {
+    public static void showMenuLogin() throws LoginInvalidException, InfraException, IOException {
         TelaUsuario main = getInstance();
         String option = getUserInput(MENU_LOGIN_OPTIONS);
         main.readUserInputLogin(option);
     }
 
-    public static void showMenuApp(String email) throws InfraException {
+    public static void showMenuApp(String email) throws InfraException, IOException {
         String option = getUserInput(MENU_APP_OPTIONS);
         TelaUsuario.getInstance().readUserInputApp(option, email);
     }
 
-    private void readUserInputApp(String option, String email) throws InfraException {
+    private void readUserInputApp(String option, String email) throws InfraException, IOException {
         // Lê a opção do usuário no segundo menu
         int choice = Integer.parseInt(option);
         switch (choice) {
@@ -70,7 +71,7 @@ public class TelaUsuario {
     }
 
 
-    public void readUserInputLogin(String option) throws LoginInvalidException, InfraException {
+    public void readUserInputLogin(String option) throws LoginInvalidException, InfraException, IOException {
         try {
             
             userManager = new UserManager();
@@ -138,7 +139,7 @@ public class TelaUsuario {
         }
     }
 
-    private void loginUser() throws LoginInvalidException, InfraException{
+    private void loginUser() throws LoginInvalidException, InfraException, IOException{
         while (true) {
             String email = getUserInput("Email do usuario:");
             String password = getUserInput("Senha do usuario:");
@@ -175,7 +176,7 @@ public class TelaUsuario {
         return JOptionPane.showInputDialog(null, message, "Digite aqui");
     }
 
-    public static TelaUsuario getInstance() throws InfraException{
+    public static TelaUsuario getInstance() throws InfraException, IOException{
 
         if(instance == null){
             instance = new TelaUsuario();

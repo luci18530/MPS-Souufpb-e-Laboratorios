@@ -1,5 +1,6 @@
 package util;
 
+import java.io.IOException;
 import java.util.Iterator;
 import business.model.User;
 import business.control.UserManager;
@@ -10,7 +11,7 @@ public class LoginValidator {
 
     private UserManager userManager;
 
-    public LoginValidator() throws InfraException{
+    public LoginValidator() throws InfraException, IOException{
         userManager = new UserManager();
     }
     

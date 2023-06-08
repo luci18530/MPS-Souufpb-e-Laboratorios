@@ -34,7 +34,7 @@ public class UserManager {
 	private LoadCommandInvoker<User> loadCommandInvoker = new LoadCommandInvoker<>();
     private UserFactory userFactory = new UserFactoryImpl();
 
-	public UserManager() throws InfraException {
+	public UserManager() throws InfraException, IOException {
 
 		try {
             

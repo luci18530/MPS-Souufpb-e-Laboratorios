@@ -20,25 +20,18 @@ public class FileManager<T> {
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
-    public FileManager(){
+    public FileManager() throws IOException{
 
-        try {
-            
-            Handler hdConsole = new ConsoleHandler();
-            Handler hdArquivo = new FileHandler("relatorioLog.txt");
+        Handler hdConsole = new ConsoleHandler();
+        //Handler hdArquivo = new FileHandler("relatorioLog.txt");
 
-            hdConsole.setLevel(Level.ALL);
-            hdArquivo.setLevel(Level.ALL);
+        hdConsole.setLevel(Level.ALL);
+        //hdArquivo.setLevel(Level.ALL);
 
-            logger.addHandler(hdConsole);
-            logger.addHandler(hdArquivo);
+        logger.addHandler(hdConsole);
+        //logger.addHandler(hdArquivo);
 
-            logger.setUseParentHandlers(false);
-
-
-        } catch (IOException ex) {
-            logger.severe("ocorreu um erro no arquivo durante a execução do programa");
-        }
+        logger.setUseParentHandlers(false);
 
     }
 

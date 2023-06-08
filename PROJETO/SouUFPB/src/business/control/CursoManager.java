@@ -33,7 +33,7 @@ public class CursoManager {
     private CursoFactory cursoFactory = new CursoFactoryImpl();
 
     // Construtor da classe que lança uma exceção do tipo InfraException
-    public CursoManager() throws InfraException{
+    public CursoManager() throws InfraException, IOException{
         // Instanciando um novo CursoFile e carregando os cursos do arquivo
         
         try {
