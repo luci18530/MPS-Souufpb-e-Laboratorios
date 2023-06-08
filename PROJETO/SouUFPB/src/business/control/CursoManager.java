@@ -37,7 +37,7 @@ public class CursoManager {
         try {
             
             Handler hdConsole = new ConsoleHandler();
-            Handler hdArquivo = new FileHandler("relatorioLog.txt");
+            Handler hdArquivo = new FileHandler("CursoManagerLog.txt");
 
             hdConsole.setLevel(Level.ALL);
             hdArquivo.setLevel(Level.ALL);

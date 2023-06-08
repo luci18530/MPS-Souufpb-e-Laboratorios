@@ -32,7 +32,7 @@ public class QuestionarioManager {
         try {
             
             Handler hdConsole = new ConsoleHandler();
-            Handler hdArquivo = new FileHandler("relatorioLog.txt");
+            Handler hdArquivo = new FileHandler("QuestionarioManagerLog.txt");
 
             hdConsole.setLevel(Level.ALL);
             hdArquivo.setLevel(Level.ALL);

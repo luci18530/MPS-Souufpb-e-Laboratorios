@@ -6,8 +6,6 @@ import javax.swing.JOptionPane;
 import business.control.CursoManager;
 import business.control.QuestionarioManager;
 import business.model.Curso;
-import factory.QuestionarioFactory;
-import factory.QuestionarioFactoryImpl;
 import infra.InfraException;
 
 public class AdminMenu {
@@ -17,7 +15,6 @@ public class AdminMenu {
     public static void show() throws InfraException{
         try {
             cursoManager = new CursoManager();
-            QuestionarioFactory questionarioFactory = new QuestionarioFactoryImpl();
             questionarioManager = new QuestionarioManager();
 
         } catch (InfraException e) {
