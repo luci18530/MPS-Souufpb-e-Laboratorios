@@ -6,10 +6,7 @@ import business.control.CursoManager;
 import business.control.QuestionarioManager;
 import business.model.Curso;
 import business.model.Questionario;
-import factory.CursoFactory;
-import factory.CursoFactoryImpl;
-import factory.QuestionarioFactory;
-import factory.QuestionarioFactoryImpl;
+import factory.*;
 import infra.InfraException;
 
 import java.util.Map;

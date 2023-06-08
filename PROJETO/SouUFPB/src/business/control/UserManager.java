@@ -8,7 +8,8 @@ import util.PasswordInvalidException;
 import util.UserValidador;
 import java.util.Map;
 import java.util.logging.Logger;
-
+import java.util.HashMap;
+import business.model.Resultado;
 import business.model.User;
 import factory.UserFactory;
 
@@ -18,11 +19,13 @@ public class UserManager {
 	private Map<String, User> users;
 	private UserFile userFile;
     private UserFactory userFactory;
+	private Map<String, Resultado> resultados;
 
 	public UserManager(UserFactory userFactory) throws InfraException {
         this.userFactory = userFactory;
 		userFile = new UserFile();
 		users = userFile.loadUsers();
+		resultados = new HashMap<>();
 	}
 
 	public void addUser(String [] args) throws LoginInvalidException, EmailInvalidException, PasswordInvalidException  {
@@ -58,4 +61,12 @@ public class UserManager {
 	           
 	    }
 	}
+
+    public Resultado getUserResult(String email) {
+        return resultados.get(email);
+    }
+
+    public void setUserResult(String email, Resultado resultado) {
+        resultados.put(email, resultado);
+    }
 }

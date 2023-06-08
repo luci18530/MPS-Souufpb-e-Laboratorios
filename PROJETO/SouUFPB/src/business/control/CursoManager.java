@@ -6,8 +6,10 @@ import infra.CursoFile;
 import business.model.Curso;
 import factory.CursoFactory;
 
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 // Definindo a classe CursoManager
 public class CursoManager {
@@ -58,5 +60,11 @@ public class CursoManager {
             logger.severe(ex.getMessage());
             throw new InfraException("Erro na exibição. Contate o admnistrador ou tente mais tarde.");
         }
+    }
+
+    public List<Curso> getCursosPorArea(String area) throws InfraException {
+        return this.getCursos().values().stream()
+            .filter(curso -> curso.getArea().equals(area))
+            .collect(Collectors.toList());
     }
 }
