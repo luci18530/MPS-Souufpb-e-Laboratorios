@@ -1,14 +1,10 @@
 package view;
 
 import java.io.IOException;
-import java.util.Map;
-
 import javax.swing.JOptionPane;
 import business.control.CursoManager;
 import business.control.QuestionarioManager;
-import business.model.Questionario;
 import infra.InfraException;
-
 
 public class AdminMenu {
     private static CursoManager cursoManager;
@@ -24,7 +20,6 @@ public class AdminMenu {
             return;
         }
     }
-
 
     public void showMenu() throws InfraException {
         String option = JOptionPane.showInputDialog("Seção admin. Escolha a opção desejada:\n"
@@ -51,13 +46,16 @@ public class AdminMenu {
                 showMenu();
                 break;
             case 4:
-                addQuestionario();
+                questionarioManager.addQuestionario();
+                showMenu();
                 break;
             case 5:
-                showQuestionarios();
+                questionarioManager.showQuestionarios();
+                showMenu();
                 break;
             case 6:
-                removeQuestionario();
+                questionarioManager.removeQuestionario();
+                showMenu();
                 break;
             case 7:
                 System.exit(0);
@@ -67,44 +65,5 @@ public class AdminMenu {
                 showMenu();
                 break;
         }
-    }
-
-
-
-    private void addQuestionario() throws InfraException {
-        String pergunta = JOptionPane.showInputDialog("Digite a pergunta:");
-        String area = JOptionPane.showInputDialog("Digite a área da pergunta:");
-        try {
-            questionarioManager.adicionarQuestionario(pergunta, area);
-            JOptionPane.showMessageDialog(null, "Pergunta adicionada com sucesso!");
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        showMenu();
-    }
-
-    private void showQuestionarios() throws InfraException {
-        try {
-            Map<String, Questionario> questionarios = questionarioManager.getQuestionarios();
-            StringBuilder listaDePerguntas = new StringBuilder();
-            for (Questionario questionario : questionarios.values()) {
-                listaDePerguntas.append("[ Pergunta: ").append(questionario.getPergunta()).append(" | Área: ").append(questionario.getArea()).append(" ]\n");
-            }
-            JOptionPane.showMessageDialog(null, listaDePerguntas);
-        } catch (InfraException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        showMenu();
-    }
-
-    private void removeQuestionario() throws InfraException {
-        String pergunta = JOptionPane.showInputDialog("Digite a pergunta que deseja remover:");
-        try {
-            questionarioManager.removerQuestionario(pergunta);
-            JOptionPane.showMessageDialog(null, "Pergunta removida com sucesso!");
-        } catch (IllegalArgumentException | InfraException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        showMenu();
     }
 }

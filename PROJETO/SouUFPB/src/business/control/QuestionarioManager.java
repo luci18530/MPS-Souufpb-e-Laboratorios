@@ -16,6 +16,8 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
+
 
 public class QuestionarioManager {
     
@@ -83,5 +85,42 @@ public class QuestionarioManager {
             logger.severe(ex.getMessage());
             throw new InfraException("Erro na exibição. Contate o administrador ou tente mais tarde.");
         }
+    }
+
+    public void addQuestionario() throws InfraException {
+        String pergunta = JOptionPane.showInputDialog("Digite a pergunta:");
+        String area = JOptionPane.showInputDialog("Digite a área da pergunta:");
+        try {
+            adicionarQuestionario(pergunta, area);
+            JOptionPane.showMessageDialog(null, "Pergunta adicionada com sucesso!");
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+    }
+
+    public void showQuestionarios() throws InfraException {
+        try {
+            Map<String, Questionario> questionarios = getQuestionarios();
+            StringBuilder listaDePerguntas = new StringBuilder();
+            for (Questionario questionario : questionarios.values()) {
+                listaDePerguntas.append("[ Pergunta: ").append(questionario.getPergunta()).append(" | Área: ").append(questionario.getArea()).append(" ]\n");
+            }
+            JOptionPane.showMessageDialog(null, listaDePerguntas);
+        } catch (InfraException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+    }
+
+    public void removeQuestionario() throws InfraException {
+        String pergunta = JOptionPane.showInputDialog("Digite a pergunta que deseja remover:");
+        try {
+            removerQuestionario(pergunta);
+            JOptionPane.showMessageDialog(null, "Pergunta removida com sucesso!");
+        } catch (IllegalArgumentException | InfraException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
     }
 }
