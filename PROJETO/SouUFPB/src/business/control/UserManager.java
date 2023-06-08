@@ -29,8 +29,8 @@ public class UserManager {
 	private Map<String, User> users = new HashMap<String,User>();
 	private SaveUser saveFile;
 	private LoadUsers loadFile;
-	private SaveCommandInvoker<User> saveCommandInvoker;
-	private LoadCommandInvoker<User> loadCommandInvoker;
+	private SaveCommandInvoker<User> saveCommandInvoker = new SaveCommandInvoker<>();
+	private LoadCommandInvoker<User> loadCommandInvoker = new LoadCommandInvoker<>();
     private UserFactory userFactory = new UserFactoryImpl();
 
 	public UserManager() throws InfraException {

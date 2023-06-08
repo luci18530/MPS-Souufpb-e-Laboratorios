@@ -22,8 +22,8 @@ public class QuestionarioManager {
     private Logger logger = Logger.getLogger(this.getClass().getName());
     private LoadQuestionario loadQuestionario;
     private SalvarQuestionario salvarQuestionario;
-    private SaveCommandInvoker<Questionario> saveCommandInvoker;
-    private LoadCommandInvoker<Questionario> loadCommandInvoker;
+    private SaveCommandInvoker<Questionario> saveCommandInvoker = new SaveCommandInvoker<>();
+    private LoadCommandInvoker<Questionario> loadCommandInvoker = new LoadCommandInvoker<>();
     private Map<String, Questionario> questionarios;
     private QuestionarioFactory questionarioFactory = new QuestionarioFactoryImpl(); 
 

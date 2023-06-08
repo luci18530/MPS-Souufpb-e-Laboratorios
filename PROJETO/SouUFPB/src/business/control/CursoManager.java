@@ -25,8 +25,8 @@ public class CursoManager {
     private Logger logger = Logger.getLogger(this.getClass().getName());
     private SalvarCurso salvarCurso;
     private LoadCursos loadCursos;
-    private LoadCommandInvoker<Curso> loadCommandInvoker;
-    private SaveCommandInvoker<Curso> saveCommandInvoker;
+    private LoadCommandInvoker<Curso> loadCommandInvoker = new LoadCommandInvoker<>();
+    private SaveCommandInvoker<Curso> saveCommandInvoker = new SaveCommandInvoker<>();
     private Map<String, Curso> cursos;
     private CursoFactory cursoFactory = new CursoFactoryImpl();
 
