@@ -1,38 +1,73 @@
 package business.control;
 
+import infra.SaveCommandInvoker;
 import infra.InfraException;
-import infra.UserFile;
+import infra.LoadCommandInvoker;
+import infra.LoadUsers;
+import infra.SaveUser;
 import util.EmailInvalidException;
 import util.LoginInvalidException;
 import util.PasswordInvalidException;
 import util.UserValidador;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import business.model.User;
 import factory.UserFactory;
+import factory.UserFactoryImpl;
 
 
 public class UserManager {
-	
-	private Map<String, User> users;
-	private UserFile userFile;
-    private UserFactory userFactory;
 
-	public UserManager(UserFactory userFactory) throws InfraException {
-        this.userFactory = userFactory;
-		userFile = new UserFile();
-		users = userFile.loadUsers();
+	private Logger logger = Logger.getLogger(this.getClass().getName());
+	private Map<String, User> users = new HashMap<String,User>();
+	private SaveUser saveFile;
+	private LoadUsers loadFile;
+	private SaveCommandInvoker<User> saveCommandInvoker;
+	private LoadCommandInvoker<User> loadCommandInvoker;
+    private UserFactory userFactory = new UserFactoryImpl();
+
+	public UserManager() throws InfraException {
+
+		try {
+            
+            Handler hdConsole = new ConsoleHandler();
+            Handler hdArquivo = new FileHandler("relatorioLog.txt");
+
+            hdConsole.setLevel(Level.ALL);
+            hdArquivo.setLevel(Level.ALL);
+
+            logger.addHandler(hdConsole);
+            logger.addHandler(hdArquivo);
+
+            logger.setUseParentHandlers(false);
+
+
+        } catch (IOException ex) {
+            logger.severe("ocorreu um erro no arquivo durante a execução do programa");
+        }
+
+		saveFile = new SaveUser();
+		loadFile = new LoadUsers();
+		loadCommandInvoker.setCommand(loadFile);
+		saveCommandInvoker.setCommand(saveFile);
+		users = this.loadCommandInvoker.invoke();
 	}
 
-	public void addUser(String [] args) throws LoginInvalidException, EmailInvalidException, PasswordInvalidException  {
+	public void addUser(String [] args) throws LoginInvalidException, EmailInvalidException, PasswordInvalidException, InfraException  {
 		UserValidador.validateName(args[0]);
 		UserValidador.validateEmail(args[1]);
 		UserValidador.validatePassword(args[2]);
 		
 		User user = userFactory.createUser(args[0], args[1], args[2]);
 		users.put(args[0], user);
-		userFile.saveUsers(users);
+		saveCommandInvoker.invoke(users);
 	}
 
 	public void removeUser(String name) throws InfraException {
@@ -41,15 +76,14 @@ public class UserManager {
 		}
 	
 		users.remove(name);
-		userFile.saveUsers(users);
+		saveCommandInvoker.invoke(users);
 	}
 	
 	public Map<String, User> getAllClients() throws InfraException {
 
-		Logger logger = userFile.getLogger();
 
 		try {
-			Map<String, User> mylist = userFile.loadUsers();
+			Map<String, User> mylist = this.loadCommandInvoker.invoke();
 			return mylist;
 
 		} catch (NullPointerException ex){

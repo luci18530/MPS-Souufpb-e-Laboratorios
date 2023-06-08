@@ -10,12 +10,6 @@ import business.control.*;
 import business.model.Curso;
 import testes.Testes;
 import cursos.Cursos;
-import factory.CursoFactory;
-import factory.CursoFactoryImpl;
-import factory.QuestionarioFactory;
-import factory.QuestionarioFactoryImpl;
-import factory.UserFactory;
-import factory.UserFactoryImpl;
 
 public class TelaUsuario {
     private UserManager userManager;
@@ -77,12 +71,11 @@ public class TelaUsuario {
 
     public void readUserInputLogin(String option) throws LoginInvalidException, InfraException {
         try {
-            UserFactory userFactory = new UserFactoryImpl();
-            userManager = new UserManager(userFactory);
-            CursoFactory cursoFactory = new CursoFactoryImpl();
-            cursoManager = new CursoManager(cursoFactory);
-            QuestionarioFactory questionarioFactory = new QuestionarioFactoryImpl();
-            questionarioManager = new QuestionarioManager(questionarioFactory);
+            
+            userManager = new UserManager();
+            cursoManager = new CursoManager();
+            questionarioManager = new QuestionarioManager();
+
         } catch (InfraException e) {
             String option2 = JOptionPane.showInputDialog(e.getMessage());
         }

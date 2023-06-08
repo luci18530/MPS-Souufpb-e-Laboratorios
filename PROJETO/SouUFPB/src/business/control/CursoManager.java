@@ -2,34 +2,70 @@ package business.control;
 
 // Importando as classes necessárias
 import infra.InfraException;
-import infra.CursoFile;
+import infra.LoadCommandInvoker;
+import infra.LoadCursos;
+import infra.SalvarCurso;
+import infra.SaveCommandInvoker;
 import business.model.Curso;
 import factory.CursoFactory;
+import factory.CursoFactoryImpl;
 
+import java.io.IOException;
 import java.util.Map;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.Handler;
 
 // Definindo a classe CursoManager
 public class CursoManager {
     // Inicializando um Map para armazenar os cursos e uma instância da classe CursoFile
+
+    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private SalvarCurso salvarCurso;
+    private LoadCursos loadCursos;
+    private LoadCommandInvoker<Curso> loadCommandInvoker;
+    private SaveCommandInvoker<Curso> saveCommandInvoker;
     private Map<String, Curso> cursos;
-    private CursoFile cursoFile;
-    private CursoFactory cursoFactory;
+    private CursoFactory cursoFactory = new CursoFactoryImpl();
 
     // Construtor da classe que lança uma exceção do tipo InfraException
-    public CursoManager(CursoFactory cursoFactory) throws InfraException{
+    public CursoManager() throws InfraException{
         // Instanciando um novo CursoFile e carregando os cursos do arquivo
-        this.cursoFactory = cursoFactory;
-        cursoFile = new CursoFile();
-        cursos = cursoFile.carregarCursos();
+        
+        try {
+            
+            Handler hdConsole = new ConsoleHandler();
+            Handler hdArquivo = new FileHandler("relatorioLog.txt");
+
+            hdConsole.setLevel(Level.ALL);
+            hdArquivo.setLevel(Level.ALL);
+
+            logger.addHandler(hdConsole);
+            logger.addHandler(hdArquivo);
+
+            logger.setUseParentHandlers(false);
+
+
+        } catch (IOException ex) {
+            logger.severe("ocorreu um erro no arquivo durante a execução do programa");
+        }
+
+        salvarCurso = new SalvarCurso();
+        loadCursos = new LoadCursos();
+        saveCommandInvoker.setCommand(salvarCurso);
+        loadCommandInvoker.setCommand(loadCursos);
+        cursos = loadCommandInvoker.invoke();      
+        
     }
 
     // Método para adicionar um curso
-    public void adicionarCurso(String[] args){
+    public void adicionarCurso(String[] args) throws InfraException{
         // Adicionando um novo Curso no Map 'cursos' e salvando no arquivo
         Curso curso = cursoFactory.createCurso(args[0], args[1], args[2]);
         cursos.put(args[0], curso);
-        cursoFile.salvarCursos(cursos);
+        saveCommandInvoker.invoke(cursos);
     }
 
     // Método para remover um curso
@@ -41,16 +77,15 @@ public class CursoManager {
 
         // Remove o curso do Map 'cursos' e salva no arquivo
         cursos.remove(nome);
-        cursoFile.salvarCursos(cursos);
+        saveCommandInvoker.invoke(cursos);
     }
 
     // Método para retornar os cursos
     public Map<String,Curso> getCursos() throws InfraException{
-        Logger logger = cursoFile.getLogger();
 
         try{
             // Carrega os cursos do arquivo
-            Map<String,Curso> meusCursos = cursoFile.carregarCursos();
+            Map<String,Curso> meusCursos = loadCommandInvoker.invoke();
             return meusCursos;
 
         } catch(NullPointerException ex){
