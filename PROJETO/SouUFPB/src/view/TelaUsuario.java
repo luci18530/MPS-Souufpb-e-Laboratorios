@@ -50,7 +50,7 @@ public class TelaUsuario {
         switch (choice) {
             case 1:
                 // Implementar visualização dos cursos da UFPB
-                showCursos();
+                cursoManager.showCursos();
                 showMenuApp(email);
                 break;
             case 2:
@@ -186,21 +186,6 @@ public class TelaUsuario {
     }
 
 
-    private void showCursos() throws InfraException {
-        try {
-            Map<String, Curso> cursos = cursoManager.getCursos();
-            StringBuilder listaDeCursos = new StringBuilder();
-            for (Curso curso : cursos.values()) {
-                listaDeCursos.append("[ Nome: ").append(curso.getNome()).append(" | Cidade: ").append(curso.getCidade()).append(" | Centro: ").append(curso.getCentro()).append("| Área: ").append(curso.getArea()).append(" ]\n");
-            }
-            JOptionPane.showMessageDialog(null, listaDeCursos);
-        } catch (InfraException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-
-        
-        
-    }
 
     public void doVocationalTest(String email) throws InfraException {
         // Recupera o questionário e o resultado do usuário

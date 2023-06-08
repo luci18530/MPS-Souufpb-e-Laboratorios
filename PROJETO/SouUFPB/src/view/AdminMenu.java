@@ -43,7 +43,8 @@ public class AdminMenu {
                 addCurso();
                 break;
             case 2:
-                showCursos();
+                cursoManager.showCursos();
+                showMenu();
                 break;
             case 3:
                 removeCurso();
@@ -78,19 +79,6 @@ public class AdminMenu {
         showMenu();
     }
 
-    private void showCursos() throws InfraException {
-        try {
-            Map<String, Curso> cursos = cursoManager.getCursos();
-            StringBuilder listaDeCursos = new StringBuilder();
-            for (Curso curso : cursos.values()) {
-                listaDeCursos.append("[ Nome: ").append(curso.getNome()).append(" | Cidade: ").append(curso.getCidade()).append(" | Centro: ").append(curso.getCentro()).append("| Área: ").append(curso.getArea()).append(" ]\n");
-            }
-            JOptionPane.showMessageDialog(null, listaDeCursos);
-        } catch (InfraException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        showMenu();
-    }
 
     private void removeCurso() throws InfraException {
         String nome = JOptionPane.showInputDialog("Digite o nome do curso que deseja remover:");

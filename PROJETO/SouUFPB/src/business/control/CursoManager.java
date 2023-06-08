@@ -18,6 +18,9 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import javax.swing.JOptionPane;
+
 import java.util.logging.Handler;
 
 // Definindo a classe CursoManager
@@ -104,5 +107,21 @@ public class CursoManager {
             .filter(curso -> curso.getArea().equals(area))
             .collect(Collectors.toList());    
 
+    }
+
+    public void showCursos() throws InfraException {
+        try {
+            Map<String, Curso> cursos = getCursos();
+            StringBuilder listaDeCursos = new StringBuilder();
+            for (Curso curso : cursos.values()) {
+                listaDeCursos.append("[ Nome: ").append(curso.getNome()).append(" | Cidade: ").append(curso.getCidade()).append(" | Centro: ").append(curso.getCentro()).append("| Área: ").append(curso.getArea()).append(" ]\n");
+            }
+            JOptionPane.showMessageDialog(null, listaDeCursos);
+        } catch (InfraException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
+        
+        
     }
 }
