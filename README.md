@@ -1,5 +1,5 @@
 # MPS-Souufpb
-O Souufpb é um aplicativo para ajudar os estudantes pré-universitários na escolha do curso na instituição
+O SouUfpb é um aplicativo para ajudar os estudantes pré-universitários na escolha do curso na instituição
 
 Grupo:
  - ANDRE SILVA DA FONSECA ([@AndreSFonsec](https://github.com/AndreSFonsec))
