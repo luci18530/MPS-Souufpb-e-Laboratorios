@@ -1,10 +1,8 @@
 package business.control;
 
-import infra.ConcreteMemento;
 import infra.InfraException;
 import infra.LoadCommandInvoker;
 import infra.LoadQuestionario;
-import infra.Memento;
 import infra.SalvarQuestionario;
 import infra.SaveCommandInvoker;
 import business.model.Questionario;
@@ -12,11 +10,15 @@ import factory.QuestionarioFactory;
 import factory.QuestionarioFactoryImpl;
 import java.io.IOException;
 import java.util.Map;
+import infra.ConcreteMemento;
+import infra.Memento;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JOptionPane;
 
 
 public class QuestionarioManager implements Manager<Questionario> {
@@ -29,7 +31,7 @@ public class QuestionarioManager implements Manager<Questionario> {
     private Map<String, Questionario> questionarios;
     private QuestionarioFactory questionarioFactory = new QuestionarioFactoryImpl(); 
 
-    public QuestionarioManager() throws InfraException{
+    public QuestionarioManager() throws InfraException, IOException{
         
         try {
             
@@ -51,33 +53,44 @@ public class QuestionarioManager implements Manager<Questionario> {
         
         salvarQuestionario = new SalvarQuestionario();
         loadQuestionario = new LoadQuestionario();
-
         loadCommandInvoker.setCommand(loadQuestionario);
         saveCommandInvoker.setCommand(salvarQuestionario);
 
         questionarios = loadCommandInvoker.invoke();
     }
 
-    public void add(String[] args) throws InfraException{
-
-        String pergunta = args[0];
-        String area = args[1];
+    public void add() throws InfraException{
+        String pergunta = JOptionPane.showInputDialog("Digite a pergunta:");
+        String area = JOptionPane.showInputDialog("Digite a área da pergunta:");
 
         if(questionarios.containsKey(pergunta)){
             throw new IllegalArgumentException("Pergunta já cadastrada. Tente novamente.");
         }
-        Questionario questionario = questionarioFactory.createQuestionario(pergunta, area);
-        questionarios.put(pergunta, questionario);
-        saveCommandInvoker.invoke(questionarios);
+
+        try {
+            Questionario questionario = questionarioFactory.createQuestionario(pergunta, area);
+            questionarios.put(pergunta, questionario);
+            saveCommandInvoker.invoke(questionarios);
+            JOptionPane.showMessageDialog(null, "Pergunta adicionada com sucesso!");
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
     }
 
-    public void remove(String pergunta) throws InfraException{
+    public void remove() throws InfraException{
+        String pergunta = JOptionPane.showInputDialog("Digite a pergunta que deseja remover:");
         if(!questionarios.containsKey(pergunta)){
             throw new IllegalArgumentException("Pergunta não encontrada. Tente novamente.");
         }
-
-        questionarios.remove(pergunta);
-        saveCommandInvoker.invoke(questionarios);
+      
+        try {
+            questionarios.remove(pergunta);
+            saveCommandInvoker.invoke(questionarios);
+            JOptionPane.showMessageDialog(null, "Pergunta removida com sucesso!");
+        } catch (IllegalArgumentException | InfraException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
 
     public Map<String,Questionario> list() throws InfraException{
@@ -92,6 +105,20 @@ public class QuestionarioManager implements Manager<Questionario> {
         }
     }
 
+    public void showQuestionarios() throws InfraException {
+        try {
+            Map<String, Questionario> questionarios = list();
+            StringBuilder listaDePerguntas = new StringBuilder();
+            for (Questionario questionario : questionarios.values()) {
+                listaDePerguntas.append("[ Pergunta: ").append(questionario.getPergunta()).append(" | Área: ").append(questionario.getArea()).append(" ]\n");
+            }
+            JOptionPane.showMessageDialog(null, listaDePerguntas);
+        } catch (InfraException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+    }
+
     @Override
     public void restore(Memento<?> memento) throws InfraException {
 
@@ -103,4 +130,5 @@ public class QuestionarioManager implements Manager<Questionario> {
     public Memento<Questionario> save() throws InfraException {
         return new ConcreteMemento<>(questionarios);
     }
+
 }

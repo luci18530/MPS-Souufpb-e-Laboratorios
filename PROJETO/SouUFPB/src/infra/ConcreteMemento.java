@@ -3,7 +3,7 @@ package infra;
 import java.util.Map;
 
 public class ConcreteMemento<T> implements Memento<T>{
-    
+
     private Map<String, T> state;
 
     public ConcreteMemento(Map<String, T> state){

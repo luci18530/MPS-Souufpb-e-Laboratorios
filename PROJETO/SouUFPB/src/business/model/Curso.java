@@ -11,13 +11,15 @@ public class Curso implements Serializable {
     private String cidade;
     private String centro;
     private String timestamp;
+    private String area;
 
     // Construtor da classe Curso
-    public Curso(String nome, String cidade, String centro){
+    public Curso(String nome, String cidade, String centro, String area){
         // Atribuindo valores para os atributos
         this.nome = nome;
         this.cidade = cidade;
         this.centro = centro;
+        this.area = area;
         this.time = new TimestampAdapter();
         this.timestamp = time.getTime();
         
@@ -50,6 +52,14 @@ public class Curso implements Serializable {
 
     public String getTimestamp() {
         return timestamp;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area){
+        this.area = area;
     }
 
     public void setTimestamp(String timestamp) {
