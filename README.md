@@ -1,4 +1,4 @@
-# MPS-Souufpb
+# MPS-SouUfpb
 O SouUfpb é um aplicativo para ajudar os estudantes pré-universitários na escolha do curso na instituição
 
 Grupo:
