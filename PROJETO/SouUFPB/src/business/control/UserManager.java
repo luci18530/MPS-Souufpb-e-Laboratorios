@@ -138,11 +138,11 @@ public class UserManager implements Manager<User> {
         resultados.put(email, resultado);
     }
 	
-	public Memento<User> save() throws InfraException{
-		return new ConcreteMemento<>(users);
+	public Memento save() throws InfraException{
+		return new ConcreteMemento<>(this.users, this);
 	}
 
-	public void restore(Memento<?> memento) throws InfraException{
+	public void restore(Memento memento) throws InfraException{
 		users = (Map<String, User>) memento.getState();
 		saveCommandInvoker.invoke(users);
 	}

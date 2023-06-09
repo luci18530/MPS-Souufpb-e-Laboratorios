@@ -5,12 +5,14 @@ import javax.swing.JOptionPane;
 import business.control.CursoManager;
 import business.control.QuestionarioManager;
 import infra.InfraException;
+import infra.Memento;
 import infra.Caretaker;
 
 public class AdminMenu {
     private static CursoManager cursoManager;
     private static QuestionarioManager questionarioManager;
     private static Caretaker history;
+    private static Memento savedState;
     
     public AdminMenu() throws InfraException, IOException{
         try {
@@ -39,33 +41,31 @@ public class AdminMenu {
         if (option == null) return;
         switch (option) {
             case "1":
-                history.backup(cursoManager);
                 cursoManager.add();
+                history.addMemento(cursoManager.save());
                 showMenu();
                 break;
             case "2":
-                history.backup(cursoManager);
                 cursoManager.showCursos();
                 showMenu();
                 break;
             case "3":
-                history.backup(cursoManager);
                 cursoManager.remove();
+                history.addMemento(cursoManager.save());
                 showMenu();
                 break;
             case "4":
-                history.backup(questionarioManager);
                 questionarioManager.add();
+                history.addMemento(questionarioManager.save());
                 showMenu();
                 break;
             case "5":
-                history.backup(questionarioManager);
                 questionarioManager.showQuestionarios();
                 showMenu();
                 break;
             case "6":
-                history.backup(questionarioManager);
                 questionarioManager.remove();
+                history.addMemento(questionarioManager.save());
                 showMenu();
                 break;
             case "7":
@@ -83,7 +83,15 @@ public class AdminMenu {
     }
 
     private static void undo() throws InfraException{
-        history.undo();
+        
+        savedState = history.getMemento();
+        if (savedState.getOriginator().equals(cursoManager)) {
+            cursoManager.restore(savedState);
+        }
+        else{
+            questionarioManager.restore(savedState);
+        }
+        
         JOptionPane.showMessageDialog(null, "Inserção/Exclusão desfeita com sucesso!");
     }
 }

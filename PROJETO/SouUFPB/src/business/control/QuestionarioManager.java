@@ -120,15 +120,15 @@ public class QuestionarioManager implements Manager<Questionario> {
     }
 
     @Override
-    public void restore(Memento<?> memento) throws InfraException {
+    public void restore(Memento memento) throws InfraException {
 
         questionarios = (Map<String, Questionario>) memento.getState();
         saveCommandInvoker.invoke(questionarios);
     }
 
     @Override
-    public Memento<Questionario> save() throws InfraException {
-        return new ConcreteMemento<>(questionarios);
+    public Memento save() throws InfraException {
+        return new ConcreteMemento<>(this.questionarios, this);
     }
 
 }

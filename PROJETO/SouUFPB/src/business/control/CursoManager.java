@@ -11,7 +11,6 @@ import factory.CursoFactory;
 import factory.CursoFactoryImpl;
 import infra.ConcreteMemento;
 import infra.Memento;
-import javax.management.InstanceNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -135,13 +134,13 @@ public class CursoManager implements Manager<Curso> {
     }
 
     @Override
-    public void restore(Memento<?> memento) throws InfraException {
-        cursos = (Map<String, Curso>) memento.getState();
+    public void restore(Memento memento) throws InfraException {
+        this.cursos = (Map<String, Curso>) memento.getState();
         saveCommandInvoker.invoke(cursos);
     }
 
     @Override
-    public Memento<Curso> save() throws InfraException {
-        return new ConcreteMemento<>(cursos);
+    public Memento save() throws InfraException {
+        return new ConcreteMemento<>(this.cursos,this);
     }
 }

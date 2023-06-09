@@ -2,16 +2,23 @@ package infra;
 
 import java.util.Map;
 
-public class ConcreteMemento<T> implements Memento<T>{
+import business.control.Manager;
 
-    private Map<String, T> state;
+public class ConcreteMemento<T> implements Memento{
 
-    public ConcreteMemento(Map<String, T> state){
+    private Map<String, ?> state;
+    private Manager<T> originator;
+
+    public ConcreteMemento(Map<String, ?> state, Manager<T> originator){
         this.state = state;
+        this.originator = originator;
     }
 
-    @Override
-    public Map<String, T> getState() {
+    public Map<String, ?> getState() {
         return this.state;
+    }
+
+    public Manager<T> getOriginator() {
+        return originator;
     }
 }

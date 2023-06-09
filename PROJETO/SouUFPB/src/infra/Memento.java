@@ -2,6 +2,9 @@ package infra;
 
 import java.util.Map;
 
-public interface Memento<T> {
-    public Map<String,T> getState();
+import business.control.Manager;
+
+public interface Memento{
+    public Map<String,?> getState();
+    public Manager<?> getOriginator();
 }

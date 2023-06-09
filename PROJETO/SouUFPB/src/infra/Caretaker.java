@@ -2,27 +2,20 @@ package infra;
 
 import java.util.Stack;
 
-import business.control.Manager;
 
 public class Caretaker{
-    private Stack<Memento<?>> mementos;
-    private Stack<Manager<?>> originators;
+    private Stack<Memento> mementos;
 
     public Caretaker(){
         mementos = new Stack<>();
-        originators = new Stack<>();
+        
     }
 
-    public void backup(Manager<?> manager) throws InfraException{
-        originators.push(manager);
-        mementos.push(manager.save());
+    public void addMemento(Memento m){
+        mementos.push(m);
     }
 
-    public void undo() throws InfraException{
-        if(mementos.isEmpty()){
-            return;
-        }
-        Memento<?> popped = mementos.pop();
-        originators.pop().restore(popped);
+    public Memento getMemento() {
+        return mementos.pop();    
     }
 }
