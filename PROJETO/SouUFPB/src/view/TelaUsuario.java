@@ -36,29 +36,31 @@ public class TelaUsuario {
     public static void showMenuLogin() throws LoginInvalidException, InfraException, IOException {
         TelaUsuario main = getInstance();
         String option = getUserInput(MENU_LOGIN_OPTIONS);
+        if (option == null) return;
         main.readUserInputLogin(option);
     }
 
     public static void showMenuApp(String email) throws InfraException, IOException {
         String option = getUserInput(MENU_APP_OPTIONS);
+        if (option == null) return;
         TelaUsuario.getInstance().readUserInputApp(option, email);
     }
 
     private void readUserInputApp(String option, String email) throws InfraException, IOException {
         // Lê a opção do usuário no segundo menu
-        int choice = Integer.parseInt(option);
-        switch (choice) {
-            case 1:
+        //int choice = Integer.parseInt(option);
+        switch (option) {
+            case "1":
                 // Implementar visualização dos cursos da UFPB
                 cursoManager.showCursos();
                 showMenuApp(email);
                 break;
-            case 2:
+            case "2":
                 // Conecta com o teste vocacional
                 doVocationalTest(email);
                 showMenuApp(email);
                 break;
-            case 3:
+            case "3":
                 // Implementar a saída
                 System.exit(0);
                 break;
@@ -81,22 +83,23 @@ public class TelaUsuario {
         } catch (InfraException e) {
             String option2 = JOptionPane.showInputDialog(e.getMessage());
         }
-        int choice = Integer.parseInt(option);
-        switch (choice) {
+        //int choice = Integer.parseInt(option);
+        switch (option) {
 
-            case 1:
+            case "1":
                 // Realiza cadastro de usuário
                 //registerUser();
                 userManager.add();
                 showMenuLogin();
                 break;
 
-            case 2: 
+            case "2": 
                 // Realiza login de usuário
                 loginUser();
+                showMenuLogin();
                 break;
 
-            case 3: 
+            case "3": 
                 // Encerra a aplicação
                 System.exit(0);
                 break;
@@ -112,7 +115,9 @@ public class TelaUsuario {
     private void loginUser() throws LoginInvalidException, InfraException, IOException{
         while (true) {
             String email = getUserInput("Email do usuario:");
+            if (email == null) break;
             String password = getUserInput("Senha do usuario:");
+            if (password == null) break;
     
             if (loginValidator.checkUserLogin(email,password)) {
                 showMessage("Login bem-sucedido!");

@@ -35,43 +35,44 @@ public class AdminMenu {
                 + "7- Desfazer ultima inserção/exclusão\n\n"
                 + "8- Sair");
 
-        int choice = Integer.parseInt(option);
-        switch (choice) {
-            case 1:
+        //int choice = Integer.parseInt(option);
+        if (option == null) return;
+        switch (option) {
+            case "1":
                 history.backup(cursoManager);
                 cursoManager.add();
                 showMenu();
                 break;
-            case 2:
+            case "2":
                 history.backup(cursoManager);
                 cursoManager.showCursos();
                 showMenu();
                 break;
-            case 3:
+            case "3":
                 history.backup(cursoManager);
                 cursoManager.remove();
                 showMenu();
                 break;
-            case 4:
+            case "4":
                 history.backup(questionarioManager);
                 questionarioManager.add();
                 showMenu();
                 break;
-            case 5:
+            case "5":
                 history.backup(questionarioManager);
                 questionarioManager.showQuestionarios();
                 showMenu();
                 break;
-            case 6:
+            case "6":
                 history.backup(questionarioManager);
                 questionarioManager.remove();
                 showMenu();
                 break;
-            case 7:
+            case "7":
                 undo();
                 showMenu();
                 break;
-            case 8:
+            case "8":
                 System.exit(0);
                 break;
             default:
