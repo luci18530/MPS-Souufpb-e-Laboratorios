@@ -19,11 +19,11 @@ public class MainScreenDesktop {
 
 	}
 	
-	public static void main (String[] args) throws IOException {
+	public static void main (String[] args) {
 		showMenu();
 	}
 	
-	public static void showMenu() throws IOException {
+	public static void showMenu() {
 
 		MainScreenDesktop main = getInstance();
 
@@ -32,7 +32,7 @@ public class MainScreenDesktop {
 		main.readUserInput(option);
 	}
 	
-	public void readUserInput(String option) throws IOException {
+	public void readUserInput(String option) {
 		try {
 
 			userManager = new UserManager();
@@ -47,7 +47,7 @@ public class MainScreenDesktop {
 				String usuarios = "";
 				Iterator<User> users;
 				try {
-					users = this.userManager.getAllClients().values().iterator();
+					users = this.userManager.list().values().iterator();
 					while (users.hasNext()) {
 						User user = users.next();
 						usuarios = usuarios + "[ Login: " + user.getLogin() + " | Email: " + user.getEmail() + " | Senha: " + user.getSenha() + " ]" + "\n";

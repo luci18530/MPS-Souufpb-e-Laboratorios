@@ -1,6 +1,5 @@
 package infra;
 
-import java.io.IOException;
 import java.util.Map;
 
 import business.model.User;
@@ -10,7 +9,7 @@ public class LoadUsers implements LoadCommand<User>{
     private FileManager<User> fileManager;
     private final String PATH = "SouUFPB/src/database/user.bin";
 
-    public LoadUsers() throws IOException{
+    public LoadUsers(){
         this.fileManager = new FileManager<User>();
     }
 

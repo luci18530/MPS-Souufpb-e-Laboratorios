@@ -1,8 +1,10 @@
 package business.control;
 
+import infra.ConcreteMemento;
 import infra.InfraException;
 import infra.LoadCommandInvoker;
 import infra.LoadQuestionario;
+import infra.Memento;
 import infra.SalvarQuestionario;
 import infra.SaveCommandInvoker;
 import business.model.Questionario;
@@ -16,10 +18,8 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JOptionPane;
 
-
-public class QuestionarioManager {
+public class QuestionarioManager implements Manager<Questionario> {
     
     private Logger logger = Logger.getLogger(this.getClass().getName());
     private LoadQuestionario loadQuestionario;
@@ -29,7 +29,7 @@ public class QuestionarioManager {
     private Map<String, Questionario> questionarios;
     private QuestionarioFactory questionarioFactory = new QuestionarioFactoryImpl(); 
 
-    public QuestionarioManager() throws InfraException, IOException{
+    public QuestionarioManager() throws InfraException{
         
         try {
             
@@ -51,13 +51,18 @@ public class QuestionarioManager {
         
         salvarQuestionario = new SalvarQuestionario();
         loadQuestionario = new LoadQuestionario();
+
         loadCommandInvoker.setCommand(loadQuestionario);
         saveCommandInvoker.setCommand(salvarQuestionario);
 
         questionarios = loadCommandInvoker.invoke();
     }
 
-    public void adicionarQuestionario(String pergunta, String area) throws InfraException{
+    public void add(String[] args) throws InfraException{
+
+        String pergunta = args[0];
+        String area = args[1];
+
         if(questionarios.containsKey(pergunta)){
             throw new IllegalArgumentException("Pergunta já cadastrada. Tente novamente.");
         }
@@ -66,7 +71,7 @@ public class QuestionarioManager {
         saveCommandInvoker.invoke(questionarios);
     }
 
-    public void removerQuestionario(String pergunta) throws InfraException{
+    public void remove(String pergunta) throws InfraException{
         if(!questionarios.containsKey(pergunta)){
             throw new IllegalArgumentException("Pergunta não encontrada. Tente novamente.");
         }
@@ -75,7 +80,7 @@ public class QuestionarioManager {
         saveCommandInvoker.invoke(questionarios);
     }
 
-    public Map<String,Questionario> getQuestionarios() throws InfraException{
+    public Map<String,Questionario> list() throws InfraException{
 
         try{
             Map<String,Questionario> meusQuestionarios = this.loadCommandInvoker.invoke();
@@ -87,40 +92,15 @@ public class QuestionarioManager {
         }
     }
 
-    public void addQuestionario() throws InfraException {
-        String pergunta = JOptionPane.showInputDialog("Digite a pergunta:");
-        String area = JOptionPane.showInputDialog("Digite a área da pergunta:");
-        try {
-            adicionarQuestionario(pergunta, area);
-            JOptionPane.showMessageDialog(null, "Pergunta adicionada com sucesso!");
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        
+    @Override
+    public void restore(Memento<?> memento) throws InfraException {
+
+        questionarios = (Map<String, Questionario>) memento.getState();
+        saveCommandInvoker.invoke(questionarios);
     }
 
-    public void showQuestionarios() throws InfraException {
-        try {
-            Map<String, Questionario> questionarios = getQuestionarios();
-            StringBuilder listaDePerguntas = new StringBuilder();
-            for (Questionario questionario : questionarios.values()) {
-                listaDePerguntas.append("[ Pergunta: ").append(questionario.getPergunta()).append(" | Área: ").append(questionario.getArea()).append(" ]\n");
-            }
-            JOptionPane.showMessageDialog(null, listaDePerguntas);
-        } catch (InfraException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        
-    }
-
-    public void removeQuestionario() throws InfraException {
-        String pergunta = JOptionPane.showInputDialog("Digite a pergunta que deseja remover:");
-        try {
-            removerQuestionario(pergunta);
-            JOptionPane.showMessageDialog(null, "Pergunta removida com sucesso!");
-        } catch (IllegalArgumentException | InfraException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        
+    @Override
+    public Memento<Questionario> save() throws InfraException {
+        return new ConcreteMemento<>(questionarios);
     }
 }

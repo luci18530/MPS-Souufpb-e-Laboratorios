@@ -20,18 +20,25 @@ public class FileManager<T> {
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
-    public FileManager() throws IOException{
+    public FileManager(){
 
-        Handler hdConsole = new ConsoleHandler();
-        //Handler hdArquivo = new FileHandler("relatorioLog.txt");
+        try {
+            
+            Handler hdConsole = new ConsoleHandler();
+            Handler hdArquivo = new FileHandler("relatorioLog.txt");
 
-        hdConsole.setLevel(Level.ALL);
-        //hdArquivo.setLevel(Level.ALL);
+            hdConsole.setLevel(Level.ALL);
+            hdArquivo.setLevel(Level.ALL);
 
-        logger.addHandler(hdConsole);
-        //logger.addHandler(hdArquivo);
+            logger.addHandler(hdConsole);
+            logger.addHandler(hdArquivo);
 
-        logger.setUseParentHandlers(false);
+            logger.setUseParentHandlers(false);
+
+
+        } catch (IOException ex) {
+            logger.severe("ocorreu um erro no arquivo durante a execução do programa");
+        }
 
     }
 
@@ -72,14 +79,14 @@ public class FileManager<T> {
         
         } catch (NullPointerException ex){
             logger.config(ex.getMessage());
-            throw new InfraException("[LOAD NULLPOINTEREXCEPTION] Erro de persistencia, contacte o admin ou tente mais tarde");
+            throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
            
         } catch (IOException ex){
             logger.config(ex.getMessage());
-            throw new InfraException("[LOAD IOEXCEPTION] Erro de persistencia, contacte o admin ou tente mais tarde");
+            throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
          } catch (ClassNotFoundException ex) {
             logger.config(ex.getMessage());
-            throw new InfraException("[LOAD CLASSNOTFOUND] Erro de persistencia, contacte o admin ou tente mais tarde");      
+            throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");      
         }
         finally {
         	try {
@@ -88,11 +95,11 @@ public class FileManager<T> {
 			
         		} catch (IOException e) {
 				logger.severe(e.getMessage());
-	            throw new InfraException("[IOEXCEPTION CLOSE]Erro de persistencia, contacte o admin ou tente mais tarde");
+	            throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
 	            
 			} catch (Exception e) {
 				logger.severe(e.getMessage());
-	            throw new InfraException("[EXCEPTION CLOSE] Erro de persistencia, contacte o admin ou tente mais tarde");
+	            throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
 	            
 			} 
   			

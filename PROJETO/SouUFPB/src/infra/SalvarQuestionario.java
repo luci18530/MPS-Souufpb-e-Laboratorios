@@ -1,6 +1,5 @@
 package infra;
 
-import java.io.IOException;
 import java.util.Map;
 
 import business.model.Questionario;
@@ -10,7 +9,7 @@ public class SalvarQuestionario implements SaveCommand<Questionario>{
     private FileManager<Questionario> fileManager;
     private final String PATH = "SouUFPB/src/database/questionarios.bin";
 
-    public SalvarQuestionario() throws IOException{
+    public SalvarQuestionario(){
         this.fileManager = new FileManager<Questionario>();
     }
 
