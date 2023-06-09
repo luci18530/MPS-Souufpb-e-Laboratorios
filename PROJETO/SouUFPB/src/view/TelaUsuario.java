@@ -3,13 +3,13 @@ package view;
 import infra.InfraException;
 import util.*;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.Map;
+
 import javax.swing.JOptionPane;
 import business.control.*;
-import business.model.*;
-
+import business.model.Curso;
+import testes.Testes;
+import cursos.Cursos;
 
 public class TelaUsuario {
     private UserManager userManager;
@@ -24,41 +24,43 @@ public class TelaUsuario {
     private static final String ADMIN_EMAIL = "admin@admin.com";
     private static final String ADMIN_PASSWORD = "admin012";
 
-    private TelaUsuario() throws InfraException, IOException{
+    private TelaUsuario() throws InfraException{
         this.loginValidator = new LoginValidator();
     }
     
 
-    public static void main (String[] args) throws LoginInvalidException, InfraException, IOException {
+    public static void main (String[] args) throws LoginInvalidException, InfraException {
         showMenuLogin();
     }
 
-    public static void showMenuLogin() throws LoginInvalidException, InfraException, IOException {
+    public static void showMenuLogin() throws LoginInvalidException, InfraException {
         TelaUsuario main = getInstance();
         String option = getUserInput(MENU_LOGIN_OPTIONS);
+        if (option == null) return;
         main.readUserInputLogin(option);
     }
 
-    public static void showMenuApp(String email) throws InfraException, IOException {
+    public static void showMenuApp(String email) throws InfraException {
         String option = getUserInput(MENU_APP_OPTIONS);
+        if (option == null) return;
         TelaUsuario.getInstance().readUserInputApp(option, email);
     }
 
-    private void readUserInputApp(String option, String email) throws InfraException, IOException {
+    private void readUserInputApp(String option, String email) throws InfraException {
         // Lê a opção do usuário no segundo menu
-        int choice = Integer.parseInt(option);
-        switch (choice) {
-            case 1:
+        //int choice = Integer.parseInt(option);
+        switch (option) {
+            case "1":
                 // Implementar visualização dos cursos da UFPB
-                cursoManager.showCursos();
+                visualizarCursos();
                 showMenuApp(email);
                 break;
-            case 2:
+            case "2":
                 // Conecta com o teste vocacional
-                doVocationalTest(email);
+                Testes.questionario(email);
                 showMenuApp(email);
                 break;
-            case 3:
+            case "3":
                 // Implementar a saída
                 System.exit(0);
                 break;
@@ -71,7 +73,7 @@ public class TelaUsuario {
     }
 
 
-    public void readUserInputLogin(String option) throws LoginInvalidException, InfraException, IOException {
+    public void readUserInputLogin(String option) throws LoginInvalidException, InfraException {
         try {
             
             userManager = new UserManager();
@@ -81,21 +83,22 @@ public class TelaUsuario {
         } catch (InfraException e) {
             String option2 = JOptionPane.showInputDialog(e.getMessage());
         }
-        int choice = Integer.parseInt(option);
-        switch (choice) {
+        //int choice = Integer.parseInt(option);
+        switch (option) {
 
-            case 1:
+            case "1":
                 // Realiza cadastro de usuário
                 registerUser();
                 showMenuLogin();
                 break;
 
-            case 2: 
+            case "2": 
                 // Realiza login de usuário
                 loginUser();
+                showMenuLogin();
                 break;
 
-            case 3: 
+            case "3": 
                 // Encerra a aplicação
                 System.exit(0);
                 break;
@@ -128,31 +131,26 @@ public class TelaUsuario {
 
             try {
                 String[] args = {name, email, pass};
-                this.userManager.addUser(args);
+                this.userManager.add(args);
                 JOptionPane.showMessageDialog(null, "Usuario adicionado com sucesso!");
                 break;
-            } catch (LoginInvalidException | EmailInvalidException | PasswordInvalidException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage());
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Erro desconhecido: " + e.getMessage());
             }
         }
     }
 
-    private void loginUser() throws LoginInvalidException, InfraException, IOException{
+    private void loginUser() throws LoginInvalidException, InfraException{
         while (true) {
             String email = getUserInput("Email do usuario:");
+            if (email == null) break;
             String password = getUserInput("Senha do usuario:");
-    
+            if (password == null) break;
+
             if (loginValidator.checkUserLogin(email,password)) {
                 showMessage("Login bem-sucedido!");
                 if (isAdmin(email, password)) {
-                    try {
-                        AdminMenu adminMenu = new AdminMenu();
-                        adminMenu.showMenu();
-                    } catch (InfraException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
-                    }
+                    AdminMenu.show();
                 } else {
                     showMenuApp(email);
                 }
@@ -176,7 +174,7 @@ public class TelaUsuario {
         return JOptionPane.showInputDialog(null, message, "Digite aqui");
     }
 
-    public static TelaUsuario getInstance() throws InfraException, IOException{
+    public static TelaUsuario getInstance() throws InfraException{
 
         if(instance == null){
             instance = new TelaUsuario();
@@ -186,61 +184,17 @@ public class TelaUsuario {
     }
 
 
-    public void doVocationalTest(String email) throws InfraException {
-        // Recupera o questionário e o resultado do usuário
-        Map<String, Questionario> questionarios = questionarioManager.getQuestionarios();
-        Resultado resultado = userManager.getUserResult(email);
-        if(resultado == null) {
-            resultado = new Resultado();
-        }
-
-        // Executa o teste
-        for (Questionario questionario : questionarios.values()) {
-            String pergunta = questionario.getPergunta();
-            String area = questionario.getArea();
-
-            // Lê a resposta do usuário
-            Object[] options = {"1", "2", "3", "4", "5"};
-            int resposta = JOptionPane.showOptionDialog(null,
-                    pergunta, 
-                    "Teste Vocacional",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                    null, options, options[0]);
-
-            if (resposta >= 0 && resposta <= 4) { // Verifica se uma resposta válida foi selecionada
-                resultado.addScore(area, resposta+1);
-                
+    private static void visualizarCursos() {
+        try {
+            Map<String, Curso> cursos = cursoManager.list();
+            String listaDeCursos = "";
+            for (Curso curso : cursos.values()) {
+                listaDeCursos = listaDeCursos + "[ Nome: " + curso.getNome() + " | Cidade: " + curso.getCidade() + " | Centro: " + curso.getCentro() + " ]" + "\n";
             }
-
+            JOptionPane.showMessageDialog(null, listaDeCursos);
+        } catch (InfraException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
-
-        userManager.setUserResult(email, resultado);
-        JOptionPane.showMessageDialog(null, resultadoToString(resultado));
-
-        // Exibe o resultado do teste
-        System.out.println("Resultado do teste:");
-        for (Map.Entry<String, Integer> entry : resultado.getScorePorArea().entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-        }
-
-        resultado = userManager.getUserResult(email);
-        String areaComMaiorPontuacao = resultado.getAreaComMaiorPontuacao();
-        List<Curso> cursosRecomendados = cursoManager.getCursosPorArea(areaComMaiorPontuacao);
-    
-        StringBuilder listaDeCursosRecomendados = new StringBuilder();
-        for (Curso curso : cursosRecomendados) {
-            listaDeCursosRecomendados.append("[ Nome: ").append(curso.getNome()).append(" | Cidade: ").append(curso.getCidade()).append(" | Centro: ").append(curso.getCentro()).append(" ]\n");
-        }
-        JOptionPane.showMessageDialog(null, "Cursos recomendados para a área " + areaComMaiorPontuacao + ":\n" + listaDeCursosRecomendados);
-    }
-    
-    private String resultadoToString(Resultado resultado) {
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, Integer> entry : resultado.getScorePorArea().entrySet()) {
-            sb.append("Area: ").append(entry.getKey())
-              .append(", Pontuação: ").append(entry.getValue()).append("\n");
-        }
-        return sb.toString();
     }
 
 }
