@@ -18,4 +18,9 @@ public class Caretaker{
     public Memento getMemento() {
         return mementos.pop();    
     }
+
+    public void undo() throws InfraException{
+        Memento poppedMemento = mementos.pop();
+        poppedMemento.getOriginator().restore(poppedMemento);
+    }
 }

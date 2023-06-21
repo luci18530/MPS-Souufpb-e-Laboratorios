@@ -5,16 +5,15 @@ import javax.swing.JOptionPane;
 import business.control.CursoManager;
 import business.control.QuestionarioManager;
 import infra.InfraException;
-import infra.Memento;
 import infra.Caretaker;
 
 public class AdminMenu {
+    private static AdminMenu instance = null;
     private static CursoManager cursoManager;
     private static QuestionarioManager questionarioManager;
     private static Caretaker history;
-    private static Memento savedState;
     
-    public AdminMenu() throws InfraException, IOException{
+    private AdminMenu() throws InfraException, IOException{
         try {
             cursoManager = new CursoManager();
             questionarioManager = new QuestionarioManager();
@@ -26,7 +25,12 @@ public class AdminMenu {
         }
     }
 
-    public void showMenu() throws InfraException {
+    public void showMenu() throws InfraException, IOException{
+        Home();
+    }
+
+    public void Home() throws InfraException {
+
         String option = JOptionPane.showInputDialog("Seção admin. Escolha a opção desejada:\n"
                 + "1- Adicionar Curso\n"
                 + "2- Visualizar Cursos\n"
@@ -43,55 +47,51 @@ public class AdminMenu {
             case "1":
                 cursoManager.add();
                 history.addMemento(cursoManager.save());
-                showMenu();
+                Home();
                 break;
             case "2":
                 cursoManager.showCursos();
-                showMenu();
+                Home();
                 break;
             case "3":
                 cursoManager.remove();
                 history.addMemento(cursoManager.save());
-                showMenu();
+                Home();
                 break;
             case "4":
                 questionarioManager.add();
                 history.addMemento(questionarioManager.save());
-                showMenu();
+                Home();
                 break;
             case "5":
                 questionarioManager.showQuestionarios();
-                showMenu();
+                Home();
                 break;
             case "6":
                 questionarioManager.remove();
                 history.addMemento(questionarioManager.save());
-                showMenu();
+                Home();
                 break;
             case "7":
-                undo();
-                showMenu();
+                history.undo();
+                Home();
                 break;
             case "8":
                 System.exit(0);
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "Opção inválida!");
-                showMenu();
+                Home();
                 break;
         }
     }
 
-    private static void undo() throws InfraException{
-        
-        savedState = history.getMemento();
-        if (savedState.getOriginator().equals(cursoManager)) {
-            cursoManager.restore(savedState);
+    public static AdminMenu getInstance() throws InfraException, IOException{
+
+        if(instance == null){
+            instance = new AdminMenu();
         }
-        else{
-            questionarioManager.restore(savedState);
-        }
-        
-        JOptionPane.showMessageDialog(null, "Inserção/Exclusão desfeita com sucesso!");
+
+        return instance;
     }
 }
