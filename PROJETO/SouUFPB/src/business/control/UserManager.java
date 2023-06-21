@@ -123,6 +123,10 @@ public class UserManager implements Manager<User> {
 			}
 		}
 	}
+
+	public void updateFile() throws InfraException {
+		saveCommandInvoker.invoke(users);
+	}
 	
 	public Map<String, User> list() throws InfraException {
 
