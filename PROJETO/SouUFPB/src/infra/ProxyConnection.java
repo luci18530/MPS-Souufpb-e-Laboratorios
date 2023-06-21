@@ -19,16 +19,17 @@ public class ProxyConnection implements Connection {
     @Override
     public boolean validateConnection(String email, String password) throws LoginInvalidException, InfraException, IOException {
         // TODO Auto-generated method stub
-        
+        boolean flag = false;
     
         if (email == ADMIN_EMAIL && password == ADMIN_PASSWORD) {
             AdminMenu adminMenu = AdminMenu.getInstance();
             adminMenu.showMenu();
+            return true;
         }
         else{
-            userConnection.validateConnection(email, password);
+            flag = userConnection.validateConnection(email, password);
         }
-        return false;
+        return flag;
     }
     
 }

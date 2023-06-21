@@ -107,13 +107,21 @@ public class UserManager implements Manager<User> {
 		UserValidador.validatePassword(senha);
 	}		
 
-	public void remove(String name) throws InfraException {
-		if (!users.containsKey(name)) {
-			throw new IllegalArgumentException("Usuario nao encontrado!");
+	public void remove() throws InfraException {
+
+		while (true) {
+			
+			String name = JOptionPane.showInputDialog("Digite o nome do usuário a deletar");
+
+			if (!users.containsKey(name)) {
+				throw new IllegalArgumentException("Usuario nao encontrado!");
+			}
+			else{
+				users.remove(name);
+				saveCommandInvoker.invoke(users);
+				break;
+			}
 		}
-	
-		users.remove(name);
-		saveCommandInvoker.invoke(users);
 	}
 	
 	public Map<String, User> list() throws InfraException {
@@ -145,12 +153,6 @@ public class UserManager implements Manager<User> {
 	public void restore(Memento memento) throws InfraException{
 		users = (Map<String, User>) memento.getState();
 		saveCommandInvoker.invoke(users);
-	}
-
-	@Override
-	public void remove() throws InfraException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'remove'");
 	}
 
 }
