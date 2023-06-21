@@ -115,6 +115,10 @@ public class UserManager implements Manager<User> {
 		users.remove(name);
 		saveCommandInvoker.invoke(users);
 	}
+
+	public void updateFile() throws InfraException {
+		saveCommandInvoker.invoke(users);
+	}
 	
 	public Map<String, User> list() throws InfraException {
 
