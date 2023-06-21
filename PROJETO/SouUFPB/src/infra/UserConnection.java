@@ -2,6 +2,7 @@ package infra;
 
 import java.io.IOException;
 
+import business.control.UserManager;
 import util.LoginInvalidException;
 import util.LoginValidator;
 import view.TelaUsuario;
@@ -16,7 +17,10 @@ public class UserConnection implements Connection {
     
     public boolean validateConnection(String email, String password) throws LoginInvalidException, InfraException, IOException{
         if (loginValidator.checkUserLogin(email,password)) {
-
+            
+            UserManager userManager = new UserManager();
+            userManager.updateFile();
+            
             TelaUsuario telaUsuario = TelaUsuario.getInstance();
             telaUsuario.showMenuApp(email);
             return true;

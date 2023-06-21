@@ -21,7 +21,8 @@ public class ProxyConnection implements Connection {
         // TODO Auto-generated method stub
         boolean flag = false;
     
-        if (email == ADMIN_EMAIL && password == ADMIN_PASSWORD) {
+        if (ADMIN_EMAIL.equals(email) && ADMIN_PASSWORD.equals(password)) {
+
             AdminMenu adminMenu = AdminMenu.getInstance();
             adminMenu.showMenu();
             return true;
