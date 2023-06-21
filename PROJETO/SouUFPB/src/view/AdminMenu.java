@@ -5,14 +5,13 @@ import javax.swing.JOptionPane;
 import business.control.CursoManager;
 import business.control.QuestionarioManager;
 import infra.InfraException;
-import infra.Memento;
 import infra.Caretaker;
 
 public class AdminMenu {
+    private static AdminMenu instance = null;
     private static CursoManager cursoManager;
     private static QuestionarioManager questionarioManager;
     private static Caretaker history;
-    private static Memento savedState;
     
     public AdminMenu() throws InfraException, IOException{
         try {
@@ -69,7 +68,7 @@ public class AdminMenu {
                 showMenu();
                 break;
             case "7":
-                undo();
+                history.undo();
                 showMenu();
                 break;
             case "8":
@@ -82,16 +81,12 @@ public class AdminMenu {
         }
     }
 
-    private static void undo() throws InfraException{
+    public static AdminMenu getInstance() throws InfraException, IOException {
         
-        savedState = history.getMemento();
-        if (savedState.getOriginator().equals(cursoManager)) {
-            cursoManager.restore(savedState);
-        }
-        else{
-            questionarioManager.restore(savedState);
+        if (instance == null) {
+            instance = new AdminMenu();
         }
         
-        JOptionPane.showMessageDialog(null, "Inserção/Exclusão desfeita com sucesso!");
+        return instance;
     }
 }
