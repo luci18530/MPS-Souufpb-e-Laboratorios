@@ -1,24 +1,12 @@
 package business.control;
+
+import business.model.User;
+
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 public class HTMLUserAccessReport extends UserAccessReport {
-
-    @Override
-    protected List<String> getUsers() {
-        // Lógica para obter a lista de usuários
-    }
-
-    @Override
-    protected int getTotalAccessCount(String user) {
-        // Lógica para obter o número total de acessos do usuário
-    }
-
-    @Override
-    protected int getUniqueAccessCount(String user) {
-        // Lógica para obter o número de acessos únicos do usuário
-    }
 
     @Override
     protected FileWriter openFile(String fileName) {
@@ -34,11 +22,43 @@ public class HTMLUserAccessReport extends UserAccessReport {
     }
 
     @Override
-    protected void generateBody(String user, int totalAccessCount, int uniqueAccessCount) {
-        // Lógica para gerar o corpo do relatório em HTML para cada usuário
+    protected void generateHeader(BufferedWriter bufferedWriter) throws IOException {
+
+        bufferedWriter.write("<html>");
+        bufferedWriter.newLine();
+        bufferedWriter.write("<head>");
+        bufferedWriter.newLine();
+        bufferedWriter.write("<title>User Access Report</title>");
+        bufferedWriter.newLine();
+        bufferedWriter.write("</head>");
+        bufferedWriter.newLine();
+        bufferedWriter.write("<body>");
+        bufferedWriter.newLine();
     }
 
     @Override
-    protected void closeFile(String fileName) {
+    protected void generateBody(User user, BufferedWriter bufferedWriter) throws IOException{
+        String username = user.getLogin();
+        String timeStamp = user.getTimestamp();
+        int totalAccessCount = user.getTotalAccessCount();
+
+        bufferedWriter.write("<p>Usuário: "+username+".</p>");
+        bufferedWriter.newLine();
+        bufferedWriter.write("<p>"+timeStamp+".</p>");
+        bufferedWriter.newLine();
+        bufferedWriter.write("<p>Número total de acessos: "+totalAccessCount+".</p>");
+        bufferedWriter.newLine();
+        bufferedWriter.write("<br>");
+        bufferedWriter.newLine();
     }
+
+    @Override
+    protected void generateFooter(BufferedWriter bufferedWriter) throws IOException {
+        bufferedWriter.write("<p>---------- End of report ----------</p>");
+        bufferedWriter.newLine();
+        bufferedWriter.write("</body>");
+        bufferedWriter.newLine();
+        bufferedWriter.write("</html>");
+    }
+
 }

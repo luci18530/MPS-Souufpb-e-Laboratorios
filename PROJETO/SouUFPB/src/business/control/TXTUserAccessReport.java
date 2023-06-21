@@ -1,26 +1,12 @@
 package business.control;
-import java.util.List;
+
+import business.model.User;
 
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
 public class TXTUserAccessReport extends UserAccessReport {
-
-    @Override
-    protected List<String> getUsers() {
-        // Lógica para obter a lista de usuários
-    }
-
-    @Override
-    protected int getTotalAccessCount(String user) {
-        // Lógica para obter o número total de acessos do usuário
-    }
-
-    @Override
-    protected int getUniqueAccessCount(String user) {
-        // Lógica para obter o número de acessos únicos do usuário
-    }
 
     @Override
     protected FileWriter openFile(String fileName) {
@@ -36,11 +22,33 @@ public class TXTUserAccessReport extends UserAccessReport {
     }
 
     @Override
-    protected void generateBody(String user, int totalAccessCount, int uniqueAccessCount) {
-        // Lógica para gerar o corpo do relatório para cada usuário
+    protected void generateHeader(BufferedWriter bufferedWriter) throws IOException {
+
+        bufferedWriter.write("User Access Report");
+        bufferedWriter.newLine();
+        bufferedWriter.newLine();
+        bufferedWriter.newLine();
     }
 
     @Override
-    protected void closeFile(String fileName) {
+    protected void generateBody(User user, BufferedWriter bufferedWriter) throws IOException{
+        String username = user.getLogin();
+        String timeStamp = user.getTimestamp();
+        int totalAccessCount = user.getTotalAccessCount();
+       
+        bufferedWriter.write("Usuário: "+ username);
+        bufferedWriter.newLine();
+        bufferedWriter.write(timeStamp);
+        bufferedWriter.newLine();
+        bufferedWriter.write("Número total de acessos: " + totalAccessCount);
+        bufferedWriter.newLine();
+        bufferedWriter.newLine();
+    }
+
+    @Override
+    protected void generateFooter(BufferedWriter bufferedWriter) throws IOException {
+
+        bufferedWriter.write("---------- End of report ----------");
+        bufferedWriter.newLine();
     }
 }
