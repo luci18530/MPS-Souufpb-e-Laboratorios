@@ -120,8 +120,8 @@ public class TelaUsuario {
             if (password == null) break;
     
             if (connection.validateConnection(email, password)) {
-                userManager.updateFile();
-                showMessage("Login bem-sucedido!");
+                // userManager.updateFile();
+                // showMessage("Login bem-sucedido!");
                 break;
             } else {
                 showMessage("Email ou senha incorretos. Por favor, tente novamente.");

@@ -4,6 +4,7 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import business.control.CursoManager;
 import business.control.QuestionarioManager;
+import business.control.UserAccessReportGenerator;
 import infra.InfraException;
 import infra.Caretaker;
 
@@ -11,12 +12,14 @@ public class AdminMenu {
     private static AdminMenu instance = null;
     private static CursoManager cursoManager;
     private static QuestionarioManager questionarioManager;
+    private static UserAccessReportGenerator reportGenerator;
     private static Caretaker history;
     
     public AdminMenu() throws InfraException, IOException{
         try {
             cursoManager = new CursoManager();
             questionarioManager = new QuestionarioManager();
+            reportGenerator = new UserAccessReportGenerator();
             history = new Caretaker();  
 
         } catch (InfraException e) {
@@ -25,7 +28,7 @@ public class AdminMenu {
         }
     }
 
-    public void showMenu() throws InfraException {
+    public void showMenu() throws InfraException, IOException {
         String option = JOptionPane.showInputDialog("Seção admin. Escolha a opção desejada:\n"
                 + "1- Adicionar Curso\n"
                 + "2- Visualizar Cursos\n"
@@ -33,8 +36,9 @@ public class AdminMenu {
                 + "4- Adicionar Pergunta\n"
                 + "5- Visualizar Perguntas\n"
                 + "6- Remover Pergunta\n"
-                + "7- Desfazer ultima inserção/exclusão\n\n"
-                + "8- Sair");
+                + "7- Gerar relatório\n"
+                + "8- Desfazer ultima inserção/exclusão\n\n"
+                + "9- Sair");
 
         //int choice = Integer.parseInt(option);
         if (option == null) return;
@@ -68,10 +72,14 @@ public class AdminMenu {
                 showMenu();
                 break;
             case "7":
-                history.undo();
+                reportGenerator.handleReport();
                 showMenu();
                 break;
             case "8":
+                history.undo();
+                showMenu();
+                break;
+            case "9":
                 System.exit(0);
                 break;
             default:
