@@ -25,6 +25,7 @@ public class LoginValidator {
                     User user = users.next();
                     // Usando equalsIgnoreCase para comparação de email, uma vez que os emails não são sensíveis a maiúsculas e minúsculas
                     if (user.getEmail().equalsIgnoreCase(email) && user.getSenha().equals(password)) {
+                        user.updateTotalAccessCount();
                         return true;
                     }
             } 
