@@ -17,6 +17,7 @@ public class User implements Serializable {
     private String email;
     private String senha;
     private String timestamp;
+    private int totalAccessCount;
 
     public User(String login, String email, String senha) {
         super();
@@ -25,6 +26,7 @@ public class User implements Serializable {
         this.senha = senha;
         this.time = new TimestampAdapter();
         this.timestamp = time.getTime();
+        this.totalAccessCount = 0;
 	}
 
     public String getLogin() {
@@ -61,6 +63,14 @@ public class User implements Serializable {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = time.getTime();
+    }
+
+    public int getTotalAccessCount() {
+        return totalAccessCount;
+    }
+
+    public void updateTotalAccessCount() {
+        this.totalAccessCount++;
     }
     
 }
