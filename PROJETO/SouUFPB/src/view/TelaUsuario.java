@@ -11,11 +11,12 @@ import business.control.*;
 
 
 public class TelaUsuario {
-    private static UserManager userManager;
+    private static UserStrategy userStrategy;
     private static TelaUsuario instance = null;
-    private static CursoManager cursoManager;
+    private static CursoStrategy cursoStrategy;
     private static Connection connection;
     private static VocationalTest vocationalTest;
+    private static ModelManager modelManager;
     
 
     private static final String MENU_LOGIN_OPTIONS = "Olá usuário, bem vindo ao SouUFPB\nEscolha a opcao desejada:\n1-Se cadastrar\n2-Logar\n3-Sair";
@@ -23,6 +24,9 @@ public class TelaUsuario {
 
     private TelaUsuario() throws InfraException, IOException{
         connection = new ProxyConnection();
+        modelManager = new ModelManager();
+        userStrategy = new UserStrategy();
+        cursoStrategy = new CursoStrategy();
     }
     
 
@@ -40,7 +44,7 @@ public class TelaUsuario {
     public void showMenuApp(String email) throws InfraException, IOException {
         String option = getUserInput(MENU_APP_OPTIONS);
         if (option == null) return;
-        TelaUsuario.getInstance().readUserInputApp(option, email);
+        readUserInputApp(option, email);
     }
 
     private void readUserInputApp(String option, String email) throws InfraException, IOException {
@@ -49,7 +53,7 @@ public class TelaUsuario {
         switch (option) {
             case "1":
                 // Implementar visualização dos cursos da UFPB
-                cursoManager.showCursos();
+                cursoStrategy.showCursos();
                 showMenuApp(email);
                 break;
             case "2":
@@ -72,21 +76,15 @@ public class TelaUsuario {
 
 
     public static void readUserInputLogin(String option) throws LoginInvalidException, InfraException, IOException {
-        try {
-            
-            userManager = new UserManager();
-            cursoManager = new CursoManager();
 
-        } catch (InfraException e) {
-            String option2 = JOptionPane.showInputDialog(e.getMessage());
-        }
         //int choice = Integer.parseInt(option);
         switch (option) {
 
             case "1":
                 // Realiza cadastro de usuário
                 //registerUser();
-                userManager.add();
+                modelManager.setStrategy(userStrategy);
+                modelManager.add();
                 showMenuLogin();
                 break;
 

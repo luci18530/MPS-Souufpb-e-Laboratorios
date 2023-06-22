@@ -2,25 +2,28 @@ package view;
 
 import java.io.IOException;
 import javax.swing.JOptionPane;
-import business.control.CursoManager;
-import business.control.QuestionarioManager;
+import business.control.CursoStrategy;
+import business.control.ModelManager;
+import business.control.QuestionarioStrategy;
 import business.control.UserAccessReportGenerator;
 import infra.InfraException;
 import infra.Caretaker;
 
 public class AdminMenu {
     private static AdminMenu instance = null;
-    private static CursoManager cursoManager;
-    private static QuestionarioManager questionarioManager;
+    private static CursoStrategy cursoStrategy;
+    private static ModelManager modelManager;
+    private static QuestionarioStrategy questionarioStrategy;
     private static UserAccessReportGenerator reportGenerator;
     private static Caretaker history;
     
     public AdminMenu() throws InfraException, IOException{
         try {
-            cursoManager = new CursoManager();
-            questionarioManager = new QuestionarioManager();
+            cursoStrategy = new CursoStrategy();
+            questionarioStrategy = new QuestionarioStrategy();
             reportGenerator = new UserAccessReportGenerator();
-            history = new Caretaker();  
+            history = new Caretaker();
+            modelManager = new ModelManager();  
 
         } catch (InfraException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -44,31 +47,36 @@ public class AdminMenu {
         if (option == null) return;
         switch (option) {
             case "1":
-                cursoManager.add();
-                history.addMemento(cursoManager.save());
+
+                modelManager.setStrategy(cursoStrategy);
+                modelManager.add();                
+                history.addMemento(modelManager.save());
                 showMenu();
                 break;
             case "2":
-                cursoManager.showCursos();
+                cursoStrategy.showCursos();
                 showMenu();
                 break;
             case "3":
-                cursoManager.remove();
-                history.addMemento(cursoManager.save());
+                modelManager.setStrategy(cursoStrategy);
+                modelManager.remove();                
+                history.addMemento(modelManager.save());
                 showMenu();
                 break;
             case "4":
-                questionarioManager.add();
-                history.addMemento(questionarioManager.save());
+                modelManager.setStrategy(questionarioStrategy);
+                modelManager.add();                
+                history.addMemento(modelManager.save());
                 showMenu();
                 break;
             case "5":
-                questionarioManager.showQuestionarios();
+                questionarioStrategy.showQuestionarios();
                 showMenu();
                 break;
             case "6":
-                questionarioManager.remove();
-                history.addMemento(questionarioManager.save());
+                modelManager.setStrategy(questionarioStrategy);
+                modelManager.remove();                
+                history.addMemento(modelManager.save());
                 showMenu();
                 break;
             case "7":

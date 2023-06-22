@@ -22,7 +22,7 @@ public abstract class UserAccessReport {
 
         generateHeader(bufferedWriter);
         
-        UserManager userManager = new UserManager();
+        UserStrategy userManager = new UserStrategy();
         Map<String, User> users = userManager.list();
 
         for (User user : users.values()) {

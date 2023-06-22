@@ -1,5 +1,6 @@
 package infra;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 
@@ -19,8 +20,15 @@ public class Caretaker{
         return mementos.pop();    
     }
 
-    public void undo() throws InfraException{
-        Memento poppedMemento = mementos.pop();
-        poppedMemento.getOriginator().restore(poppedMemento);
+    public void undo() throws InfraException {
+        if (!mementos.empty()) {
+            try {
+                mementos.pop();
+                Memento ultimoMemento = mementos.peek();
+                ultimoMemento.getOriginator().restore(ultimoMemento);
+            } catch (EmptyStackException e) {
+                e.printStackTrace();
+            } 
+        }
     }
 }

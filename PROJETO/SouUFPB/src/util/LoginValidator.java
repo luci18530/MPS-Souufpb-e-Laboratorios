@@ -3,16 +3,16 @@ package util;
 import java.io.IOException;
 import java.util.Iterator;
 import business.model.User;
-import business.control.UserManager;
+import business.control.UserStrategy;
 import infra.InfraException;
 
 
 public class LoginValidator {
 
-    private UserManager userManager;
+    private UserStrategy userManager;
 
     public LoginValidator() throws InfraException, IOException{
-        userManager = new UserManager();
+        userManager = new UserStrategy();
     }
     
     public boolean checkUserLogin(String email, String password) throws LoginInvalidException {

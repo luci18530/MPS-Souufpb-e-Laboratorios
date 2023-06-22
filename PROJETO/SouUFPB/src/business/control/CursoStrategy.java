@@ -25,19 +25,19 @@ import javax.swing.JOptionPane;
 import java.util.logging.Handler;
 
 // Definindo a classe CursoManager
-public class CursoManager implements Manager<Curso> {
+public class CursoStrategy implements Strategy<Curso> {
     // Inicializando um Map para armazenar os cursos e uma instância da classe CursoFile
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
     private SalvarCurso salvarCurso;
     private LoadCursos loadCursos;
-    private LoadCommandInvoker<Curso> loadCommandInvoker = new LoadCommandInvoker<>();
-    private SaveCommandInvoker<Curso> saveCommandInvoker = new SaveCommandInvoker<>();
-    private Map<String, Curso> cursos;
+    private static LoadCommandInvoker<Curso> loadCommandInvoker = new LoadCommandInvoker<>();
+    private static SaveCommandInvoker<Curso> saveCommandInvoker = new SaveCommandInvoker<>();
+    private static Map<String, Curso> cursos;
     private CursoFactory cursoFactory = new CursoFactoryImpl();
 
     // Construtor da classe que lança uma exceção do tipo InfraException
-    public CursoManager() throws InfraException, IOException{
+    public CursoStrategy() throws InfraException, IOException{
         // Instanciando um novo CursoFile e carregando os cursos do arquivo
         
         try {
@@ -62,7 +62,7 @@ public class CursoManager implements Manager<Curso> {
         loadCursos = new LoadCursos();
         saveCommandInvoker.setCommand(salvarCurso);
         loadCommandInvoker.setCommand(loadCursos);
-        cursos = loadCommandInvoker.invoke();      
+        loadFile();   
         
     }
 
@@ -111,7 +111,7 @@ public class CursoManager implements Manager<Curso> {
         }
 
 
-        }
+    }
 
     public List<Curso> getCursosPorArea(String area) throws InfraException {
         return this.list().values().stream()
@@ -135,12 +135,20 @@ public class CursoManager implements Manager<Curso> {
 
     @Override
     public void restore(Memento memento) throws InfraException {
-        this.cursos = (Map<String, Curso>) memento.getState();
+        cursos = (Map<String, Curso>) memento.getState();
         saveCommandInvoker.invoke(cursos);
     }
 
     @Override
     public Memento save() throws InfraException {
-        return new ConcreteMemento<>(this.cursos,this);
+        return new ConcreteMemento<>(cursos,this);
     }
+
+    public static void updateFile() throws InfraException {
+		saveCommandInvoker.invoke(cursos);
+	}
+
+	public static void loadFile() throws InfraException{
+		loadCommandInvoker.invoke();
+	}
 }

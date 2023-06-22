@@ -21,17 +21,17 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 
-public class QuestionarioManager implements Manager<Questionario> {
+public class QuestionarioStrategy implements Strategy<Questionario> {
     
     private Logger logger = Logger.getLogger(this.getClass().getName());
     private LoadQuestionario loadQuestionario;
     private SalvarQuestionario salvarQuestionario;
-    private SaveCommandInvoker<Questionario> saveCommandInvoker = new SaveCommandInvoker<>();
-    private LoadCommandInvoker<Questionario> loadCommandInvoker = new LoadCommandInvoker<>();
-    private Map<String, Questionario> questionarios;
+    private static SaveCommandInvoker<Questionario> saveCommandInvoker = new SaveCommandInvoker<>();
+    private static LoadCommandInvoker<Questionario> loadCommandInvoker = new LoadCommandInvoker<>();
+    private static Map<String, Questionario> questionarios;
     private QuestionarioFactory questionarioFactory = new QuestionarioFactoryImpl(); 
 
-    public QuestionarioManager() throws InfraException, IOException{
+    public QuestionarioStrategy() throws InfraException, IOException{
         
         try {
             
@@ -56,7 +56,7 @@ public class QuestionarioManager implements Manager<Questionario> {
         loadCommandInvoker.setCommand(loadQuestionario);
         saveCommandInvoker.setCommand(salvarQuestionario);
 
-        questionarios = loadCommandInvoker.invoke();
+        loadFile();
     }
 
     public void add() throws InfraException{
@@ -96,7 +96,7 @@ public class QuestionarioManager implements Manager<Questionario> {
     public Map<String,Questionario> list() throws InfraException{
 
         try{
-            Map<String,Questionario> meusQuestionarios = this.loadCommandInvoker.invoke();
+            Map<String,Questionario> meusQuestionarios = loadCommandInvoker.invoke();
             return meusQuestionarios;
 
         } catch(NullPointerException ex){
@@ -123,12 +123,20 @@ public class QuestionarioManager implements Manager<Questionario> {
     public void restore(Memento memento) throws InfraException {
 
         questionarios = (Map<String, Questionario>) memento.getState();
-        saveCommandInvoker.invoke(questionarios);
+        updateFile();
     }
 
     @Override
     public Memento save() throws InfraException {
-        return new ConcreteMemento<>(this.questionarios, this);
+        return new ConcreteMemento<>(questionarios, this);
     }
+
+    public static void updateFile() throws InfraException {
+		saveCommandInvoker.invoke(questionarios);
+	}
+
+	public static void loadFile() throws InfraException{
+		loadCommandInvoker.invoke();
+	}
 
 }

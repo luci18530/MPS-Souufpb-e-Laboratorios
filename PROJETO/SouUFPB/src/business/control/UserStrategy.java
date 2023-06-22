@@ -28,18 +28,18 @@ import factory.UserFactory;
 import factory.UserFactoryImpl;
 
 
-public class UserManager implements Manager<User> {
+public class UserStrategy implements Strategy<User> {
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
-	private Map<String, User> users = new HashMap<String,User>();
+	private static Map<String, User> users = new HashMap<String,User>();
 	private SaveUser saveFile;
 	private LoadUsers loadFile;
 	private Map<String, Resultado> resultados;
-	private SaveCommandInvoker<User> saveCommandInvoker = new SaveCommandInvoker<>();
-	private LoadCommandInvoker<User> loadCommandInvoker = new LoadCommandInvoker<>();
+	private static SaveCommandInvoker<User> saveCommandInvoker = new SaveCommandInvoker<>();
+	private static LoadCommandInvoker<User> loadCommandInvoker = new LoadCommandInvoker<>();
     private UserFactory userFactory = new UserFactoryImpl();
 
-	public UserManager() throws InfraException, IOException {
+	public UserStrategy() throws InfraException, IOException {
 
 		try {
             
@@ -63,8 +63,8 @@ public class UserManager implements Manager<User> {
 		loadFile = new LoadUsers();
 		loadCommandInvoker.setCommand(loadFile);
 		saveCommandInvoker.setCommand(saveFile);
-		users = this.loadCommandInvoker.invoke();
 		resultados = new HashMap<>();
+		loadFile();
 	}
 
 	public void add() throws InfraException  {
@@ -124,15 +124,19 @@ public class UserManager implements Manager<User> {
 		}
 	}
 
-	public void updateFile() throws InfraException {
+	public static void updateFile() throws InfraException {
 		saveCommandInvoker.invoke(users);
+	}
+
+	public static void loadFile() throws InfraException{
+		loadCommandInvoker.invoke();
 	}
 	
 	public Map<String, User> list() throws InfraException {
 
 
 		try {
-			Map<String, User> mylist = this.loadCommandInvoker.invoke();
+			Map<String, User> mylist = loadCommandInvoker.invoke();
 			return mylist;
 
 		} catch (NullPointerException ex){
@@ -151,12 +155,12 @@ public class UserManager implements Manager<User> {
     }
 	
 	public Memento save() throws InfraException{
-		return new ConcreteMemento<>(this.users, this);
+		return new ConcreteMemento<>(users, this);
 	}
 
 	public void restore(Memento memento) throws InfraException{
 		users = (Map<String, User>) memento.getState();
-		saveCommandInvoker.invoke(users);
+		updateFile();
 	}
 
 }

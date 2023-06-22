@@ -10,20 +10,22 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 
 public class VocationalTest {
-    private UserManager userManager;
-    private QuestionarioManager questionarioManager;
-    private CursoManager cursoManager;
+    private UserStrategy userStrategy;
+    private QuestionarioStrategy questionarioStrategy;
+    private CursoStrategy cursoStrategy;
+    private ModelManager modelManager;
 
     public VocationalTest() throws InfraException, IOException{
-        userManager = new UserManager();
-        questionarioManager = new QuestionarioManager();
-        cursoManager = new CursoManager();
+        userStrategy = new UserStrategy();
+        questionarioStrategy = new QuestionarioStrategy();
+        cursoStrategy = new CursoStrategy();
+        modelManager = new ModelManager();
     }
 
     public void doVocationalTest(String email) throws InfraException {
         // Recupera o questionário e o resultado do usuário
-        Map<String, Questionario> questionarios = questionarioManager.list();
-        Resultado resultado = userManager.getUserResult(email);
+        Map<String, Questionario> questionarios = questionarioStrategy.list();
+        Resultado resultado = userStrategy.getUserResult(email);
         if(resultado == null) {
             resultado = new Resultado();
         }
@@ -48,7 +50,7 @@ public class VocationalTest {
 
         }
 
-        userManager.setUserResult(email, resultado);
+        userStrategy.setUserResult(email, resultado);
         JOptionPane.showMessageDialog(null, resultadoToString(resultado));
 
         // Exibe o resultado do teste
@@ -57,9 +59,9 @@ public class VocationalTest {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
 
-        resultado = userManager.getUserResult(email);
+        resultado = userStrategy.getUserResult(email);
         String areaComMaiorPontuacao = resultado.getAreaComMaiorPontuacao();
-        List<Curso> cursosRecomendados = cursoManager.getCursosPorArea(areaComMaiorPontuacao);
+        List<Curso> cursosRecomendados = cursoStrategy.getCursosPorArea(areaComMaiorPontuacao);
     
         StringBuilder listaDeCursosRecomendados = new StringBuilder();
         for (Curso curso : cursosRecomendados) {
